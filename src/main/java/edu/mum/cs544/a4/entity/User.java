@@ -1,0 +1,72 @@
+package edu.mum.cs544.a4.entity;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "user")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    private String password;
+
+    private LocalDate createdDate;
+
+    private boolean status;
+
+    @OneToOne
+    private Address address;
+
+    @ManyToOne
+    @JoinTable(name = "user_role", inverseJoinColumns = {@JoinColumn(name = "role_id")}, joinColumns = {@JoinColumn(name = "user_id")})
+    private Role role;
+
+    @OneToMany(mappedBy = "followingUser")
+    @Column(name = "following_User")
+    private List<Following> followingUserList;
+
+    @OneToMany(mappedBy = "followerUser")
+    @Column(name = "follower_User")
+    private List<Following> followerUserList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList = new ArrayList<>();
+
+    public User(String firstName, String lastName, String email){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+}
