@@ -1,9 +1,6 @@
 package edu.mum.cs544.a4.configuration;
 
 import java.util.Locale;
-import java.util.Properties;
-
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
