@@ -1,5 +1,8 @@
 package edu.mum.cs544.a4.repository;
 
-public interface PostRepository {
+import edu.mum.cs544.a4.entity.Post;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PostRepository extends JpaRepository<Post, Long> {
 
 }
