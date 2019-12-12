@@ -20,15 +20,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "full_name")
-    private String fullName;
-
-    //@Column(name = "first_name")
-    //private String firstName;
-    //@Column(name = "last_name")
-    //private String lastName;
-
     @Column(name = "email")
     private String email;
 
@@ -64,8 +55,7 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Profile profile;
 
-    public User(String fullName, String email){
-        this.fullName = fullName;
+    public User(String email){
         this.email = email;
     }
 
@@ -73,7 +63,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
