@@ -56,6 +56,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> postList = new ArrayList<>();
 
+    @OneToOne
+    private Profile profile;
+    
     public User(String fullName, String email){
         this.fullName = fullName;
         this.email = email;
