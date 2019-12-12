@@ -18,28 +18,28 @@
 <body>
     <div class="login-container">
         <div class="login-background">
-            <img id="login-left-vector" src="../Assets/Vector-1.svg" alt="">
-            <img id="login-right-vector" src="../Assets/Vector-2.svg" alt="">
+            <img id="login-left-vector" th:src="@{/Assets/Vector-1.svg}" alt="">
+            <img id="login-right-vector" th:src="@{/Assets/Vector-2.svg}" alt="">
         </div>
         <div class="login-form">
             <div class="login-logo">
                 <h1>Uptake</h1>
             </div>
             <div class="login-field">
-                <input type="text" placeholder="E-mail">
+                <input type="text" th:placeholder="#{message.login.email}">
             </div>
             <div class="login-field">
-                <input type="password" placeholder="Password">
+                <input type="password" th:placeholder="#{message.login.password}">
             </div>
             <div class="login-field login-forgotPassword">
-                <p>Forgot password?</p>
+                <p th:text="#{message.login.forgotPassword}"> # </p>
             </div>
             <div class="login-field">
-                <button> Sign in </button>
+                <button th:text="#{message.login.signIn}" > # </button>
             </div>
             <div class="login-field login-rememberMe">
                 <input id="RememberMeBox" type="checkbox">
-                <label for="RememberMeBox">Remember me</label>
+                <label for="RememberMeBox" th:text="#{message.login.rememberMe}"> # </label>
             </div>
             <div class="login-form-bottom">
                 <svg width="641" height="174" viewBox="0 0 641 174" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,8 +54,8 @@
                         </linearGradient>
                     </defs>
                 </svg>
-                <img src="../Assets/hangout1.svg" alt="">
-                <a href="#"> <p>New here? Sign up instead!</p> </a>
+                <img src="@{/Assets/hangout1.svg}" alt="">
+                <a href="#"> <p th:text="#{message.login.signUp}"> # </p> </a>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-package edu.mum.cs544.a4.Controller;
+package edu.mum.cs544.a4.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,7 @@ public class AuthenticationController{
 
     @GetMapping(value="/login")
     public String getLogin(Model model){
-//
+
         return "auth/login";
     }
 }

@@ -1,4 +1,4 @@
-package edu.mum.cs544.a4.Configuration;
+package edu.mum.cs544.a4.configuration;
 
 import java.util.Locale;
 import java.util.Properties;
