@@ -26,7 +26,6 @@ public class Advertisement {
     private int targetAgeMax;
 
     @ManyToOne
-    @Column(name="targetCountry_id")
     private Country targetCountry;
 
     private Gender targetGender;

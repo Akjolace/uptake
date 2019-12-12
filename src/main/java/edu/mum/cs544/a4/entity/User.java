@@ -21,11 +21,13 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "full_name")
+    private String fullName;
 
-    @Column(name = "last_name")
-    private String lastName;
+    //@Column(name = "first_name")
+    //private String firstName;
+    //@Column(name = "last_name")
+    //private String lastName;
 
     @Column(name = "email")
     private String email;
@@ -40,7 +42,7 @@ public class User {
     private Address address;
 
     @ManyToOne
-    @JoinTable(name = "user_role", inverseJoinColumns = {@JoinColumn(name = "role_id")}, joinColumns = {@JoinColumn(name = "user_id")})
+    @JoinTable(name = "user_role",  joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Role role;
 
     @OneToMany(mappedBy = "followingUser")
@@ -54,9 +56,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> postList = new ArrayList<>();
 
-    public User(String firstName, String lastName, String email){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String fullName, String email){
+        this.fullName = fullName;
         this.email = email;
     }
 
@@ -64,8 +65,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

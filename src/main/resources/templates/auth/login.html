@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org">
+    
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js" integrity="sha256-lPE3wjN2a7ABWHbGz7+MKBJaykyzqCbU96BJWjio86U=" crossorigin="anonymous"></script>
+    <script src="../js/login.js"></script>
+    <title>Uptake sign in!</title>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-background">
+            <img id="login-left-vector" src="../Assets/Vector-1.svg" alt="">
+            <img id="login-right-vector" src="../Assets/Vector-2.svg" alt="">
+        </div>
+        <div class="login-form">
+            <div class="login-logo">
+                <h1>Uptake</h1>
+            </div>
+            <div class="login-field">
+                <input type="text" placeholder="E-mail">
+            </div>
+            <div class="login-field">
+                <input type="password" placeholder="Password">
+            </div>
+            <div class="login-field login-forgotPassword">
+                <p>Forgot password?</p>
+            </div>
+            <div class="login-field">
+                <button> Sign in </button>
+            </div>
+            <div class="login-field login-rememberMe">
+                <input id="RememberMeBox" type="checkbox">
+                <label for="RememberMeBox">Remember me</label>
+            </div>
+            <div class="login-form-bottom">
+                <svg width="641" height="174" viewBox="0 0 641 174" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M330.935 49.2C226.493 -7.47947 71.1468 24.1494 3.23879 48.0425C1.2547 48.7406 0 50.6004 0 52.7038V169C0 171.761 2.23857 174 5 174H330.935H636C638.761 174 641 171.761 641 169V5.64878C641 1.59484 636.456 -0.8254 633.075 1.41184C569.73 43.3311 432.598 104.372 330.935 49.2Z"
+                        fill="url(#paint0_linear)" />
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="320.5" y1="-4" x2="320.5" y2="198.4"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#C43EA2" />
+                            <stop offset="1" stop-color="#9534AB" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <img src="../Assets/hangout1.svg" alt="">
+                <a href="#"> <p>New here? Sign up instead!</p> </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

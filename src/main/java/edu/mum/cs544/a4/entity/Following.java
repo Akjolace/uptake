@@ -20,11 +20,9 @@ public class Following {
     private Long id;
 
     @ManyToOne()
-    @Column(name = "following_user_id")
     private User followingUser;
 
     @ManyToOne()
-    @Column(name = "follower_user_id")
     private User followerUser;
 
     @Column(name = "created")
