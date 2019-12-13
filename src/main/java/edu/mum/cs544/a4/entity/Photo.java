@@ -10,6 +10,10 @@ public class Photo {
 
     private String path;
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public Long getId() {
         return id;
     }
