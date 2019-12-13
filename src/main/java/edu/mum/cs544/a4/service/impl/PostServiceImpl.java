@@ -4,7 +4,11 @@ import edu.mum.cs544.a4.entity.Post;
 import edu.mum.cs544.a4.repository.PostRepository;
 import edu.mum.cs544.a4.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Service
 public class PostServiceImpl implements PostService {
     @Autowired
     private PostRepository postRepository;
@@ -13,5 +17,9 @@ public class PostServiceImpl implements PostService {
     public Long addPost(Post post) {
         postRepository.save(post);
         return post.getId();
+    }
+
+    public Optional<Post> findPostById(Long id) {
+        return postRepository.findById(id);
     }
 }

@@ -10,11 +10,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
          .bg_color{
-            background:#fafafa;
+             border-left:3px solid #222649;
              min-height: 100vh;
              width: 100vw;
-             background-color: #222649;
-             text-align: center;
         }
         .photo_wrap{
             width: 180px;
@@ -34,7 +32,8 @@
         }
         .attr{
             font-size: 18px;
-            padding: 10px;
+            padding-right:10px;
+            display: inline-block;
         }
         .attr span{
             font-size: 22px;
@@ -49,9 +48,11 @@
             cursor: pointer;
             display: inline-block;
             margin: 0 auto;
-            line-height: auto;
             font-size: 15px;
             padding: 8px 50px;
+            position: absolute;
+            bottom:3px;
+            margin-left:50px;
         }
         .profile_card{
             text-align: center;
@@ -69,33 +70,52 @@
         .mb10{
             margin-bottom: 10px;
         }
+        .title{
+            position:relative;
+        }
+        .post_card img{
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="bg_color">
         <div class="container">
-            <div class="row">
+            <div class="row mt40">
                 <div class="col-md-4">
-                    <div class="profile_card">
-                        <div class="photo_box mt40">
-                            <div class="photo_wrap" style="background-image: url('D:/MUM-Aug2019/EA/CourseProject/uptake/src/main/resources/static/images/profile.jpg')"></div>
-                            <img th:src="@{/images/profile.jpg}">
-                        </div>
-                        <h1 class="title" th:text="${profile.profileName}"></h1>
-                        <div class="attr_wrap mb10">
-                            <div class="attr"><span>105</span> posts</div>
-                            <div class="attr"><span>15k</span> follower</div>
-                            <div class="attr"><span>158</span> following</div>
-                        </div>
-                        <a class="uptake-btn">Follow</a>
+                    <div class="photo_box">
+                        <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')">
+                    </div>
                     </div>
                 </div>
                 <div class="col-md-8">
-
+                    <h1 class="title" th:text="${user.publicName}"><a class="uptake-btn">Follow</a></h1>
+                    <div class="attr_wrap mb10">
+                        <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
+                        <div class="attr"><span th:text="${user.getFollowerUserList().size()}"></span> follower</div>
+                        <div class="attr"><span th:text="${user.getFollowingUserList().size()}"></span> following</div>
+                    </div>
+                    <p th:text="${user.getProfile().getBio()}"></p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12"></div>
+            <div class="row mt40">
+                <div class="col-md-3" th:each="p, iterStat : ${user.getPostList()}">
+                    <a th:href="@{'/post/' + ${p.id}}">
+                        <div class="post_card">
+                            <img th:src="@{${'/img/' + p.getPhoto().getPath()}}">
+                            <div th:text="${p.title}"></div>
+                            <div th:text="${p.description}"></div>
+                            <div>
+                                <span th:text="${p.created}"></span>
+                            </div>
+                            <div class="post_card" th:each="comment, iterStat : ${p.getCommentList()}">
+                                <div th:text="${comment.created}"></div>
+                                <div th:text="${comment.description}"></div>
+                                <div th:text="${comment.getUser().publicName}"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
