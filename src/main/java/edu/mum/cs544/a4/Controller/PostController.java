@@ -24,7 +24,7 @@ public class PostController {
     @PostMapping(value="/addPostData")
     public String addPostData(@ModelAttribute("Post") Post post, Model model) {
         System.out.println(post.getTitle());
-
+        postService.addPost(post);
         return "redirect:/addPost";
     }
 }

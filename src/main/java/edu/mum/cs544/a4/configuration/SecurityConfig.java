@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 
@@ -32,7 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/").permitAll().and()
+        http.authorizeRequests()
+            .antMatchers("/").hasAnyRole("ADMIN","USER")
+            .antMatchers("/login").permitAll()
+            .antMatchers("/logout").permitAll()
+            .and()
             .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
@@ -40,7 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .and()
             .logout()
-            .logoutUrl("/logout")
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .clearAuthentication(true)
+            .invalidateHttpSession(true)
             .logoutSuccessUrl("/login");
     }
 

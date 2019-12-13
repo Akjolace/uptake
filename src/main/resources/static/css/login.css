@@ -144,13 +144,14 @@ body {
     font-family: PopMedium;
     font-size: 1em;
     cursor: pointer;
+    z-index: 10;
 }
 
-.login-field button:hover {
+.login-field input[type="submit"]:hover {
     background: linear-gradient(98.22deg, #7332D0 1.3%, #8143F8 96.68%);
 }
 
-.login-field button:active {
+.login-field input[type="submit"]:active {
     background: linear-gradient(96.91deg, #42246C 1.66%, #6638BE 96.91%);
 }
 
@@ -173,6 +174,7 @@ body {
     bottom: 0;
     width: 100%;
     height: 170px;
+    z-index: -1;
 }
 
 .login-form-bottom svg {
