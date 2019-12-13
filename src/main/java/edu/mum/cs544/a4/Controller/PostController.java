@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 
@@ -27,10 +29,17 @@ public class PostController {
 
     @GetMapping(value = "/post/{id}")
     public String getProfile(@PathVariable Long id, Model model) {
-        Optional<Post> post = postService.findPostById(id);
+        Post post = postService.findPostById(id);
         model.addAttribute("post", post);
         System.out.println("===========================================");
         System.out.println(post);
         return "post/postCard";
+    }
+
+    @PostMapping(value = "/addPostData")
+    public String addPostData(@ModelAttribute("Post") Post post, Model model) {
+        System.out.println(post.getTitle());
+        postService.addPost(post);
+        return "redirect:/addPost";
     }
 }

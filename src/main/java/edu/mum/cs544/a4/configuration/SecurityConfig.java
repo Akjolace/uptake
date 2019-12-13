@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-            .antMatchers("/").hasAnyRole("ADMIN","USER")
+            .antMatchers("/").permitAll()
             .antMatchers("/login").permitAll()
             .antMatchers("/logout").permitAll()
             .and()
@@ -48,7 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
             .clearAuthentication(true)
             .invalidateHttpSession(true)
-            .logoutSuccessUrl("/login");
+            .logoutSuccessUrl("/login")
+            .and()
+            .csrf().disable();
+
     }
 
     @Bean

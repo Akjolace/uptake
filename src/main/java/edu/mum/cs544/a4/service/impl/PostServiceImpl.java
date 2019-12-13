@@ -6,8 +6,6 @@ import edu.mum.cs544.a4.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -20,7 +18,7 @@ public class PostServiceImpl implements PostService {
         return post.getId();
     }
 
-    public Optional<Post> findPostById(Long id) {
+    public Post findPostById(long id) {
         return postRepository.findById(id);
     }
 }

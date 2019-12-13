@@ -25,5 +25,4 @@ public class Photo {
     public void setPath(String path) {
         this.path = path;
     }
-
 }

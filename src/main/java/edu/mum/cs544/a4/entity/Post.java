@@ -25,6 +25,7 @@ public class Post {
     private LocalDateTime created;
     private Boolean isUnhealthy = false;
     private int status = 1;
+
     @ManyToOne
     private Photo photo;
 
