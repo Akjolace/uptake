@@ -1,15 +1,21 @@
 package edu.mum.cs544.a4.Controller;
 
 import edu.mum.cs544.a4.entity.Photo;
+import edu.mum.cs544.a4.entity.Post;
 import edu.mum.cs544.a4.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,6 +44,30 @@ public class PhotoController {
             ex.printStackTrace();
         }
         return photoService.savePhoto(photo);
+    }
+
+    @RequestMapping(value = "/image/{imgId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] getPhoto(@PathVariable("imgId") Long imgId, Model model) {
+        try {
+            Photo photo = photoService.getPhoto(imgId);
+            try{
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                InputStream in = new FileInputStream(photo.getPath());
+                byte[] buffer = new byte[1024];
+                int len;
+
+                while((len = in.read(buffer)) != -1) {
+                    os.write(buffer,0 , len);
+                }
+                return os.toByteArray();
+            } catch(IOException ex) {
+                return null;
+            }
+
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public Path getUploadPath(){

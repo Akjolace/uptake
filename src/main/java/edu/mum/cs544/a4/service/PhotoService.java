@@ -5,5 +5,5 @@ import edu.mum.cs544.a4.entity.Photo;
 public interface PhotoService {
     public Long savePhoto(Photo photo);
 
-    public Photo getPhoto(int photoId);
+    public Photo getPhoto(Long photoId);
 }

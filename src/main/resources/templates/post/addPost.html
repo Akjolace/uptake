@@ -16,7 +16,7 @@
 <div class="container" style="margin-top: 200px;">
     <form method="POST" action="#" th:action="@{/addPostData}" th:object="${Post}">
         <div class="form-group">\
-            <img src="/upload?imageId=${food.image_id}" id="foodImage" height="auto" width="300"/>
+            <img src="/image?imageId=${food.image_id}" id="foodImage" height="auto" width="300"/>
             <script>
                 $(document).ready(function () {
                     $('#inputfile').change(function () {
