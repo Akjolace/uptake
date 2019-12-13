@@ -23,7 +23,7 @@ public class Role {
     @Column(name = "role_name")
     private String roleName;
 
-    @ManyToMany(mappedBy = "role")
+    @ManyToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> user = new ArrayList<>();
 
 
