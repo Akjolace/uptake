@@ -10,6 +10,6 @@ public class PostController {
     @GetMapping(value="/addPost")
     public String addPost(Model model) {
 
-        return "post/postAdd";
+        return "post/addPost";
     }
 }
