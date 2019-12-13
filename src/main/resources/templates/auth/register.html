@@ -21,39 +21,38 @@
             <img id="login-left-vector" th:src="@{/Assets/Vector-1.svg}" alt="">
             <img id="login-right-vector" th:src="@{/Assets/Vector-2.svg}" alt="">
         </div>
-        <form th:action="@{/signup}" method="POST">
+        <form action="#" th:action="@{/register}" th:object="${User}" method="POST">
             <div class="login-form">
                 <div class="login-logo">
                     <h1>Uptake</h1>
                 </div>
                 <div class="login-field">
-                    <input id="email" name="email" type="text" th:placeholder="#{message.login.email}">
+                    <input th:field="*{username}" id="username" name="username" type="text" th:placeholder="#{message.login.username}">
                 </div>
                 <div class="login-field login-forgotPassword errorMessage">
-                        <p th:text="${errorMessages} ? #{message.login.badCredentials}" :> # </p>
-                    </div>
+                    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> # </p>
+                </div>
                 <div class="login-field">
-                    <input id="password" name="password" type="password" th:placeholder="#{message.login.password}">
+                    <input th:field="*{email}" id="email" name="email" type="text" th:placeholder="#{message.login.email}">
                 </div>
                 <div class="login-field login-forgotPassword errorMessage">
-                    <p th:text="${errorMessages} ? #{message.login.badCredentials}" :> # </p>
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect date</p>
                 </div>
                 <div class="login-field">
-                        <input id="passwordConfirm" name="passwordConfirm" type="password" th:placeholder="#{message.login.passwordConfirm}">
-                    </div>
-                    <div class="login-field login-forgotPassword errorMessage">
-                        <p th:text="${errorMessages} ? #{message.login.badCredentials}" :> # </p>
-                    </div>
-                <div class="login-field login-forgotPassword">
-                    <p th:text="#{message.login.forgotPassword}"> # </p>
+                    <input th:field="*{password}" id="password" name="password" type="password" th:placeholder="#{message.login.password}">
+                </div>
+                <div class="login-field login-forgotPassword errorMessage">
+                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>
+                </div>
+                <div class="login-field">
+                    <input th:field="*{passwordConfirm}" id="passwordConfirm" name="passwordConfirm" type="password"
+                        th:placeholder="#{message.login.passwordConfirm}">
+                </div>
+                <div class="login-field login-forgotPassword errorMessage">
+                    <p th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Incorrect date</p>
                 </div>
                 <div class="login-field">
                     <input type="submit" name="submit" th:value="#{message.login.signIn}">
-
-                </div>
-                <div class="login-field login-rememberMe">
-                    <input id="RememberMeBox" type="checkbox">
-                    <label for="RememberMeBox" th:text="#{message.login.rememberMe}"> # </label>
                 </div>
                 <div class="login-form-bottom">
                     <svg width="641" height="174" viewBox="0 0 641 174" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,8 +68,8 @@
                         </defs>
                     </svg>
                     <img th:src="@{/Assets/hangout1.svg}" alt="">
-                    <a href="#">
-                        <p th:text="#{message.login.signUp}"> # </p>
+                    <a href="/login">
+                        <p th:text="#{message.login.haveAccount}"> # </p>
                     </a>
                 </div>
             </div>

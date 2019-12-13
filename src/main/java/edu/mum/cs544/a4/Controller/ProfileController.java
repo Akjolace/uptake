@@ -1,4 +1,4 @@
-package edu.mum.cs544.a4.Controller;
+package edu.mum.cs544.a4.controller;
 
 import edu.mum.cs544.a4.entity.Profile;
 import edu.mum.cs544.a4.service.ProfileService;
