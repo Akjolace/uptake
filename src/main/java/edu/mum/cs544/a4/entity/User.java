@@ -1,5 +1,8 @@
 package edu.mum.cs544.a4.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +16,7 @@ import java.util.List;
 //@Getter
 //@Setter
 //@NoArgsConstructor
+//@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "user")
 public class User {
@@ -44,10 +48,12 @@ public class User {
     @OneToOne
     private Address address;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "role_id", referencedColumnName = "id") })
+
+    //    @JoinTable(name = "user_role", joinColumns = {
+//            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+//                    @JoinColumn(name = "role_id", referencedColumnName = "id") })
+    @JsonIgnore
+    @ManyToMany()
     private List<Role> role = new ArrayList<>();
 
     @OneToMany(mappedBy = "followingUser")
@@ -64,7 +70,8 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Profile profile;
 
-    public User(){}
+    public User() {
+    }
 
     public User(String username, String email) {
         this.username = username;
