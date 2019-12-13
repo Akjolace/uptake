@@ -12,17 +12,21 @@ import java.util.Optional;
 
 @Controller
 public class PostController {
-    @Autowired
+
     private PostService postService;
 
-    @GetMapping(value="/addPost")
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
+
+    @GetMapping(value = "/addPost")
     public String addPost(Model model) {
 
         return "post/addPost";
     }
 
-    @GetMapping(value="/post/{id}")
-    public String getProfile(@PathVariable Long id, Model model){
+    @GetMapping(value = "/post/{id}")
+    public String getProfile(@PathVariable Long id, Model model) {
         Optional<Post> post = postService.findPostById(id);
         model.addAttribute("post", post);
         System.out.println("===========================================");

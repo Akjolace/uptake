@@ -1,16 +1,7 @@
 package edu.mum.cs544.a4.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@NoArgsConstructor
-@Setter
-@Getter
 @Entity
 public class Country {
 
@@ -22,4 +13,20 @@ public class Country {
     @Column(name = "country_name")
     private String countryName;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
 }

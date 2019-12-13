@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
 public interface PostService {
+
     Long addPost(Post post);
+
     Optional<Post> findPostById(Long id);
 }

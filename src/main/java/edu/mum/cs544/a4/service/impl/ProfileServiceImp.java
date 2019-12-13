@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProfileServiceImp implements ProfileService {
+
     @Autowired
     private ProfileRepository profileRepository;
 

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class AdsServiceImpl implements AdsService {
 
     private AdsRepository adsRepository;
@@ -31,11 +30,13 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
+    @Transactional
     public void deleteAds(Ads ads) {
         adsRepository.delete(ads);
     }
 
     @Override
+    @Transactional
     public void deleteAllAds() {
         adsRepository.deleteAll();
     }

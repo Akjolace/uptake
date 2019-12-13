@@ -23,13 +23,8 @@ public class Post {
     private String title;
     private String description;
     private LocalDateTime created;
-    private Boolean isUnhealthy=false;
-    private int status=1;
-
-    public Long getId() {
-        return id;
-    }
-
+    private Boolean isUnhealthy = false;
+    private int status = 1;
     @ManyToOne
     private Photo photo;
 
@@ -41,6 +36,10 @@ public class Post {
 
     @OneToMany
     private List<Like> likeList = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -95,7 +94,7 @@ public class Post {
     }
 
     public List<Comment> getCommentList() {
-        return commentList;
+        return commentList != null ? this.commentList : (this.commentList = new ArrayList<>());
     }
 
     public void setCommentList(List<Comment> commentList) {
@@ -111,7 +110,7 @@ public class Post {
     }
 
     public List<Like> getLikeList() {
-        return likeList;
+        return likeList != null ? this.likeList : (this.likeList = new ArrayList<>());
     }
 
     public void setLikeList(List<Like> likeList) {

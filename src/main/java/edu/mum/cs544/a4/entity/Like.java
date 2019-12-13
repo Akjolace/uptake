@@ -1,16 +1,8 @@
 package edu.mum.cs544.a4.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "likes")
 public class Like {
@@ -26,4 +18,36 @@ public class Like {
 
     @Column(name = "created")
     private LocalDate created;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDate created) {
+        this.created = created;
+    }
 }

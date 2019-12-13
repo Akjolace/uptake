@@ -7,10 +7,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 public class Comment {
 
