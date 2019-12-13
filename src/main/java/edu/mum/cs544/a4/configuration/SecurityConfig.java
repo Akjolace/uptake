@@ -48,7 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
             .clearAuthentication(true)
             .invalidateHttpSession(true)
-            .logoutSuccessUrl("/login");
+            .logoutSuccessUrl("/login")
+            .and()
+            .csrf().disable();
+
     }
 
     @Bean
