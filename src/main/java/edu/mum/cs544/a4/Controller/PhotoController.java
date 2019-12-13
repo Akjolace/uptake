@@ -12,7 +12,7 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
-    @PostMapping("/uploadPhoto")
+    @RequestMapping(value = "uploadPhoto", method = RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         System.out.println(file);
         return "redirect:/post/addPost";
