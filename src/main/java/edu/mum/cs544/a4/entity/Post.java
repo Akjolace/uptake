@@ -26,6 +26,14 @@ public class Post {
     private Boolean isUnhealthy=false;
     private int status=1;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public Long getId() {
         return id;
     }
