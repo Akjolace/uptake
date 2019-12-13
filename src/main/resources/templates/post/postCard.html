@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Card</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        .w700{font-weight:700;}
+        .t20{font-size:20px;}
+        .post_pop_card{width: 50%;min-width: 600px;height: 500px;overflow-y: scroll;}
+        .postimg img{width: 100%;}
+        .date{font-size:12px; color:#ccc;}
+        .mt20{margin-top:20px;}
+        .mr15{margin-right: 5px;}
+        .smallImg{width: 30px; height: 30px;border-radius: 50%; margin-right: 10px;}
+    </style>
+</head>
+<body>
+    <div class="container post_pop_card">
+        <div class="row">
+            <div class="col-md-8 postimg">
+    <!--            <img th:src="@{${'/img/' + post.getPhoto().getPath()}}">-->
+                <img src="D:\MUM-Aug2019\EA\CourseProject\uptake\src\main\resources\static\img\post1.jpg" alt="post">
+                <img th:src="@{'/img/post1.jpg'}" alt="post">
+            </div>
+            <p class="col-md-4">
+                <div class="t20">
+                    <img class="smallImg" src="D:\MUM-Aug2019\EA\CourseProject\uptake\src\main\resources\static\img\profile1.jpg">Anna.Dock
+                </div>
+                <div>The Triton Square has never looked so magical. Welcome to Malta`s Fairyland in Valletta.Are you coming?From 12th December till 5th January.</div>
+                <div class="date">2019-10-10 11:30</div>
+<!--                <div class="comment_items" th:each="comment, iterStat : ${post.getCommentList()}">-->
+                <div class="comment_items">
+                    <div class="mt20">
+                        <div><span class="w700 mr15">Julia</span>But I kept getting redirected to server.local/null, so I tried removing the '/' + and having the / inside the ifLoggedIn parameters.</div>
+                        <div class="date">2019-10-10 11:30</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

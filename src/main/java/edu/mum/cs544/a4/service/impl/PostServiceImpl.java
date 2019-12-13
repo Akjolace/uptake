@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PostServiceImpl implements PostService {
+
     @Autowired
     private PostRepository postRepository;
 
@@ -15,5 +16,9 @@ public class PostServiceImpl implements PostService {
     public Long addPost(Post post) {
         postRepository.save(post);
         return post.getId();
+    }
+
+    public Post findPostById(long id) {
+        return postRepository.findById(id);
     }
 }

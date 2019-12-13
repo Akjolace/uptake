@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PhotoServiceImpl implements PhotoService {
+
     @Autowired
     private PhotoRepository photoRepository;
 
@@ -21,4 +22,5 @@ public class PhotoServiceImpl implements PhotoService {
     public Photo getPhoto(Long photoId) {
         return photoRepository.getOne(photoId);
     }
+
 }

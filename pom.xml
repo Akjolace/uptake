@@ -67,6 +67,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+<<<<<<< HEAD
+=======
 
         <!--        JSON data binding-->
         <dependency>
@@ -75,6 +77,7 @@
         </dependency>
 
 
+>>>>>>> 0190ea6989dcb195d5accab4491a30d735866895
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import edu.mum.cs544.a4.entity.Role;
 import edu.mum.cs544.a4.repository.RoleRepository;
 import edu.mum.cs544.a4.service.RoleService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -19,6 +20,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public void deleteRole(long id) {
         roleRepository.deleteById(id);
     }
