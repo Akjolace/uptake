@@ -1,16 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"
+        integrity="sha256-lPE3wjN2a7ABWHbGz7+MKBJaykyzqCbU96BJWjio86U=" crossorigin="anonymous"></script>
+    <script th:src="@{/js/home.js}"></script>
+    <title>Home</title>
 </head>
-<body>
-    <p>Hello! this is your home page.</p>
-    <p> and i'm currently under construction so come back later.</p>
-    <p> Thank you for your patientce. </p>
-    <a href="/logout"><h3> but feel free to logout anytime you want! Just Click Here! </h3></a>
 
+<body>
+    <div class="home-container">
+
+        <div class="navigation-left">
+
+        </div>
+        <div class="home-main">
+            <div class="home-nothing-here">
+                <img th:src="@{/Assets/emtpy.svg}" alt="">
+                <h1>Nothing to see here!</h1>
+                <h2>click on '+' button to add posts</h2>
+            </div>
+        </div>
+        <div class="navigation-right">
+            <div class="navigation-right-top displayFlex center">
+                <a href="#">
+                    <div class="navigation-button">
+                        <img class="icon" th:src="@{/Icons/add.svg}" alt="">
+                        <p>new post</p>
+                    </div>
+                </a>
+            </div>
+            <div class="navigation-right-middle displayFlex center">
+                <div class="navigation-button">
+                    <img class="icon" th:src="@{/Icons/bell.svg}" alt="">
+                </div>
+                <div class="seperator"></div>
+                <div class="navigation-button">
+                    <a href="#">
+                        <img class="profile-Image" th:src="@{/Profile/Profile1.jpg}" alt="">
+                    </a>
+                </div>
+                <div class="seperator"></div>
+                <div class="navigation-button">
+                    <p class="number">9999</p>
+                    <p class="text">POSTS</p>
+                </div>
+                <div class="seperator"></div>
+                <div class="navigation-button">
+                    <p class="number">9999</p>
+                    <p class="text">FOLLOWERS</p>
+                </div>
+                <div class="seperator"></div>
+                <div class="navigation-button">
+                    <p class="number">9999</p>
+                    <p class="text">FOLLOWING</p>
+                </div>
+                <div class="seperator"></div>
+                <div class="navigation-button">
+                    <img class="icon" th:src="@{/Icons/search.svg}" alt="">
+                </div>
+            </div>
+            <div class="navigation-right-bottom displayFlex center">
+                <div class="navigation-button">
+                    <a href="/logout">
+                        <p>Logout</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
+
 </html>
