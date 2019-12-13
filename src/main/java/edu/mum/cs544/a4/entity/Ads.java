@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @Entity
-public class Advertisement {
+public class Ads {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
