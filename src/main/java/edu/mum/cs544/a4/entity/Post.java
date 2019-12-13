@@ -26,6 +26,10 @@ public class Post {
     private Boolean isUnhealthy=false;
     private int status=1;
 
+    public Long getId() {
+        return id;
+    }
+
     @ManyToOne
     private Photo photo;
 
@@ -37,4 +41,6 @@ public class Post {
 
     @OneToMany
     private List<Like> likeList = new ArrayList<>();
+
+
 }

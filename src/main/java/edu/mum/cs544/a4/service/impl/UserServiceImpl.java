@@ -1,5 +1,6 @@
 package edu.mum.cs544.a4.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUsername(String username){
+    public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        Optional<User> result = userRepository.findById(userId);
+
+        User user = null;
+
+        if(result.isPresent()){
+            user = result.get();
+        } else {
+            throw new RuntimeException("Did not find the User id = " + userId);
+        }
+        return user;
     }
 }
