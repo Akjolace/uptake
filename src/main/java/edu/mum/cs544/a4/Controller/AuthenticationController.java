@@ -2,6 +2,7 @@ package edu.mum.cs544.a4.controller;
 
 import javax.validation.Valid;
 
+import edu.mum.cs544.a4.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,14 +21,17 @@ import edu.mum.cs544.a4.service.UserService;
 @Controller
 public class AuthenticationController {
 
-    @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public AuthenticationController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.passwordEncoder = bCryptPasswordEncoder;
+    }
 
     @GetMapping(value = "/login")
     public String getLogin(@RequestParam(value = "error", required = false) String error, Model model) {
