@@ -7,13 +7,17 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+//@Getter
+//@Setter
+//@NoArgsConstructor
 @Entity
 @Table(name = "user")
 public class User {
@@ -22,9 +26,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "email")
+
+    @Column(name = "username", unique = true)
+    private String username;
+
+    @Email
+    @NotBlank
+    @Column(name = "email", unique = true)
     private String email;
 
+    @NotBlank
+    @Size(min = 6)
     private String password;
 
     @Transient
@@ -40,9 +52,9 @@ public class User {
     private Address address;
 
     @ManyToMany
-    @JoinTable(name = "user_role",  
-        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName="id")}, 
-        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName="id")})
+    @JoinTable(name = "user_role", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "role_id", referencedColumnName = "id") })
     private List<Role> role = new ArrayList<>();
 
     @OneToMany(mappedBy = "followingUser", cascade = CascadeType.PERSIST)
@@ -62,34 +74,28 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Profile profile;
 
+    public User(){}
+
+    public User(String username, String email) {
+        this.username = username;
     public User(String email){
         this.email = email;
     }
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                '}';
+        return "User{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + '}';
     }
 
-    public void addFollowing(Following followingUser){
-        if(this.followingUserList.size()==0){
-            this.followingUserList = new ArrayList<>();
-        }
-        this.followingUserList.add(followingUser);
+    public String getUsername() {
+        return this.username;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -97,7 +103,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -105,7 +111,7 @@ public class User {
     }
 
     public String getPasswordConfirm() {
-        return passwordConfirm;
+        return this.passwordConfirm;
     }
 
     public void setPasswordConfirm(String passwordConfirm) {
@@ -113,31 +119,23 @@ public class User {
     }
 
     public LocalDate getCreatedDate() {
-        return createdDate;
+        return this.createdDate;
     }
 
     public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean getStatus() {
+        return this.status;
     }
 
     public void setStatus(boolean status) {
         this.status = status;
     }
 
-    public String getPublicName() {
-        return publicName;
-    }
-
-    public void setPublicName(String publicName) {
-        this.publicName = publicName;
-    }
-
     public Address getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(Address address) {
@@ -145,7 +143,7 @@ public class User {
     }
 
     public List<Role> getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(List<Role> role) {
@@ -153,7 +151,7 @@ public class User {
     }
 
     public List<Following> getFollowingUserList() {
-        return followingUserList;
+        return this.followingUserList;
     }
 
     public void setFollowingUserList(List<Following> followingUserList) {
@@ -161,7 +159,7 @@ public class User {
     }
 
     public List<Following> getFollowerUserList() {
-        return followerUserList;
+        return this.followerUserList;
     }
 
     public void setFollowerUserList(List<Following> followerUserList) {
@@ -169,7 +167,7 @@ public class User {
     }
 
     public List<Post> getPostList() {
-        return postList;
+        return this.postList;
     }
 
     public void setPostList(List<Post> postList) {
@@ -177,10 +175,20 @@ public class User {
     }
 
     public Profile getProfile() {
-        return profile;
+        return this.profile;
     }
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                '}';
+    }
+    public void addFollowing(Following followingUser){
+        if(this.followingUserList.size()==0){
+            this.followingUserList = new ArrayList<>();
+        }
+        this.followingUserList.add(followingUser);
     }
 }
