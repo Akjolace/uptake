@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+@font-face {
+    font-family: PopMedium;
+    src: url(../Fonts/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: PopRegular;
+    src: url(../Fonts/Poppins-Regular.ttf);
+}
+
+.displayFlex {
+    display: flex;
+}
+
+.justifyEnd {
+    justify-content: flex-end;
+}
+
+body {
+    font-family: PopRegular;
+    color: #222649;
+    overflow: hidden;
+}

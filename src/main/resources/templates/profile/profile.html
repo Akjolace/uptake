@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+         .bg_color{
+            background:#fafafa;
+             min-height: 100vh;
+             width: 100vw;
+             background-color: #222649;
+             text-align: center;
+        }
+        .photo_wrap{
+            width: 180px;
+            height: 180px;
+            background-size: cover;
+            border-radius: 50%;
+            border: 4px solid #FFF;
+        }
+        .photo_box{
+            width: 184px;
+            height: 184px;
+            padding: 2px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(to right, #7f49e5, #F44336,#814ae9);
+            margin:0 auto;
+        }
+        .attr{
+            font-size: 18px;
+            padding: 10px;
+        }
+        .attr span{
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .uptake-btn{
+            background: linear-gradient(98.22deg, #6A3AB0 1.3%, #854DF3 96.68%);
+            box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 auto;
+            line-height: auto;
+            font-size: 15px;
+            padding: 8px 50px;
+        }
+        .profile_card{
+            text-align: center;
+            background-color: #fdfdfd;
+            box-shadow: -30px 20px 50px rgba(0, 0, 0, 0.4), 30px -20px 50px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            padding: 25px;
+        }
+        .mt10{
+            margin-top: 10px;
+        }
+        .mt40{
+            margin-top: 40px;
+        }
+        .mb10{
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg_color">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile_card">
+                        <div class="photo_box mt40">
+                            <div class="photo_wrap" style="background-image: url('D:/MUM-Aug2019/EA/CourseProject/uptake/src/main/resources/static/images/profile.jpg')"></div>
+                            <img th:src="@{/images/profile.jpg}">
+                        </div>
+                        <h1 class="title" th:text="${profile.profileName}"></h1>
+                        <div class="attr_wrap mb10">
+                            <div class="attr"><span>105</span> posts</div>
+                            <div class="attr"><span>15k</span> follower</div>
+                            <div class="attr"><span>158</span> following</div>
+                        </div>
+                        <a class="uptake-btn">Follow</a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
