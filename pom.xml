@@ -67,11 +67,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
         <!--        JSON data binding-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -89,6 +92,7 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
     <!--    Spring boot maven plugin - Packaging and running-->
     <build>
         <plugins>
