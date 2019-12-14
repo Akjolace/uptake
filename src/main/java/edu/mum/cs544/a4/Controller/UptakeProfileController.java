@@ -1,6 +1,7 @@
 package edu.mum.cs544.a4.controller;
 
 import edu.mum.cs544.a4.entity.Follower;
+import edu.mum.cs544.a4.entity.Post;
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.service.FollowerService;
 import edu.mum.cs544.a4.service.UserService;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Controller
 public class UptakeProfileController {
@@ -33,7 +36,6 @@ public class UptakeProfileController {
         return "profile/profile";
     }
 
-    @GetMapping(value = "/profile/follow/{userId}")
     public String follow(@PathVariable long userId, Model model) {
         System.out.println("CALLED BY AJAX");
         User followedUser = userService.getUserById(userId);
@@ -43,5 +45,16 @@ public class UptakeProfileController {
         model.addAttribute("isFollowing", false);
         model.addAttribute("user", followingUser);
         return "redirect:/profile/" + followingUser.getUsername();
+    }
+
+    @GetMapping(value = "/following/{id}")
+    public String getFollowingList(@PathVariable("id") long id, Model model){
+        System.out.println("Post detail");
+        //User user = userService.findByUserName(userName);
+        User user = userService.getUserById(id);
+        List<Follower> followingUsers = user.getFollowingUser();
+        model.addAttribute("user",user);
+        model.addAttribute("followingUsers",followingUsers);
+        return "profile/followingModal :: modalContents";
     }
 }
