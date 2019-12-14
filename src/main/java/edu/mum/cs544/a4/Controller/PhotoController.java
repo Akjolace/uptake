@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 
 @Controller
 public class PhotoController {
@@ -30,47 +31,58 @@ public class PhotoController {
 
     @PostMapping("/uploadPhoto")
     @ResponseBody
-    public Long handleFileUpload(@RequestParam("file") MultipartFile file) {
-        System.out.println(file);
+    public HashMap<String, Object> handleFileUpload(@RequestParam("file") MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        HashMap<String, Object> map = new HashMap<>();
         Photo photo = new Photo();
         try {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = getUploadPath().resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             photo.setPath(targetLocation.toString());
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            InputStream in = new FileInputStream(photo.getPath());
+            byte[] buffer = new byte[1024];
+            int len;
+
+            while((len = in.read(buffer)) != -1) {
+                os.write(buffer,0 , len);
+            }
+            map.put("byteArray", os.toByteArray());
+            map.put("path", photo.getPath());
             System.out.println(photo.getPath());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return photoService.savePhoto(photo);
+
+        return map;
     }
 
-    @RequestMapping(value = "/image/{imgId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    @ResponseBody
-    public byte[] getPhoto(@PathVariable("imgId") Long imgId, Model model) {
-        try {
-            Photo photo = photoService.getPhoto(imgId);
-            try{
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                InputStream in = new FileInputStream(photo.getPath());
-                byte[] buffer = new byte[1024];
-                int len;
+//    @RequestMapping(value = "/image/{imageId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+//    @ResponseBody
+//    public byte[] getPhoto(@PathVariable Long imageId) {
+//        try {
+//            Photo photo = photoService.getPhoto(imageId);
+//            try{
+//                ByteArrayOutputStream os = new ByteArrayOutputStream();
+//                InputStream in = new FileInputStream(photo.getPath());
+//                byte[] buffer = new byte[1024];
+//                int len;
+//
+//                while((len = in.read(buffer)) != -1) {
+//                    os.write(buffer,0 , len);
+//                }
+//                return os.toByteArray();
+//            } catch(IOException ex) {
+//                return null;
+//            }
+//
+//        } catch (Exception ex) {
+//            return null;
+//        }
+//    }
 
-                while((len = in.read(buffer)) != -1) {
-                    os.write(buffer,0 , len);
-                }
-                return os.toByteArray();
-            } catch(IOException ex) {
-                return null;
-            }
-
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    public Path getUploadPath(){
+    public Path getUploadPath() {
         Path path = Paths.get(photoPath + "uptakePhoto").toAbsolutePath().normalize();
         try {
             if(!Files.exists(path)) {
