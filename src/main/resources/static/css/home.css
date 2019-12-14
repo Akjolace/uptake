@@ -1,0 +1,137 @@
+@font-face {
+    font-family: PopRegular;
+    src: url(../Fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: PopMedium;
+    src: url(../Fonts/Poppins-Medium.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: PopRegular;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.displayFlex {
+    display: flex;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.home-container {
+    background-color: #fafafa;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.navigation-left {
+    width: 100px;
+    height: 100vh;
+    background-color: rgba(34, 38, 74, 0.9);
+    box-shadow: 15px 4px 25px rgba(0, 0, 0, 0.25);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    transform: translateX(-70px);
+}
+
+.home-main {
+    height: 100vh;
+    width: auto;
+    display: flex;
+}
+
+.home-nothing-here {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    justify-self: center;
+    align-self: center;
+}
+
+.home-nothing-here img {
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.home-nothing-here h1 {
+    font-size: 1.7em;
+    margin-bottom: 20px;
+}
+
+.navigation-right {
+    height: 100vh;
+    width: 100px;
+    background-color: #fafafa;
+    border-top-left-radius: 23px;
+    border-bottom-left-radius: 23px;
+    box-shadow: 5px 4px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: translateX(70px);
+}
+
+.navigation-right-top {
+    width: 100%;
+    padding-top: 15px;
+}
+
+.navigation-right-middle {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+
+.navigation-right-bottom {
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+.navigation-button {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation-button .icon {
+    width: 60%;
+}
+
+.navigation-button p {
+    font-size: .9em;
+}
+
+.seperator {
+    width: 80%;
+    height: 0;
+    border: 1px solid rgba(61, 61, 61, 0.4);
+    margin: 10px 0px;
+}
+
+.profile-Image {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 2px solid #6445D2;
+    box-sizing: border-box;
+    object-fit: cover;
+    margin: 20px 0px;
+}
+.number{
+    font-size: .7em;
+}
+.text{
+    font-family: PopMedium;
+    font-size: .7em;
+}
