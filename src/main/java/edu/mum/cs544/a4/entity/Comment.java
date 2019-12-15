@@ -3,6 +3,7 @@ package edu.mum.cs544.a4.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public class Comment {
     private Long id;
     private String description;
 
+    @CreatedDate
     @Column(name = "created")
     private LocalDate created;
 
@@ -23,6 +25,15 @@ public class Comment {
 
     @ManyToOne
     private User user;
+
+    public Comment() {
+    }
+
+    public Comment(Post post, User user,String description) {
+        this.post = post;
+        this.user = user;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
