@@ -1,5 +1,7 @@
 package edu.mum.cs544.a4.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -16,8 +18,17 @@ public class Like {
     @ManyToOne
     private User user;
 
+    @CreatedDate
     @Column(name = "created")
     private LocalDate created;
+
+    public Like() {
+    }
+
+    public Like(User user, Post post) {
+        this.post = post;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
