@@ -31,12 +31,12 @@
             margin: 0 auto;
         }
         .attr {
-            font-size: 18px;
+            font-size: 15px;
             padding-right: 10px;
             display: inline-block;
         }
         .attr span {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
         }
         .uptake-btn{
@@ -46,8 +46,8 @@
             cursor: pointer;
             display: inline-block;
             margin: 0 auto;
-            font-size: 15px;
-            padding: 8px 50px;
+            font-size: 14px;
+            padding: 5px 35px;
             bottom: 3px;
             margin-left: 50px;
             font-weight: 700;
@@ -61,6 +61,8 @@
         .uptake-btn.enabled{
             background: linear-gradient(98.22deg, #6A3AB0 1.3%, #854DF3 96.68%);
             color: white;
+            position: absolute;
+            bottom: 5px;
         }
         .uptake-btn.enabled:hover{
             text-decoration: none;
@@ -83,7 +85,7 @@
         .mt10 {margin-top: 10px;}
         .mt40 {margin-top: 40px;}
         .mb10 { margin-bottom: 10px;}
-        .title {position: relative;}
+        .title {position: relative; font-size: 24px;}
         .post_card img {width: 100%;}
         .w700{font-weight:700;}
         .t20{font-size:20px; margin-top:20px;}
@@ -109,6 +111,19 @@
             font-size: 12px;
             position: absolute;
             right: 0;}
+        #followingModal .modal-body {
+            max-height: 500px;
+            overflow-y: scroll;
+        }
+        .relative{position: relative;}
+        .textFollowing{margin-left: 75px; font-weight: 700; font-size: 15px;}
+        .fitem p{position: relative}
+        .fitem p i{color: #333;
+            float: right;
+            font-weight: 700;
+            bottom: 8px;
+            position: absolute;
+            right: 0;}
     </style>
 
 </head>
@@ -123,14 +138,15 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <h1>
+                <div class="relative">
                     <strong class="title" th:text="${user.username}"></strong>
-                    <span th:if="${isFollowing}" style="font-size:14px; font-weight: 700">Following</span>
-                    <a th:unless="${isFollowing}" class="uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}">Follow</a>
-                </h1>
-                <div class="attr_wrap mb10">
+                    <span th:if="${isFollowing}" class="textFollowing">Following</span>
+                    <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow">Follow</a>
+                    <span  id="textFollowing" class="textFollowing"></span>
+                </div>
+                <div class="attr_wrap mb10 mt20">
                     <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
-                    <div class="attr"><span th:text="${user.getFollowedUsers().size()}"></span> follower</div>
+                    <div class="attr"><span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span> follower</div>
                     <div class="attr">
                         <div th:onclick="'openFollowingModal(\'' + ${user.id} + '\');'">
                             <span th:text="${user.getFollowingUser().size()}"></span> following
@@ -165,7 +181,7 @@
             });
         }
         function openFollowingModal(id) {
-            console.log("open modal called url=/following/"+id);
+
             $.ajax({
                 url: "/following/" + id,
                 success: function(data) {
@@ -175,6 +191,24 @@
                 }
             });
         }
+        $(".follow").click(function(e){
+            e.preventDefault();
+            var id = $(this).data("id");
+            console.log("Follow by ajax called"+id);
+            $.ajax({
+                url: "/profile/followbyajax/" + id,
+                success: function(data) {
+                    var obj = JSON.parse(data);
+                    if(obj.result){
+                        $("#numOfFollower").text(obj.n);
+                        $("#anchorFollow").hide(300);
+                        $("#textFollowing").text("Following");
+                    }else{
+                        console.log("Already following");
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>

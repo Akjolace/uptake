@@ -23,8 +23,19 @@ public class FollowerServiceImpl implements FollowerService {
     }
 
     @Override
-    public boolean isAfollowingB(long A, long B) {
-        System.out.println("=========================================IsFollowing called:" + followRepository.isAfollowingB(A,B));
+    public boolean addFollowCheck(User followingUser, User followedUser) {
+        System.out.println("AddFollowCheck" + followingUser.getId() + ", " + followedUser.getId());
+        if(followedUser.getId()!=followingUser.getId()){
+            if(isAfollowingB(followingUser.getId(),followedUser.getId())==0) {
+                followRepository.save(new Follower(followingUser,followedUser));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int isAfollowingB(long A, long B) {
         return followRepository.isAfollowingB(A,B);
     }
 

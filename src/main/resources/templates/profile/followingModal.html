@@ -20,13 +20,35 @@
               <div class="model-body">
                     <div class="fitem mt20" th:each="obj, iterStat : ${followingUsers}">
                        <img class="smallImg floatleft"  th:src="@{${'/img/'+ obj.followedUser.profile.photo.path}}"/>
-                       <strong th:text="${obj.getFollowedUser().username}"></strong>
-                       <p class="c999" th:text="${obj.followedUser.profile.fullName}"></p>
-                       <a class="uptake-btn enabled littleFollow" th:href="'/profile/follow/' + ${user.id}">Follow</a>
+                       <a th:href="@{'/profile/'+${obj.followedUser.username}}"><strong th:text="${obj.followedUser.username}"></strong></a>
+                       <p th:id="@{'item'+${obj.followedUser.id}}" class="c999" th:text="${obj.followedUser.profile.fullName}"></p>
+                       <a class="follow uptake-btn enabled littleFollow" th:href="'/profile/follow/' + ${obj.followedUser.id}" th:data-id="${obj.followedUser.id}"
+                          th:id="@{'anchorFollow'+${obj.followedUser.id}}">Follow</a>
                   </div>
               </div>
           </div>
        </div>
+      <script>
+          $(".follow").click(function(e){
+              e.preventDefault();
+              var id = $(this).data("id");
+              console.log("Follow by ajax called"+id);
+              var btn = $(this);
+              $.ajax({
+                  url: "/profile/followbyajax/" + id,
+                  success: function(data) {
+                      var obj = JSON.parse(data);
+                      if(obj.result){
+                          $(btn).hide(300,function () {
+                              $("#item"+id).append("<i>Following</i>").show(200);
+                          });
+                      }else{
+                          console.log("Already following");
+                      }
+                  }
+              });
+          });
+      </script>
  </div>
 </body>
 </html>
