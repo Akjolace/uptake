@@ -32,7 +32,7 @@ public class AuthenticationController {
         this.roleService = roleService;
         this.passwordEncoder = bCryptPasswordEncoder;
     }
-
+    
     @GetMapping(value = "/login")
     public String getLogin(@RequestParam(value = "error", required = false) String error, Model model) {
         String errorMessages = null;

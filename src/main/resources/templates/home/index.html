@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -62,7 +62,7 @@
                     <p class="text">FOLLOWING</p>
                 </div>
                 <div class="seperator"></div>
-                <div class="navigation-button">
+                <div id="searchBtn" class="navigation-button">
                     <img class="icon" th:src="@{/Icons/search.svg}" alt="">
                 </div>
             </div>
@@ -74,7 +74,20 @@
                 </div>
             </div>
         </div>
+        <div class="slide">
+            <div class="slide-search-header">
+                <div class="slide-search-header-searchBar">
+                    <img id="slideSearchBtn" src="../Icons/search.svg" alt="">
+                    <input id="searchTxt" type="text" placeholder="Search...">
+                </div>
+            </div>
+            <div class="seperator seperatorSlide"></div>
+            <div class="slide-search-container">
 
+                <div id="slide-search-spinner" class="loading-spinner"></div>
+
+            </div>
+        </div>
     </div>
 </body>
 

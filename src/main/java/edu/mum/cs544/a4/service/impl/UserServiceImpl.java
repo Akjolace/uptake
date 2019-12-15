@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.mum.cs544.a4.entity.User;
+import edu.mum.cs544.a4.entity.onoko.UserForSearch;
 import edu.mum.cs544.a4.repository.UserRepository;
+import edu.mum.cs544.a4.repository.onoko.UserForSearchRepository;
 import edu.mum.cs544.a4.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserForSearchRepository userForSearchRepository;
 
     private UserRepository userRepository;
 
@@ -63,5 +68,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(long userId) {
         return userRepository.findById(userId);
+    }
+
+    @Override
+    public List<UserForSearch> findTop10UsersByUsername(String username){
+        return userForSearchRepository.findTop10UsersByUsername(username);
     }
 }
