@@ -43,6 +43,5 @@ public class UptakeProfileController {
         model.addAttribute("isFollowing", false);
         model.addAttribute("user", followingUser);
         return "redirect:/profile/" + followingUser.getUsername();
-
     }
 }
