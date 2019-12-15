@@ -6,6 +6,7 @@
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
@@ -106,26 +107,42 @@
         .c999{color:#999;}
         .fright{float: right;}
         .fitem{position:relative;}
-        .littleFollow{float: right;
-            padding: 4px 8px;
-            font-size: 12px;
-            position: absolute;
-            right: 0;}
-        #followingModal .modal-body {
-            max-height: 500px;
-            overflow-y: scroll;
-        }
+        .littleFollow{float: right;padding: 4px 8px;font-size: 12px;position: absolute;right: 0;}
+        #followingModal .modal-body {max-height: 500px;overflow-y: scroll;}
         .relative{position: relative;}
         .textFollowing{margin-left: 75px; font-weight: 700; font-size: 15px;}
         .fitem p{position: relative}
-        .fitem p i{color: #333;
-            float: right;
-            font-weight: 700;
-            bottom: 8px;
-            position: absolute;
-            right: 0;}
-    </style>
+        .fitem p i{color: #333;float: right;font-weight: 700;bottom: 8px;position: absolute;right: 0;}
+        .like, .like span, like i{color: #F41567; margin-left: 0;}
+        .likepost:hover{color: #F41567;}
 
+        #commentForm{
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            margin-top: 15px;
+            display: flex;
+         }
+        #commentForm input{background: 0 0;border: 0;
+            color: #262626;
+            font-size: inherit;
+            height: 18px;
+            max-height: 80px;
+            outline: 0;
+            padding: 0;
+            resize: none;
+            width: 335px;}
+        #commentForm button{
+            border:0;
+            background: none;
+            font-weight: 700;
+        }
+        #commentForm button:disabled{
+            color:#ccc;
+        }
+        #commentForm button:enabled{
+            color:#6638BE;
+        }
+    </style>
 </head>
 <body>
 <div class="bg_color">
@@ -133,8 +150,7 @@
         <div class="row mt40">
             <div class="col-md-4">
                 <div class="photo_box">
-                    <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')">
-                    </div>
+                    <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')"></div>
                 </div>
             </div>
             <div class="col-md-8">
@@ -194,7 +210,7 @@
         $(".follow").click(function(e){
             e.preventDefault();
             var id = $(this).data("id");
-            console.log("Follow by ajax called"+id);
+            console.log("Follow called by ajax called"+id);
             $.ajax({
                 url: "/profile/followbyajax/" + id,
                 success: function(data) {
@@ -210,5 +226,6 @@
             });
         });
     </script>
+    </div>
 </body>
 </html>
