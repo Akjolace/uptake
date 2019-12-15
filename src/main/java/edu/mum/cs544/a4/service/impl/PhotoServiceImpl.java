@@ -19,8 +19,8 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public Photo getPhoto(int photoId) {
-        return null;
+    public Photo getPhoto(Long photoId) {
+        return photoRepository.getOne(photoId);
     }
 
 }

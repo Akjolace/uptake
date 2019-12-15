@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Card</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="modal fade" id="postModal" role="dialog" th:fragment="modalContents">
+       <div class="post_pop_card">
+            <div class="model-body">
+                <div class="grid-wrapper">
+                    <div class="col-one">
+                        <div class="postimg">
+                            <img alt="post" th:src="@{${'/img/' + post.photo.path}}">
+                        </div>
+                    </div>
+                    <div class="col-two">
+                        <div class="">
+                            <img class="smallImg"  th:src="@{${'/img/'+ user.profile.photo.path}}"/>
+                            <span th:text="${user.username}"></span>
+                            <div class="date" th:text="${post.created}"></div>
+                            <div th:text="${post.description}"></div>
+
+                            <span class="like">
+                                <span style="margin-right:0;" th:if="${hasLiked}" class="textFollowing"><i class="material-icons">favorite</i></span>
+                                <a th:unless="${hasLiked}" class="likepost" th:href="'/profile/likepost/' + ${post.id}" th:data-id="${post.id}">
+                                    <i class="material-icons">favorite_border</i>
+                                </a>
+                            </span>
+                        </div>
+                        <div class="comment_items">
+                            <div class="comment_item mt20" th:each="comment, iterStat : ${post.getCommentList()}">
+                                <div><span class="w700 mr15" th:text="${comment.user.username}"></span>
+                                    <span th:text="${comment.description}"></span>
+                                    <span class="date" th:text="${comment.created}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="#" method="POST" id="commentForm"  name="commentForm">
+                            <input type="hidden" name="user_id" th:value="${user.id}">
+                            <input type="hidden" name="post_id" th:value="${post.id}">
+                            <input id="commentDesc" name="commentDesc" type="text" th:placeholder="#{message.comment.description}">
+                            <button class="" type="submit" disabled="">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+       </div>
+       <script>
+            $(".likepost").click(function(e){
+                e.preventDefault();
+                var id = $(this).data("id");
+                console.log("Like called by ajax called"+id);
+                var btn = $(this);
+                $.ajax({
+                    url: "/profile/likepost/" + id,
+                    success: function(data) {
+                        var obj = JSON.parse(data);
+                        if(obj.result){
+                            $(btn).hide(300,function () {
+                                $(".like").append("<i class=\"material-icons\">favorite</i>").show(200);
+                            });
+                        }else{
+                            console.log("Already liked");
+                        }
+                    }
+                });
+            });
+            $("#commentForm").submit(function(e){
+                e.preventDefault();
+                console.log("Comment post called by ajax" + $('form[name=commentForm]').serialize());
+                $.ajax({
+                    url: "/post/comment",
+                    type: "POST",
+                    data : $('form[name=commentForm]').serialize(),
+                    success: function(data) {
+                        var obj = JSON.parse(data);
+                        if(obj.result){
+                            $(".comment_items").append("<div class=\"comment_item mt20\">\n" +
+                                "                                <div><span class=\"w700 mr15\">"+obj.username+"</span>\n" +
+                                "                                    <span>"+obj.comment+"</span>\n" +
+                                "                                    <span>"+obj.created+"</span>\n" +
+                                "                                </div>\n" +
+                                "                            </div>").show(200);
+                        }
+                    }
+                });
+            });
+            $("#commentDesc").keypress(function(){
+                console.log($(this).val());
+                if ( $('#commentDesc').val().length>1)
+                    $("#commentForm button").attr('disabled',false);
+                else
+                    $("#commentForm button").attr('disabled',true);
+            });
+       </script>
+    </div>
+</body>
+</html>

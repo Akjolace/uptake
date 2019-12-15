@@ -23,8 +23,6 @@ public class Profile {
 
     private String bio;
 
-    private String profileName;
-
     @Column(name = "birth_date")
     private LocalDate birhtday;
 
@@ -58,14 +56,6 @@ public class Profile {
 
     public void setBio(String bio) {
         this.bio = bio;
-    }
-
-    public String getProfileName() {
-        return profileName;
-    }
-
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
     }
 
     public LocalDate getBirhtday() {

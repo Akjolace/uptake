@@ -1,39 +1,51 @@
 package edu.mum.cs544.a4.controller;
 
+import edu.mum.cs544.a4.entity.Follower;
 import edu.mum.cs544.a4.entity.Post;
-import edu.mum.cs544.a4.entity.Profile;
 import edu.mum.cs544.a4.entity.User;
-import edu.mum.cs544.a4.service.ProfileService;
+import edu.mum.cs544.a4.service.FollowerService;
+import edu.mum.cs544.a4.service.LikeService;
+import edu.mum.cs544.a4.service.PostService;
 import edu.mum.cs544.a4.service.UserService;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UptakeProfileController {
 
-    private ProfileService profileService;
-
     private UserService userService;
+    private PostService postService;
+    private LikeService likeService;
+    private FollowerService followerService;
 
-    public UptakeProfileController(ProfileService profileService, UserService userService) {
-        this.profileService = profileService;
+    @Autowired
+    public UptakeProfileController(UserService userService, PostService postService, LikeService likeService, FollowerService followerService) {
         this.userService = userService;
+        this.postService = postService;
+        this.likeService = likeService;
+        this.followerService = followerService;
     }
 
-    @GetMapping(value = "/profile/{profileName}")
-    public String getProfile(@PathVariable String profileName, Model model) {
-        System.out.println("Here in get Profile name=" + profileName);
-        Profile profile = profileService.findByProfileName(profileName);
-        User user = userService.findByUserName(profileName);
-        model.addAttribute("userprofile", profile);
-        System.out.println("User" + user.toString());
-        for (Post p : user.getPostList()) {
-            System.out.println(p);
+    @GetMapping(value = "/profile/{userName}")
+    public String getProfile(@PathVariable String userName, Model model) {
+        User user = userService.getUserByUsername(userName);
+        if(user!=null){
+            long currentUserId = 3;
+
+            boolean isFollowing = followerService.isAfollowingB(currentUserId,user.getId())==0?false:true;
+            System.out.println("---------------------- is Following 3->"+ user.getId()+ isFollowing);
+            model.addAttribute("isFollowing", isFollowing);
+            model.addAttribute("user", user);
+
+            return "profile/profile";
+        }else{
+            return "redirect:home/index";
         }
-        model.addAttribute("user", user);
-        return "profile/profile";
     }
 }

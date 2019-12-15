@@ -1,9 +1,8 @@
 package edu.mum.cs544.a4.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,9 +11,8 @@ import javax.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import edu.mum.cs544.a4.entity.Follower;
 
 @Entity
 @Table(name = "user")
@@ -40,6 +38,7 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+    @CreatedDate
     private LocalDate createdDate;
 
     private boolean status;
@@ -49,14 +48,19 @@ public class User {
     @OneToOne
     private Address address;
 
+    @OneToMany(mappedBy = "followedUser")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    private List<Follower> followedUsers;
+
+    @OneToMany(mappedBy = "followingUser")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    private List<Follower> followingUser;
+
     @ManyToMany
     @JoinTable(name = "user_role", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
             @JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> role;
-
-    @OneToMany
-    private Set<User> followingUserSet;
 
     @OneToMany(mappedBy = "user")
     @LazyCollection(value = LazyCollectionOption.EXTRA)
@@ -153,14 +157,6 @@ public class User {
         this.role = role;
     }
 
-    public Set<User> getFollowingUserSet() {
-        return followingUserSet != null ? this.followingUserSet : (this.followingUserSet = new HashSet<>());
-    }
-
-    public void setFollowingUserSet(Set<User> followingUserSet) {
-        this.followingUserSet = followingUserSet;
-    }
-
     public List<Post> getPostList() {
         return postList != null ? this.postList : (this.postList = new ArrayList<>());
     }
@@ -175,6 +171,22 @@ public class User {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public List<Follower> getFollowedUsers() {
+        return followedUsers;
+    }
+
+    public void setFollowedUsers(List<Follower> followedUsers) {
+        this.followedUsers = followedUsers;
+    }
+
+    public List<Follower> getFollowingUser() {
+        return followingUser;
+    }
+
+    public void setFollowingUser(List<Follower> followingUser) {
+        this.followingUser = followingUser;
     }
 
     @Override
