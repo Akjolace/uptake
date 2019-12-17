@@ -23,7 +23,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 
 @Controller
-public class PhotoController {
+public class FileController {
     @Autowired
     private PhotoService photoService;
 
@@ -34,6 +34,36 @@ public class PhotoController {
     public HashMap<String, Object> handleFileUpload(@RequestParam("file") MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         HashMap<String, Object> map = new HashMap<>();
+        Photo photo = new Photo();
+        try {
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = getUploadPath().resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            photo.setPath(targetLocation.toString());
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            InputStream in = new FileInputStream(photo.getPath());
+            byte[] buffer = new byte[1024];
+            int len;
+
+            while((len = in.read(buffer)) != -1) {
+                os.write(buffer,0 , len);
+            }
+            map.put("byteArray", os.toByteArray());
+            map.put("path", photo.getPath());
+            System.out.println(photo.getPath());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return map;
+    }
+
+    @PostMapping("/uploadVideo")
+    @ResponseBody
+    public HashMap<String, Object> handleVideoUpload(@RequestParam("file") MultipartFile file) {
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        HashMap<String, Object> map = new HashMap<>();
+        System.out.println(fileName);
         Photo photo = new Photo();
         try {
             // Copy file to the target location (Replacing existing file with the same name)
