@@ -6,15 +6,18 @@
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
+        .container{
+            width: 960px;
+        }
         .bg_color {
             border-left: 3px solid #222649;
             min-height: 100vh;
             width: 100vw;
         }
-
         .photo_wrap {
             width: 180px;
             height: 180px;
@@ -22,7 +25,6 @@
             border-radius: 50%;
             border: 4px solid #FFF;
         }
-
         .photo_box {
             width: 184px;
             height: 184px;
@@ -32,18 +34,15 @@
             background: linear-gradient(to right, #7f49e5, #F44336, #814ae9);
             margin: 0 auto;
         }
-
         .attr {
-            font-size: 18px;
+            font-size: 15px;
             padding-right: 10px;
             display: inline-block;
         }
-
         .attr span {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
         }
-
         .uptake-btn{
             box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.25);
             border-radius: 15px;
@@ -51,8 +50,8 @@
             cursor: pointer;
             display: inline-block;
             margin: 0 auto;
-            font-size: 15px;
-            padding: 8px 50px;
+            font-size: 14px;
+            padding: 5px 35px;
             bottom: 3px;
             margin-left: 50px;
             font-weight: 700;
@@ -66,6 +65,8 @@
         .uptake-btn.enabled{
             background: linear-gradient(98.22deg, #6A3AB0 1.3%, #854DF3 96.68%);
             color: white;
+            position: absolute;
+            bottom: 5px;
         }
         .uptake-btn.enabled:hover{
             text-decoration: none;
@@ -85,33 +86,19 @@
             width: 100%;
             padding: 25px;
         }
-
-        .mt10 {
-            margin-top: 10px;
-        }
-
-        .mt40 {
-            margin-top: 40px;
-        }
-
-        .mb10 {
-            margin-bottom: 10px;
-        }
-
-        .title {
-            position: relative;
-        }
-
-        .post_card img {
-            width: 100%;
-        }
+        .mt10 {margin-top: 10px;}
+        .mt40 {margin-top: 40px;}
+        .mb10 { margin-bottom: 10px;}
+        .title {position: relative; font-size: 24px;}
+        .post_card{width: 100%;
+            height: 300px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 30px;}
+        .post_card img {height: 100%; width:auto;}
         .w700{font-weight:700;}
         .t20{font-size:20px; margin-top:20px;}
-        .post_pop_card{width: 800px;
-            width: 800px;
-            background: #fff;
-            margin: 0 auto;
-            margin-top: 10%;}
+        .post_pop_card{width: 800px;width: 800px;background: #fff;margin: 0 auto;margin-top: 10%;}
         .date{font-size:12px; color:#ccc;}
         .mt20{margin-top:20px;}
         .mr15{margin-right: 5px;}
@@ -119,14 +106,51 @@
         .ptr15{padding-right: 15px;}
         .grid-wrapper{display: grid;grid-template-columns: 500px 400px;}
         .col-one{grid-column: 1/1;}
-        .col-two{grid-column: 2/2;
-            background: #fff;
-            padding: 15px;}
+        .col-two{grid-column: 2/2;background: #fff;padding: 15px;}
         .postimg img{width: 100%;}
-        .comment_items{height: 300px;
-            overflow-y: scroll;}
-    </style>
+        .comment_items{height: 300px;overflow-y: scroll;}
+        .floatleft{float: left;margin-right: 10px;margin-top: 4px;width: 35px;height: 35px;}
+        .model-body{padding:0 15px;}
+        .modal-title {margin: 0;line-height: 1.42857143;font-weight: 700;font-size: 16px;position: absolute;}
+        .c999{color:#999;}
+        .fright{float: right;}
+        .fitem{position:relative;}
+        .littleFollow{float: right;padding: 4px 8px;font-size: 12px;position: absolute;right: 0;}
+        #followingModal .modal-body {max-height: 500px;overflow-y: scroll;}
+        .relative{position: relative;}
+        .textFollowing{margin-left: 75px; font-weight: 700; font-size: 15px;}
+        .fitem p{position: relative}
+        .fitem p i{color: #333;float: right;font-weight: 700;bottom: 8px;position: absolute;right: 0;}
+        .like, .like span, like i{color: #F41567; margin-left: 0;}
+        .likepost:hover{color: #F41567;}
 
+        #commentForm{
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            margin-top: 15px;
+            display: flex;
+         }
+        #commentForm input{background: 0 0;border: 0;
+            color: #262626;
+            font-size: inherit;
+            height: 18px;
+            max-height: 80px;
+            outline: 0;
+            padding: 0;
+            resize: none;
+            width: 335px;}
+        #commentForm button{
+            border:0;
+            background: none;
+            font-weight: 700;
+        }
+        #commentForm button:disabled{
+            color:#ccc;
+        }
+        #commentForm button:enabled{
+            color:#6638BE;
+        }
+    </style>
 </head>
 <body>
 <div class="bg_color">
@@ -134,39 +158,33 @@
         <div class="row mt40">
             <div class="col-md-4">
                 <div class="photo_box">
-                    <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')">
-                    </div>
+                    <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')"></div>
                 </div>
             </div>
             <div class="col-md-8">
-                <h1>
+                <div class="relative">
                     <strong class="title" th:text="${user.username}"></strong>
-                    <span th:if="${isFollowing}" style="font-size:14px; font-weight: 700">Following</span>
-                    <a th:unless="${isFollowing}" class="uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}">Follow</a>
-                </h1>
-                <div class="attr_wrap mb10">
+                    <span th:if="${isFollowing}" class="textFollowing">Following</span>
+                    <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow">Follow</a>
+                    <span  id="textFollowing" class="textFollowing"></span>
+                </div>
+                <div class="attr_wrap mb10 mt20">
                     <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
-                    <div class="attr"><span th:text="${user.getFollowedUsers().size()}"></span> follower</div>
-                    <div class="attr"><span th:text="${user.getFollowingUser().size()}"></span> following</div>
+                    <div class="attr"><span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span> follower</div>
+                    <div class="attr">
+                        <div th:onclick="'openFollowingModal(\'' + ${user.id} + '\');'">
+                            <span th:text="${user.getFollowingUser().size()}"></span> following
+                        </div>
+                    </div>
                 </div>
                 <p th:text="${user.getProfile() != null ? user.getProfile().getBio() : 'insert you bio'}"></p>
             </div>
         </div>
         <div class="row mt40">
-            <div class="col-md-3" th:each="p, iterStat : ${user.getPostList()}">
+            <div class="col-md-4" th:each="p, iterStat : ${user.getPostList()}">
                     <div th:onclick="'openPostModal(\'' + ${p.id} + '\');'">
                     <div class="post_card">
                         <img th:src="@{${'/img/' + p.getPhoto().getPath()}}">
-<!--                        <div th:text="${p.title}"></div>-->
-<!--                        <div th:text="${p.description}"></div>-->
-<!--                        <div>-->
-<!--                            <span th:text="${p.created}"></span>-->
-<!--                        </div>-->
-<!--                        <div class="post_card" th:each="comment, iterStat : ${p.getCommentList()}">-->
-<!--                            <div th:text="${comment.created}"></div>-->
-<!--                            <div th:text="${comment.description}"></div>-->
-<!--                            <div th:text="${comment.user.username}"></div>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -174,6 +192,7 @@
     </div>
 </div>
 <div id="postModalHolder"><div id="postModal"></div></div>
+<div id="followingModalHolder"><div id="followingModal"></div></div>
     <script>
         function openPostModal(id) {
             console.log("open modal called");
@@ -185,6 +204,36 @@
                 }
             });
         }
+        function openFollowingModal(id) {
+
+            $.ajax({
+                url: "/following/" + id,
+                success: function(data) {
+                    console.log(data);
+                    $('#followingModalHolder').html(data);
+                    $('#followingModal').modal("show");
+                }
+            });
+        }
+        $(".follow").click(function(e){
+            e.preventDefault();
+            var id = $(this).data("id");
+            console.log("Follow called by ajax called"+id);
+            $.ajax({
+                url: "/profile/followbyajax/" + id,
+                success: function(data) {
+                    var obj = JSON.parse(data);
+                    if(obj.result){
+                        $("#numOfFollower").text(obj.n);
+                        $("#anchorFollow").hide(300);
+                        $("#textFollowing").text("Following");
+                    }else{
+                        console.log("Already following");
+                    }
+                }
+            });
+        });
     </script>
+    </div>
 </body>
 </html>
