@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -20,13 +20,70 @@
         <div class="navigation-left">
 
         </div>
+
         <div class="home-main">
             <div class="home-nothing-here">
-                <img th:src="@{/Assets/emtpy.svg}" alt="">
+                <img src="../Assets/emtpy.svg" alt="">
                 <h1>Nothing to see here!</h1>
-                <h2>click on '+' button to add posts</h2>
+                <h2>click on a '+' button to add posts</h2>
+            </div>
+
+            <div class="home-main-post-container" id="home-main-post-container">
+                <!-- ! do not remove ---------------------------------------------------->
+                <!--
+                <div class="home-main-post-container-item">
+                    <div class="home-main-post-container-item-left">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+                            alt="">
+                    </div>
+                    
+                    <div class="home-main-post-container-item-right">
+                        <div class="home-main-post-container-item-right-profile">
+                            <img src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+                                alt="">
+                            <p><a href="#">Julia Norat</a></p>
+                        </div>
+
+                        <div class="home-main-post-container-item-right-comment">
+                            
+                            <div class="home-main-post-container-item-right-comment-item">
+                                <p>
+                                    <a href="#"><span class="comment-username">Julia Norat</span></a>
+                                    <span class="comment-text"> Feeling cute might delete later. </span>
+                                </p>
+                            </div>
+
+                            <div class="home-main-post-container-item-right-comment-item viewComments">
+                                <p>
+                                    <span class="comment-username">View all</span>
+                                    <span class="comment-username"> 0 </span>
+                                    <span class="comment-username"> comments </span>
+                                </p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="home-main-post-container-item-right-like">
+                            <svg height="24" version="1.1" width="24">
+                                <g transform="translate(0 -1028.4)">
+                                    <path
+                                        d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z"
+                                        fill="#c0392b" fill-opacity="0" stroke-width="1.5px" stroke="#c0392b" />
+                                </g>
+                            </svg>
+                            <p>
+                                <span>0</span>
+                                <span>Likes</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <!-- ! do not remove ---------------------------------------------------->
+
             </div>
         </div>
+
         <div class="navigation-right">
             <div class="navigation-right-top displayFlex center">
                 <a href="#">
@@ -42,27 +99,27 @@
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
-                    <a href="#">
-                        <img class="profile-Image" th:src="@{/Profile/Profile1.jpg}" alt="">
+                    <a th:href="${'/profile/' + loggedUser.getUsername()}">
+                        <img class="profile-Image" th:src="${loggedUser.getProfile().getPhoto().getPath()}" alt="">
                     </a>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
-                    <p class="number">9999</p>
+                    <p class="number" th:text="${loggedUser.getPostList().size()}" >9999</p>
                     <p class="text">POSTS</p>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
-                    <p class="number">9999</p>
+                    <p class="number" th:text="${loggedUser.getFollowedUsers().size()}" >9999</p>
                     <p class="text">FOLLOWERS</p>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
-                    <p class="number">9999</p>
+                    <p class="number" th:text="${loggedUser.getFollowingUser().size()}" >9999</p>
                     <p class="text">FOLLOWING</p>
                 </div>
                 <div class="seperator"></div>
-                <div class="navigation-button">
+                <div id="searchBtn" class="navigation-button">
                     <img class="icon" th:src="@{/Icons/search.svg}" alt="">
                 </div>
             </div>
@@ -74,7 +131,20 @@
                 </div>
             </div>
         </div>
+        <div class="slide">
+            <div class="slide-search-header">
+                <div class="slide-search-header-searchBar">
+                    <img id="slideSearchBtn" src="../Icons/search.svg" alt="">
+                    <input id="searchTxt" type="text" placeholder="Search...">
+                </div>
+            </div>
+            <div class="seperator seperatorSlide"></div>
+            <div class="slide-search-container">
 
+                <div id="slide-search-spinner" class="loading-spinner"></div>
+
+            </div>
+        </div>
     </div>
 </body>
 

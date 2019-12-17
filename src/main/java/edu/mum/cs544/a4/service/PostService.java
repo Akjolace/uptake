@@ -9,5 +9,7 @@ public interface PostService {
 
     Long addPost(Post post);
 
+    Long editPost(Post post);
+
     Post findPostById(long id);
 }

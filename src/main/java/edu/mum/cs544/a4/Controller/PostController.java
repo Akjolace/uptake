@@ -1,4 +1,4 @@
-package edu.mum.cs544.a4.controller;
+package edu.mum.cs544.a4.Controller;
 
 import edu.mum.cs544.a4.entity.Photo;
 import edu.mum.cs544.a4.entity.Post;
@@ -27,10 +27,20 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping(value = "/addPost")
-    public String addPost(Model model) {
+    @GetMapping(value = "/postPhoto")
+    public String addPhotoPost(Model model) {
+        return "post/postPhoto";
+    }
 
-        return "post/addPost";
+    @GetMapping(value = "/postVideo")
+    public String addVideoPost(Model model) {
+        return "post/postVideo";
+    }
+
+    @GetMapping(value = "/postEdit")
+    public String editPostDirect(@ModelAttribute("User") Post post, Model model) {
+        model.addAttribute("post", post);
+        return "post/editPost";
     }
 
    /* @GetMapping(value = "/post/{id}")
@@ -54,7 +64,8 @@ public class PostController {
         model.addAttribute("user",user);
         return "post/postModal :: modalContents";
     }
-    @PostMapping(value = "/addPostData")
+
+    @PostMapping(value = "/addPostPhoto")
     public String addPostData(@RequestParam("title") String title, @RequestParam("description") String description,@RequestParam("photoPath") String photoPath) {
         Post post = new Post();
         Photo photo = new Photo();
@@ -64,7 +75,12 @@ public class PostController {
         photoService.savePhoto(photo);
         post.setPhoto(photo);
         postService.addPost(post);
-        return "redirect:/addPost";
+        return "redirect:/postPhoto";
     }
 
+    @PostMapping(value = "/editPostData")
+    public String editPostData(@ModelAttribute("User") Post post) {
+        postService.editPost(post);
+        return "redirect:/postPhoto";
+    }
 }

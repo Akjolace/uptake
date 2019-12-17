@@ -18,6 +18,12 @@ public class PostServiceImpl implements PostService {
         return post.getId();
     }
 
+    @Override
+    public Long editPost(Post post) {
+        postRepository.save(post);
+        return post.getId();
+    }
+
     public Post findPostById(long id) {
         return postRepository.findById(id);
     }

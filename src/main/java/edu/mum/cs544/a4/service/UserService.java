@@ -3,6 +3,7 @@ package edu.mum.cs544.a4.service;
 import java.util.List;
 
 import edu.mum.cs544.a4.entity.User;
+import edu.mum.cs544.a4.entity.onoko.UserForSearch;
 
 public interface UserService {
 
@@ -15,6 +16,8 @@ public interface UserService {
     public User getUserByEmail(String email);
 
     public User getUserByUsername(String username);
+
+    public List<UserForSearch> findTop10UsersByUsername(String username);
 
     public User getUserById(long userId);
 
