@@ -3,10 +3,7 @@ package edu.mum.cs544.a4.entity.onoko;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.springframework.security.core.Transient;
-
 @Entity
-@Transient
 public class UserForSearch{
 
     @Id
