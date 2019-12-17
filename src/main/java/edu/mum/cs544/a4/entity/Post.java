@@ -35,7 +35,7 @@ public class Post {
     @ManyToOne
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "post")
     private List<Like> likeList = new ArrayList<>();
 
     public Long getId() {

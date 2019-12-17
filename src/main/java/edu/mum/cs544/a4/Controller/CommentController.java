@@ -19,6 +19,7 @@ public class CommentController {
     @ResponseBody
     public String addComment(Model model) {
         System.out.println("-----------------Add Comment---------------------");
+
         //add to database
         JSONObject response = new JSONObject();
         response.put("result",true);

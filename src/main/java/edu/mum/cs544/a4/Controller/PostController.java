@@ -2,6 +2,7 @@ package edu.mum.cs544.a4.controller;
 
 import edu.mum.cs544.a4.entity.Photo;
 import edu.mum.cs544.a4.entity.Post;
+import edu.mum.cs544.a4.service.LikeService;
 import edu.mum.cs544.a4.service.PhotoService;
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.service.PostService;
@@ -18,6 +19,9 @@ public class PostController {
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private LikeService likeService;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -43,6 +47,9 @@ public class PostController {
         System.out.println("Post detail");
         Post post = postService.findPostById(id);
         User user = post.getUser();
+
+        int currentUserId = 3;
+        model.addAttribute("hasLiked",likeService.isALikedPostB(currentUserId,id));
         model.addAttribute("post",post);
         model.addAttribute("user",user);
         return "post/postModal :: modalContents";
