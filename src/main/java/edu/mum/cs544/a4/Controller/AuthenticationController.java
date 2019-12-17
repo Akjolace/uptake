@@ -2,16 +2,17 @@ package edu.mum.cs544.a4.controller;
 
 import javax.validation.Valid;
 
-import edu.mum.cs544.a4.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.mum.cs544.a4.entity.Role;
 import edu.mum.cs544.a4.entity.User;
@@ -27,12 +28,20 @@ public class AuthenticationController {
 
     private BCryptPasswordEncoder passwordEncoder;
 
-    public AuthenticationController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthenticationController(UserService userService, RoleService roleService,
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
         this.passwordEncoder = bCryptPasswordEncoder;
     }
-    
+
+    @CrossOrigin
+    @ResponseBody
+    @GetMapping("/authentication/getloggedusername")
+    public String getLoggedUsername(Authentication authentication) {
+        return authentication.getName();
+    }
+
     @GetMapping(value = "/login")
     public String getLogin(@RequestParam(value = "error", required = false) String error, Model model) {
         String errorMessages = null;

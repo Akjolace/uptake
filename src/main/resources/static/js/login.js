@@ -1,5 +1,4 @@
-$(document).ready(function(){
-
+$(window).on('load', function(){
     let animation = function(){
         //Select objects to animate
         const Vector1 = document.querySelector("#login-left-vector");
@@ -14,5 +13,4 @@ $(document).ready(function(){
     }
 
     animation();
-
 })
