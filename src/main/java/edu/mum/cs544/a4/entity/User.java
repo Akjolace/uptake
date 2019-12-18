@@ -46,7 +46,7 @@ public class User {
 
     private String publicName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @OneToMany(mappedBy = "followedUser")

@@ -59,6 +59,7 @@ $(window).on('load', function () {
         let responseJSON = response;//JSON.parse(response);
         let responseLength = Object.keys(responseJSON).length;
         let itemContainerMain = $(".slide-search-container");
+        let itemContainerUser = $(".slide-search-container-user");
 
         if (responseLength > 0) {
             responseJSON.forEach(function (element, index) {
@@ -91,7 +92,8 @@ $(window).on('load', function () {
                 //Append childs to its mother
                 itemContainer.append(itemContainerLeft, itemContainerRight);
                 //Add item to the list
-                itemContainerMain.append(itemContainer);
+                itemContainerUser.append(itemContainer)
+                itemContainerMain.append(itemContainerUser);
                 //Animate
                 tl.fromTo(itemContainer, .2, { opacity: 0 }, { opacity: 1 });
             })
@@ -112,13 +114,21 @@ $(window).on('load', function () {
     //Slide in and out animation with event listener
     let slideEvent = function () {
         const searchBtn = $("#searchBtn");
-        const slide = document.querySelector(".slide");
+        const slide = $('.slide');
         const tl = new TimelineMax({ paused: true, reversed: true });
 
         tl.to(slide, .5, { right: "100px" });
 
         searchBtn.click(function () {
             tl.reversed() ? tl.play() : tl.reverse();
+        })
+
+        searchBtn.hover(function () {
+            tl.play();
+        })
+        slide.mouseleave(function () {
+            console.log('mouseleave')
+            tl.reverse();
         })
     }
     //? Search user END----------------------------------------------------------------------------------------------
@@ -200,12 +210,17 @@ $(window).on('load', function () {
                     postItemRightComment.append(postItemRightCommentItem);
                     //postItemRightComment.append(postItemRightCommentItem, postCommentItemViewComments);
                     //Create elements for like section
-                    let likeIcon = $('<img>', {src: '../Icons/Heart.svg'});
+                    let likeIcon = $('<img>', { src: '../Icons/Heart.svg' });
                     let likeText = $('<p>').text(likeCount + ' ')
-                    let commentIcon = $('<img>', {src: '../Icons/comment.svg'});
-                    let commentText = $('<p>').text(commentCount + ' ');                   
+                    let commentIcon = $('<img>', { src: '../Icons/comment.svg' });
+                    let commentText = $('<p>').text(commentCount + ' ');
                     //Append Like section elements
-                    postItemRightLike.append(likeIcon, likeText, commentIcon, commentText );
+                    postItemRightLike.append(likeIcon, likeText, commentIcon, commentText);
+                    //on click call open modal function
+                    postItemRightLike.bind('click', function () {
+                        openPostModal(element.id)
+                    });
+                    //postItemRightLike.click(openPostModal(element.id));
                     //Append items to the right
                     postItemRight.append(postItemRightProfile, postItemRightComment, postItemRightLike);
                     //Add main 2 elements to postItem
@@ -253,13 +268,56 @@ $(window).on('load', function () {
     }
 
     //? Load more post on scroll end -------------------------------------------------------------------------------------------
+    //? add new post hover start -----------------------------------------------------------------------------------------------
+    let slidePostHoverEvent = function () {
+        const addNewPostBtn = $("#addPost");
+        const slidePost = document.querySelector(".slidePost");
+        const navigationRight = document.querySelector(".navigation-right");
+        const slidePostSlidedIn = $('#slidePost1');
+        const tl = new TimelineMax({ paused: true, reversed: true });
 
+        tl.to(slidePost, .5, { right: "100px" })
+            .to(navigationRight, .5, { 'border-top-left-radius': '0px' }, '-=.5');
+
+        addNewPostBtn.hover(function () {
+            tl.reversed() ? tl.play() : '';
+        })
+        slidePostSlidedIn.mouseleave(function () {
+            tl.reversed() ? '' : tl.reverse();
+        })
+    }
+    //? add new post hover start -----------------------------------------------------------------------------------------------
+    //? post modal popup start -----------------------------------------------------------------------------------------------
+    function showModal() {
+        tl.to($('.modal-Pop-Up-Window'), .3, { opacity: 1, 'pointer-events': 'all' });
+    }
+    function hideModal() {
+        tl.to($('.modal-Pop-Up-Window'), .3, { opacity: 0, 'pointer-events': 'none' });
+    }
+
+    function openPostModal(id) {
+        $.ajax(
+            mainUrl + "/post/" + id,
+            {
+                type: "GET",
+                success: function (data) {
+                    $('.modal-pop-up-window-container').html('<span class="close">&times;</span> ' + data);
+                    showModal()
+                },
+                error: function () { console.log(error); }
+            }
+        )
+    }
+    //? post modal popup end -----------------------------------------------------------------------------------------------
 
     animation();
     slideEvent();
+    slidePostHoverEvent();
     setTimeout(function () {
         getPosts();
     }, 1000);
+    $('.modal-Pop-Up-Window').on('click', function(event) {
+        if (event.target !== this) return; hideModal(); });
     window.addEventListener('scroll', handleScrolling);
     btnSearch.click(onBtnnSearch);
     txtSearch.on('input', onBtnnSearch);
