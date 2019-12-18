@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<!--    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Admin panel</title>
 </head>
 <body>
@@ -81,13 +81,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="poste: ${posts}">
+                    <tr th:each="poste: ${posts}" class="postList">
                         <td th:text="${poste.id}" />
                         <td th:text="${poste.title}" />
                         <td th:text="${poste.created}" />
 <!--                        <td th:text="${poste.user.id}}"/>-->
                         <td th:text="${(poste.isUnhealthy) ? 'Yes' : 'No'}"></td>
-                        <td th:text="${poste.status}"></td>
+                        <td th:text="${poste.status}" class="status"></td>
 <!--                        <td th:text="${poste.status}" />-->
                         <td><input type="button" class="submit" th:postId="${poste.id}" value="Disable/Enable"></td>
 
@@ -99,9 +99,9 @@
     </div>
 </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"-->
+<!--        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"-->
+<!--        crossorigin="anonymous"></script>-->
 </body>
 <!--<footer th:replace="admin/footer"/>-->
 
@@ -109,18 +109,15 @@
 <script>
     $(document).ready(function () {
         $(".submit").on('click',function() {
-
+            console.log($(this).attr("postId"));
+            let selector = $(this);
             $.ajax({
                 url: "/updatePostStatus",
                 type: "POST",
-                data: "?&postId="+$('.submit').attr("postId"),
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (map) {
-                    console.log(map);
-                    $('#photoPath').val(map.path);
-                    $('#postImage').attr("src","data:image/png;base64,"+map.byteArray);
+                data: {postId: $(this).attr("postId")},
+                success: function (response) {
+                    console.log(selector);
+                    selector.parent().parent().find(".status").text(response);
                 },
                 error: function(error) {
                     console.log(error);
