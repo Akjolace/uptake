@@ -87,8 +87,8 @@ public class PostController {
     @PostMapping(value = "/addPostPhoto")
     public String addPostData(@Valid @ModelAttribute("Post") Post post, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            String[] path = post.getPhoto().getPath().split(".");
-            System.out.println(path[0]);
+            String path = post.getPhoto().getPath();
+            System.out.println(path.split("\\.")[0]);
             model.addAttribute("photoPath",post.getPhoto().getPath());
             return "post/postPhoto";
         }
