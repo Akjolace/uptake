@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -116,5 +117,21 @@ public class Post {
 
     public void setLikeList(List<Like> likeList) {
         this.likeList = likeList;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", created=" + created +
+                ", isUnhealthy=" + isUnhealthy +
+                ", status=" + status +
+                ", photo=" + photo +
+                ", commentList=" + commentList +
+                ", user=" + user +
+                ", likeList=" + likeList +
+                '}';
     }
 }

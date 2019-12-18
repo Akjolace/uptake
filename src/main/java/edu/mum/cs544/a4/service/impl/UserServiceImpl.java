@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserForSearchRepository userForSearchRepository;
-
     private UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, UserForSearchRepository userForSearchRepository) {
         this.userRepository = userRepository;
+        this.userForSearchRepository = userForSearchRepository;
     }
 
     @Override

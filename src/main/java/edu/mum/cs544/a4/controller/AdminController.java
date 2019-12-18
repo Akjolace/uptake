@@ -9,8 +9,16 @@ import edu.mum.cs544.a4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -30,13 +38,18 @@ public class AdminController {
 
     @GetMapping(value = "/admin")
     public String getAdmin() {
-        return "admin/admin-base";
+        return "admin/adminBase";
     }
 
     @GetMapping(value = "/admin/users")
     public String listUser(@ModelAttribute("users") User user, Model model) {
         model.addAttribute("users", userService.getAllUser());
-        return "admin/admin-users";
+        return "admin/adminUsers";
+    }
+
+    @GetMapping(value = "/admin/userlist", produces = "application/json")
+    public List<User> userList(@ModelAttribute("users") User user, Model model) {
+        return userService.getAllUser();
     }
 
     @PostMapping(value = "/admin/users")
@@ -50,14 +63,11 @@ public class AdminController {
     @GetMapping(value = "/admin/posts")
     public String listPost(@ModelAttribute("posts") Post post, Model model) {
         model.addAttribute("posts", postService.getAllPost());
-        return "admin/admin-posts";
+        System.out.println("POST PRINTING ******" + postService.getAllPost());
+        return "admin/adminPosts";
     }
 
-    @GetMapping(value = "/admin/ads")
-    public String listAds(@ModelAttribute("ads") Ads ads, Model model) {
-        model.addAttribute("ads", adsService.getAllAds());
-        return "admin/admin-ads";
-    }
+
 
     @GetMapping("/admin/users/{userId}")
     public User getUser(@PathVariable Long userId) {
@@ -72,4 +82,26 @@ public class AdminController {
     }
 
 
+    /*-------------------------------ADVERTISEMENT--------------------------------- */
+    @GetMapping(value = "/admin/ads")
+    public String listAds(@ModelAttribute("ads") Ads ads, Model model) {
+        model.addAttribute("ads", adsService.getAllAds());
+        return "admin/adminAds";
+    }
+
+//    @PostMapping("/admin/ads")
+//    public String addAds(@RequestParam("file") MultipartFile file,
+//                         @ModelAttribute("ads") Ads ads,
+//                         BindingResult result, RedirectAttributes ra,
+//                         Model model){
+//
+//        if(file.isEmpty()) {
+//            ra.addFlashAttribute("message", "Please select a file to upload");
+//            return "redirect:/ads/addProduct";
+//        }
+//
+//        adsService.saveAds(ads);
+//
+//        return "redirect:/admin/adminAds";
+//    }
 }

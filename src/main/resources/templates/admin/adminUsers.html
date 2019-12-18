@@ -15,7 +15,7 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Menu</a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Sign out</a>
+            <a class="nav-link" href="#">You signed as Admin</a>
         </li>
     </ul>
 </nav>
@@ -67,23 +67,23 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <h2>Advertisement</h2>
+            <h2>Users List</h2>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr>
-                        <th>Ads Id</th>
-                        <th>Title</th>
-                        <th>URL</th>
-                        <th>Date</th>
+                        <th>User Id</th>
+                        <th>User Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="adse: ${ads}">
-                        <td th:text="${adse.id}" />
-                        <td th:text="${adse.title}" />
-                        <td th:text="${adse.advertisementUrl}" />
-                        <td th:text="${adse.created}" />
+                    <tr th:each="usere: ${users}">
+                        <td th:text="${usere.id}" />
+                        <td th:text="${usere.username}" />
+                        <td th:text="${usere.role}" />
+                        <td th:text="${usere.status}" />
                     </tr>
                     </tbody>
                 </table>
