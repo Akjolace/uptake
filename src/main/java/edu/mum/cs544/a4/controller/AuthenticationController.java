@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.mum.cs544.a4.entity.Country;
 import edu.mum.cs544.a4.entity.Photo;
 import edu.mum.cs544.a4.entity.Profile;
 import edu.mum.cs544.a4.entity.Role;
@@ -100,6 +101,10 @@ public class AuthenticationController {
         profile.setPhoto(photo);
         //add Profile to user
         user.setProfile(profile);
+        //Create address for user
+        //Country country = 
+        //Set users address
+
         // Encrypt password
         user.setPassword(passwordEncoder.encode(password));
         // set user status

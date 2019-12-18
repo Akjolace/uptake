@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     Post findById(long id);
+
+    String queryForFindByDescription = " select p from Post p  ";
     
-    @Query(value = "", nativeQuery = true)
+    @Query(value = queryForFindByDescription, nativeQuery = true)
     List<Post> findByDescription(String email, String description);
 
 }
