@@ -1,35 +1,36 @@
 package edu.mum.cs544.a4.controller;
 
-import edu.mum.cs544.a4.entity.Follower;
-import edu.mum.cs544.a4.entity.Post;
+import edu.mum.cs544.a4.entity.Gender;
+import edu.mum.cs544.a4.entity.Profile;
 import edu.mum.cs544.a4.entity.User;
-import edu.mum.cs544.a4.service.FollowerService;
-import edu.mum.cs544.a4.service.LikeService;
-import edu.mum.cs544.a4.service.PostService;
-import edu.mum.cs544.a4.service.UserService;
-import net.minidev.json.JSONObject;
+import edu.mum.cs544.a4.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Optional;
+import javax.validation.Valid;
 
 @Controller
 public class UptakeProfileController {
 
     private UserService userService;
-    private PostService postService;
-    private LikeService likeService;
+//    private PostService postService;
+//    private LikeService likeService;
     private FollowerService followerService;
+    private ProfileService profileService;
+    private Gender gender;
 
     @Autowired
-    public UptakeProfileController(UserService userService, PostService postService, LikeService likeService, FollowerService followerService) {
+    public UptakeProfileController(UserService userService, LikeService likeService, FollowerService followerService, ProfileService profileService) {
         this.userService = userService;
-        this.postService = postService;
-        this.likeService = likeService;
+//        this.postService = postService; this.likeService = likeService;
         this.followerService = followerService;
+        this.profileService = profileService;
     }
 
     @GetMapping(value = "/profile/{userName}")
@@ -47,5 +48,40 @@ public class UptakeProfileController {
         }else{
             return "redirect:home/index";
         }
+    }
+
+    @GetMapping(value="/profile/manage")
+    public String getProfile(@ModelAttribute("profile") Profile profile, Model model){
+        String email = null;
+        User loggedUser = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            loggedUser = userService.getUserByEmail(email);
+        }
+
+        if(loggedUser != null ){
+            model.addAttribute("profile",loggedUser.getProfile());
+        }
+        System.out.println("profile" + profile);
+        return "profile/profileform";
+    }
+
+    @PostMapping(value="/profile/update")
+    public String updateProfile(@Valid @ModelAttribute("profile") Profile profile, BindingResult result , RedirectAttributes ra){
+        if(result.hasErrors()) {
+            System.out.println("Got Error");
+            result.getAllErrors().stream().forEach(e-> System.out.println(e));
+            System.out.println(result.hasErrors());
+            return "profile/profileform";
+        }
+        profileService.updateProfile(profile);
+        ra.addFlashAttribute("savedProfile",profile);
+        return "redirect:/profile/profiledetail";
+    }
+
+    @GetMapping(value="/profile/profiledetail")
+    public String getProfile(){
+        return "profile/profiledetail";
     }
 }

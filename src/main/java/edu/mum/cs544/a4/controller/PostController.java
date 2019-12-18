@@ -97,4 +97,6 @@ public class PostController {
         postService.editPost(post);
         return "redirect:/postPhoto";
     }
+
+
 }
