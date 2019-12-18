@@ -387,3 +387,19 @@ slide-search-container-item-right a:visited, a {
     left: 40px;
     color: #3d3d3d;
 }
+.slidePost {
+    position: fixed;
+    right: -100px;
+    top: 0;
+    width: 100px;
+    height: 200px;
+    background: #FFFFFF;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.25);
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    z-index: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}

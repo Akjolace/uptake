@@ -253,10 +253,29 @@ $(window).on('load', function () {
     }
 
     //? Load more post on scroll end -------------------------------------------------------------------------------------------
+    //? add new post hover start -----------------------------------------------------------------------------------------------
+    let slidePostEvent = function () {
+        const addNewPostBtn = $("#addPost");
+        const slidePost = document.querySelector(".slidePost");
+        const navigationRight = document.querySelector(".navigation-right");
+        const slidePostSlidedIn = $('#slidePost1');
+        const tl = new TimelineMax({ paused: true, reversed: true });
 
+        tl.to(slidePost, .5, { right: "100px" })
+            .to( navigationRight, .5, {'border-top-left-radius': '0px'}, '-=.5' );
+
+        addNewPostBtn.hover(function () {
+            tl.reversed() ? tl.play() : '';
+        })
+        slidePostSlidedIn.mouseleave(function(){
+            tl.reversed() ? '' : tl.reverse();
+        })
+    }
+    //? add new post hover start -----------------------------------------------------------------------------------------------
 
     animation();
     slideEvent();
+    slidePostEvent();
     setTimeout(function () {
         getPosts();
     }, 1000);

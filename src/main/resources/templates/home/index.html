@@ -32,8 +32,8 @@
         <div class="home-main">
             <div class="home-nothing-here">
                 <img src="../Assets/emtpy.svg" alt="">
-                <h1 th:text="#{message.home.empty}" >Nothing to see here!</h1>
-                <h2 th:text="#{message.home.toAddPost}" >click on a '+' button to add posts</h2>
+                <h1 th:text="#{message.home.empty}">Nothing to see here!</h1>
+                <h2 th:text="#{message.home.toAddPost}">click on a '+' button to add posts</h2>
             </div>
 
             <div class="home-main-post-container" id="home-main-post-container">
@@ -87,12 +87,12 @@
 
         <div class="navigation-right">
             <div class="navigation-right-top displayFlex center">
-                <a href="#">
-                    <div class="navigation-button">
-                        <img class="icon" th:src="@{/Icons/add.svg}" alt="">
-                        <p th:text="#{message.home.newPost}" >new post</p>
-                    </div>
-                </a>
+
+                <div id="addPost" class="navigation-button">
+                    <img class="icon" th:src="@{/Icons/add.svg}" alt="">
+                    <p th:text="#{message.home.newPost}">new post</p>
+                </div>
+
             </div>
             <div class="navigation-right-middle displayFlex center">
                 <div class="navigation-button">
@@ -106,18 +106,18 @@
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
-                    <p class="number" th:text="${loggedUser.getPostList().size()}" >9999</p>
-                    <p class="text" th:text="#{message.home.posts}" >POSTS</p>
+                    <p class="number" th:text="${loggedUser.getPostList().size()}">9999</p>
+                    <p class="text" th:text="#{message.home.posts}">POSTS</p>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
-                    <p class="number" th:text="${loggedUser.getFollowedUsers().size()}" >9999</p>
-                    <p class="text" th:text="#{message.home.followers}" >FOLLOWERS</p>
+                    <p class="number" th:text="${loggedUser.getFollowedUsers().size()}">9999</p>
+                    <p class="text" th:text="#{message.home.followers}">FOLLOWERS</p>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
-                    <p class="number" th:text="${loggedUser.getFollowingUser().size()}" >9999</p>
-                    <p class="text" th:text="#{message.home.following}" >FOLLOWING</p>
+                    <p class="number" th:text="${loggedUser.getFollowingUser().size()}">9999</p>
+                    <p class="text" th:text="#{message.home.following}">FOLLOWING</p>
                 </div>
                 <div class="seperator"></div>
                 <div id="searchBtn" class="navigation-button">
@@ -127,7 +127,7 @@
             <div class="navigation-right-bottom displayFlex center">
                 <div class="navigation-button">
                     <a href="/logout">
-                        <p th:text="#{message.home.logout}" >Logout</p>
+                        <p th:text="#{message.home.logout}">Logout</p>
                     </a>
                 </div>
             </div>
@@ -144,6 +144,23 @@
 
                 <div id="slide-search-spinner" class="loading-spinner"></div>
 
+            </div>
+        </div>
+
+        <div id="slidePost1" class="slidePost">
+            <div class="navigation-right-middle">
+                <a href="#">
+                    <div class="navigation-button">
+                        <img class="icon" th:src="@{/Icons/videoSVG.svg}" alt="">
+                    </div>
+                </a>
+            </div>
+            <div class="navigation-right-top">
+                <a href="#">
+                    <div class="navigation-button">
+                        <img class="icon" th:src="@{/Icons/imageSVG.svg}" alt="">
+                    </div>
+                </a>
             </div>
         </div>
     </div>
