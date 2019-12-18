@@ -37,7 +37,19 @@ public class UptakeProfileController {
     public String getProfile(@PathVariable String userName, Model model) {
         User user = userService.getUserByUsername(userName);
         if(user!=null){
-            long currentUserId = 3;
+            long currentUserId = 1;
+
+            String email = null;
+            User loggedUser = null;
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails){
+                email = ((UserDetails) principal).getUsername();
+                loggedUser = userService.getUserByEmail(email);
+            }
+
+            if(loggedUser != null ){
+                currentUserId = loggedUser.getId();
+            }
 
             boolean isFollowing = followerService.isAfollowingB(currentUserId,user.getId())==0?false:true;
             System.out.println("---------------------- is Following 3->"+ user.getId()+ isFollowing);
