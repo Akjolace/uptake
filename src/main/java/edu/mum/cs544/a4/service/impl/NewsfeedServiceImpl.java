@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.mum.cs544.a4.entity.onoko.PostForNewsfeed;
+import edu.mum.cs544.a4.repository.PostRepository;
 import edu.mum.cs544.a4.repository.onoko.NewsfeedRepository;
 import edu.mum.cs544.a4.service.NewsfeedService;
 
@@ -15,6 +16,9 @@ public class NewsfeedServiceImpl implements NewsfeedService {
 
     @Autowired
     NewsfeedRepository newsfeedRepository;
+
+    @Autowired
+    PostRepository postRepository;
 
     @Override
     public List<PostForNewsfeed> getNewsfeedByEmail(String email) {
@@ -26,6 +30,14 @@ public class NewsfeedServiceImpl implements NewsfeedService {
         return newsfeedRepository.getNewsfeedByEmail(email, page);
     }
 
+    @Override
+    public Long getLikeCountByPost(Long postID) {
+        return newsfeedRepository.getLikeCountByPost(postID);
+    }
 
+    @Override
+    public Long getCommentCountByPost(Long postID) {
+        return newsfeedRepository.getCommentCountByPost(postID);
+    }
 
 }
