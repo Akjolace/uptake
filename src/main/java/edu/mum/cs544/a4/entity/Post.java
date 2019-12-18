@@ -3,14 +3,14 @@ package edu.mum.cs544.a4.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 @Getter
@@ -23,13 +23,15 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min=1, max=12, message = "{errorMsg.post.title}")
     private String title;
+    @Size(min=1, max=100, message = "{errorMsg.post.description}")
     private String description;
     private LocalDateTime created;
     private Boolean isUnhealthy = false;
     private int status = 1;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private Photo photo;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
@@ -38,7 +40,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post")
     private List<Like> likeList = new ArrayList<>();
 
     public Long getId() {
@@ -119,5 +121,21 @@ public class Post {
 
     public void setLikeList(List<Like> likeList) {
         this.likeList = likeList;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", created=" + created +
+                ", isUnhealthy=" + isUnhealthy +
+                ", status=" + status +
+                ", photo=" + photo +
+                ", commentList=" + commentList +
+                ", user=" + user +
+                ", likeList=" + likeList +
+                '}';
     }
 }

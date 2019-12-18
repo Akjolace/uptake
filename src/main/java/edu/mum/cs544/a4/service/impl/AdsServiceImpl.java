@@ -25,7 +25,7 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public List<Ads> findAll() {
+    public List<Ads> getAllAds() {
         return adsRepository.findAll();
     }
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>Add Post</title>
+</head>
+
+<body>
+<div class="container" style="margin-top: 50px;margin-bottom: 50px;">
+    <form method="POST" action="#" th:action="@{/addPostPhoto}" th:object="${Post}">
+<!--    <form method="POST" action="#" th:action="@{/addPostPhoto}" >-->
+        <div class="form-group" style="height: 400px;">
+            <img th:src="@{${photoPath}}" id="postImage" style="height: 100%;width: 100%;object-fit: cover;border: 1px solid #ced4da;"/>
+            <script>
+                $(document).ready(function () {
+                    $('#inputfile').change(function () {
+                        var file_data = $('#inputfile').prop('files')[0];
+                        var form_data = new FormData();
+                        form_data.append('file', file_data);
+                        $.ajax({
+                            url: "/uploadPhoto",
+                            enctype: 'multipart/form-data',
+                            type: "POST",
+                            data: form_data,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function (map) {
+                                console.log(map);
+                                $('#photoPath').val(map.path);
+                                $('#postImage').attr("src","data:image/png;base64,"+map.byteArray);
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    });
+                });
+            </script>
+            <input id="inputfile" type="file"/>
+            <input id="photoPath" name="photo.path" style="visibility: hidden"/>
+        </div>
+        <div class="form-group" style="margin-top: 50px;">
+            <label for="title">Post Title</label>
+            <input type="text"  th:field="*{title}" class="form-control" id="title" name="title" placeholder="Enter Post Title">
+            <small id="emailHelp" class="form-text text-muted">Post Title</small>
+        </div>
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"> # </p>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+        </div>
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"> # </p>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+
+</html>
