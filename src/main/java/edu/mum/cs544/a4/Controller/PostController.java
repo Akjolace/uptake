@@ -9,7 +9,10 @@ import edu.mum.cs544.a4.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -28,7 +31,8 @@ public class PostController {
     }
 
     @GetMapping(value = "/postPhoto")
-    public String addPhotoPost(Model model) {
+    public String addPhotoPost(@ModelAttribute("Post") Post post,Model model) {
+        model.addAttribute("photoPath","/img/postDefault.png");
         return "post/postPhoto";
     }
 
@@ -37,7 +41,7 @@ public class PostController {
         return "post/postVideo";
     }
 
-    @GetMapping(value = "/postEdit")
+    @PutMapping(value = "/postEdit")
     public String editPostDirect(@ModelAttribute("User") Post post, Model model) {
         model.addAttribute("post", post);
         return "post/editPost";
@@ -65,15 +69,25 @@ public class PostController {
         return "post/postModal :: modalContents";
     }
 
+//    @PostMapping(value = "/addPostPhoto")
+//    public String addPostData(@RequestParam("title") String title, @RequestParam("description") String description,@RequestParam("photoPath") String photoPath) {
+//        Post post = new Post();
+//        Photo photo = new Photo();
+//        photo.setPath(photoPath);
+//        post.setTitle(title);
+//        post.setDescription(description);
+//        photoService.savePhoto(photo);
+//        post.setPhoto(photo);
+//        postService.addPost(post);
+//        return "redirect:/postPhoto";
+//    }
+
     @PostMapping(value = "/addPostPhoto")
-    public String addPostData(@RequestParam("title") String title, @RequestParam("description") String description,@RequestParam("photoPath") String photoPath) {
-        Post post = new Post();
-        Photo photo = new Photo();
-        photo.setPath(photoPath);
-        post.setTitle(title);
-        post.setDescription(description);
-        photoService.savePhoto(photo);
-        post.setPhoto(photo);
+    public String addPostData(@Valid @ModelAttribute("Post") Post post, BindingResult result, Model model) {
+        if(result.hasErrors()) {
+            model.addAttribute("photoPath",post.getPhoto().getPath());
+            return "post/postPhoto";
+        }
         postService.addPost(post);
         return "redirect:/postPhoto";
     }
