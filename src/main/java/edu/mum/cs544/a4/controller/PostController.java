@@ -39,7 +39,6 @@ public class PostController {
 
     @GetMapping(value = "/postVideo")
     public String addVideoPost(@ModelAttribute("Post") Post post,Model model) {
-        model.addAttribute("photoPath","");
         return "post/postVideo";
     }
 
@@ -86,14 +85,19 @@ public class PostController {
 
     @PostMapping(value = "/addPostPhoto")
     public String addPostData(@Valid @ModelAttribute("Post") Post post, BindingResult result, Model model) {
+        String redirect;
+        String path = post.getPhoto().getPath();
         if(result.hasErrors()) {
-            String[] path = post.getPhoto().getPath().split(".");
-            System.out.println(path[0]);
+            String route;
+            System.out.println(path.split("\\.")[1]);
             model.addAttribute("photoPath",post.getPhoto().getPath());
-            return "post/postPhoto";
+            route = (path.split("\\.")[1].equals("mp4")) ? "post/postVideo" : "post/postPhoto";
+
+            return route;
         }
+        redirect = (path.split("\\.")[1].equals("mp4")) ? "redirect:/postVideo" : "redirect:/postPhoto";
         postService.addPost(post);
-        return "redirect:/postPhoto";
+        return redirect;
     }
 
     @PostMapping(value = "/editPostData")
@@ -113,4 +117,6 @@ public class PostController {
         postService.addPost(post);
         return  post.getStatus()+"";
     }
+
+
 }

@@ -7,6 +7,8 @@ import edu.mum.cs544.a4.service.PostService;
 import edu.mum.cs544.a4.service.UserService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,18 @@ public class FollowController {
     @RequestMapping(value="profile/followbyajax/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public String ajaxFollow(@PathVariable long userId, Model model) {
-        long currentUserId = 3;
+        long currentUserId = 1;
+        String email = null;
+        User loggedUser = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            loggedUser = userService.getUserByEmail(email);
+        }
+
+        if(loggedUser != null ){
+            currentUserId = loggedUser.getId();
+        }
         User followingUser = userService.getUserById(currentUserId);
         User followedUser = userService.getUserById(userId);
 
