@@ -1,5 +1,6 @@
 package edu.mum.cs544.a4.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
@@ -60,6 +61,7 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
             @JoinColumn(name = "role_id", referencedColumnName = "id")})
+    @JsonIgnore
     private List<Role> role;
 
     @OneToMany(mappedBy = "user")
