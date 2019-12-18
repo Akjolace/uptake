@@ -16,7 +16,7 @@
     <form method="POST" action="#" th:action="@{/addPostPhoto}" th:object="${Post}">
 <!--    <form method="POST" action="#" th:action="@{/addPostPhoto}" >-->
         <div class="form-group" style="height: 400px;">
-            <img th:src="@{${photoPath}}" id="postImage" style="height: 100%;width: 100%;object-fit: cover;border: 1px solid #ced4da;"/>
+            <img th:src="@{${photoPath}}" id="postImage" style="height: 100%;width: 100%; object-fit: cover;border: 1px solid #ced4da;"/>
             <script>
                 $(document).ready(function () {
                     $('#inputfile').change(function () {
@@ -44,19 +44,19 @@
                 });
             </script>
             <input id="inputfile" type="file"/>
-            <input id="photoPath" name="photo.path" style="visibility: hidden"/>
+            <input id="photoPath" name="photo.path" style="visibility: hidden" th:value="${photoPath}"/>
         </div>
         <div class="form-group" style="margin-top: 50px;">
-            <label for="title">Post Title</label>
-            <input type="text"  th:field="*{title}" class="form-control" id="title" name="title" placeholder="Enter Post Title">
+            <label for="title" th:text="#{message.post.title}"></label>
+            <input type="text"  th:field="*{title}" class="form-control" id="title" name="title" th:placeholder="#{message.post.title}">
             <small id="emailHelp" class="form-text text-muted">Post Title</small>
         </div>
         <div class="" style="color: red;">
             <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"> # </p>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+            <label for="description" th:text="#{message.post.description}"></label>
+            <input type="text" class="form-control" id="description" name="description" th:placeholder="#{message.post.description}">
         </div>
         <div class="" style="color: red;">
             <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"> # </p>
