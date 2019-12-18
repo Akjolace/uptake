@@ -70,25 +70,26 @@
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
-                    <tr>
+                    <tr align="center">
                         <th>Post Id</th>
                         <th>Title</th>
                         <th>Date</th>
-<!--                        <th>User Id</th>-->
+                        <th>User Id</th>
                         <th>Unhealthy</th>
                         <th>Status</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="poste: ${posts}" class="postList">
+                    <tr th:each="poste: ${posts}" class="postList" align="center">
                         <td th:text="${poste.id}" />
                         <td th:text="${poste.title}" />
                         <td th:text="${poste.created}" />
-<!--                        <td th:text="${poste.user.id}}"/>-->
+<!--                        th:text="${user.getProfile() != null ? user.getProfile().getBio() : 'insert you bio'}"-->
+                        <td th:text="${poste.getUser() != null ? poste.getUser().getId() : 'No userId'}" />
+<!--                        <td th:text="${poste.getUser()}"/>-->
                         <td th:text="${(poste.isUnhealthy) ? 'Yes' : 'No'}"></td>
                         <td th:text="${poste.status}" class="status"></td>
-<!--                        <td th:text="${poste.status}" />-->
                         <td><input type="button" class="submit" th:postId="${poste.id}" value="Disable/Enable"></td>
 
                     </tr>
