@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class PostForNewsfeed{
+public class PostForNewsfeed {
 
     @Id
     private Long id;
@@ -35,12 +35,14 @@ public class PostForNewsfeed{
         this.profilePath = profilePath;
     }
 
-
     private LocalDate created;
 
-    public PostForNewsfeed(){}
+    public PostForNewsfeed() {
+    }
 
-    public PostForNewsfeed(String description, String username, String postPath, String profilePath, LocalDate created ){
+    public PostForNewsfeed(Long id, String description, String username, String postPath, String profilePath,
+            LocalDate created) {
+        this.id = id;
         this.description = description;
         this.username = username;
         this.postPath = postPath;
@@ -70,5 +72,13 @@ public class PostForNewsfeed{
 
     public void setCreated(LocalDate created) {
         this.created = created;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

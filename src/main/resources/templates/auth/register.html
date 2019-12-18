@@ -16,6 +16,13 @@
 </head>
 
 <body>
+    <div class="LanguageChanger">
+        <p>
+            <a href="?Language=en"><span>English</span></a>
+            <span> | </span>
+            <a href="?Language=mn"><span>Монгол</span></a>
+        </p>
+    </div>
     <div class="login-container">
         <div class="login-background">
             <img id="login-left-vector" th:src="@{/Assets/Vector-1.svg}" alt="">
@@ -52,7 +59,7 @@
                     <p th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Incorrect date</p>
                 </div>
                 <div class="login-field">
-                    <input type="submit" name="submit" th:value="#{message.login.signIn}">
+                    <input type="submit" name="submit" th:value="#{message.login.signUp}">
                 </div>
                 <div class="login-form-bottom">
                     <svg width="641" height="174" viewBox="0 0 641 174" fill="none" xmlns="http://www.w3.org/2000/svg">

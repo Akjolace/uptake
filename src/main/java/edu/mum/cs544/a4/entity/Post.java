@@ -34,10 +34,10 @@ public class Post {
     @ManyToOne(cascade=CascadeType.ALL)
     private Photo photo;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> commentList = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @OneToMany(mappedBy = "post")
