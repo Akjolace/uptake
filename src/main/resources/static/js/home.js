@@ -147,6 +147,7 @@ $(window).on('load', function () {
             }
         )
     }
+
     let onGetPostSuccess = function (response) {
         let responseJSON = response;//JSON.parse(response);
         let responseLength = Object.keys(responseJSON).length;
@@ -155,73 +156,83 @@ $(window).on('load', function () {
         if (responseLength > 0) {
             hideNothingHere();
             responseJSON.forEach(function (element, index) {
-                //Create item
-                let postItem = $('<div>', { class: 'home-main-post-container-item' })
-                //Create left item
-                let postItemLeft = $('<div>', { class: 'home-main-post-container-item-left' });
-                //Create left item img
-                let postItemImg = $('<img>', { src: element.postPath })
-                //Add elements to left item
-                postItemLeft.append(postItemImg)
+                let commentCount;
+                let likeCount;
+                //function to generate HTML
+                let generateHtml = function () {
+                    //Create item
+                    let postItem = $('<div>', { class: 'home-main-post-container-item' })
+                    //Create left item
+                    let postItemLeft = $('<div>', { class: 'home-main-post-container-item-left' });
+                    //Create left item img
+                    let postItemImg = $('<img>', { src: element.postPath })
+                    //Add elements to left item
+                    postItemLeft.append(postItemImg)
 
-                //Create right item
-                let postItemRight = $('<div>', { class: 'home-main-post-container-item-right' });
-                //Create Profile, Comment, Like elements for right side of item
-                let postItemRightProfile = $('<div>', { class: 'home-main-post-container-item-right-profile' });
-                let postItemRightComment = $('<div>', { class: 'home-main-post-container-item-right-comment' });
-                let postItemRightLike = $('<div>', { class: 'home-main-post-container-item-right-like' });
-                //Create ProfileImage, and username for postItemRightProfile
-                let postItemRightProfileImg = $('<img>', { src: element.profilePath });
-                let postItemRightProfileUsername = $('<p>').append($('<a>', { href: mainUrl + '/profile/' + element.username }).text(element.username));
-                //Add profile img and username
-                postItemRightProfile.append(postItemRightProfileImg, postItemRightProfileUsername)
-                //Create items for Commect section
-                let postItemRightCommentItem = $('<div>', { class: 'home-main-post-container-item-right-comment-item' });
-                let postItemRightCommentItemP = $('<p>')
-                    .append($('<a>', { href: mainUrl + '/profile/' + element.username }).append($('<span>', { class: 'comment-username' }).text(element.username + ' ')));
-                postItemRightCommentItemP.append($('<span>', { class: 'comment-text' }).text(element.description));
-                //Add to comment item
-                postItemRightCommentItem.append(postItemRightCommentItemP);
+                    //Create right item
+                    let postItemRight = $('<div>', { class: 'home-main-post-container-item-right' });
+                    //Create Profile, Comment, Like elements for right side of item
+                    let postItemRightProfile = $('<div>', { class: 'home-main-post-container-item-right-profile' });
+                    let postItemRightComment = $('<div>', { class: 'home-main-post-container-item-right-comment' });
+                    let postItemRightLike = $('<div>', { class: 'home-main-post-container-item-right-like' });
+                    //Create ProfileImage, and username for postItemRightProfile
+                    let postItemRightProfileImg = $('<img>', { src: element.profilePath });
+                    let postItemRightProfileUsername = $('<p>').append($('<a>', { href: mainUrl + '/profile/' + element.username }).text(element.username));
+                    //Add profile img and username
+                    postItemRightProfile.append(postItemRightProfileImg, postItemRightProfileUsername)
+                    //Create items for Commect section
+                    let postItemRightCommentItem = $('<div>', { class: 'home-main-post-container-item-right-comment-item' });
+                    let postItemRightCommentItemP = $('<p>')
+                        .append($('<a>', { href: mainUrl + '/profile/' + element.username }).append($('<span>', { class: 'comment-username' }).text(element.username + ' ')));
+                    postItemRightCommentItemP.append($('<span>', { class: 'comment-text' }).text(element.description));
+                    //Add to comment item
+                    postItemRightCommentItem.append(postItemRightCommentItemP);
 
-                //Create elements for comments section
-                let postCommentItemViewComments = $('<div>', { class: 'home-main-post-container-item-right-comment-item viewComments' })
-                    .append(
-                        $('<p>')
-                            .append($('<span>', { class: 'comment-username' }).text('View all'))
-                            .append($('<span>', { class: 'comment-username' }).text(' ' + '0' + ' '))
-                            .append($('<span>', { class: 'comment-username' }).text('comments'))
-                    );
-                //Append elements to comment section
-                postItemRightComment.append(postItemRightCommentItem, postCommentItemViewComments);
-                //Create elements for like section
-                let svgHeart = $('<svg>', { height: '24', version: '1.1', })
-                    .append(
-                        $('<g>', { transform: 'translate(0 -1028.4)' })
-                            .append($('<path>', {
-                                d: 'd="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z'
-                                , fill: '#c0392b'
-                                , 'fill-opacity': '0'
-                                , 'stroke-width': '1.5px'
-                                , stroke: '#c0392b'
-                            }))
-                    );
-                let likeCountText = $('<p>')
-                    .append($('<span>').text('0' + ' '))
-                    .append($('<span>').text('Likes'))
-                //Append Like section elements
-                postItemRightLike.append(svgHeart, likeCountText);
-                //Append items to the right
-                postItemRight.append(postItemRightProfile, postItemRightComment, postItemRightLike);
-                //Add main 2 elements to postItem
-                postItem.append(postItemLeft, postItemRight);
-                //Add postitem to the postItemContainer
-                postItemContainer.append(postItem);
-                //Animate
-                tl.fromTo(postItem, 1, { opacity: 0 }, { opacity: 1 });
+                    //Create elements for comments section
+                    let postCommentItemViewComments = $('<div>', { class: 'home-main-post-container-item-right-comment-item viewComments' })
+                        .append(
+                            $('<p>')
+                                .append($('<span>', { class: 'comment-username' }).text('View all'))
+                                .append($('<span>', { class: 'comment-username' }).text(' ' + commentCount + ' '))
+                                .append($('<span>', { class: 'comment-username' }).text('comments'))
+                        );
+                    //Append elements to comment section
+                    postItemRightComment.append(postItemRightCommentItem);
+                    //postItemRightComment.append(postItemRightCommentItem, postCommentItemViewComments);
+                    //Create elements for like section
+                    let likeIcon = $('<img>', {src: '../Icons/Heart.svg'});
+                    let likeText = $('<p>').text(likeCount + ' ')
+                    let commentIcon = $('<img>', {src: '../Icons/comment.svg'});
+                    let commentText = $('<p>').text(commentCount + ' ');                   
+                    //Append Like section elements
+                    postItemRightLike.append(likeIcon, likeText, commentIcon, commentText );
+                    //Append items to the right
+                    postItemRight.append(postItemRightProfile, postItemRightComment, postItemRightLike);
+                    //Add main 2 elements to postItem
+                    postItem.append(postItemLeft, postItemRight);
+                    //Add postitem to the postItemContainer
+                    postItemContainer.append(postItem);
+                    //Animate
+                    tl.fromTo(postItem, 1, { opacity: 0 }, { opacity: 1 });
+                    updateInputRange();
+                }
+                //Fetches for comment and like counts
+                const fetchPromiseComment = fetch(mainUrl + '/search/getCommentCountByPost?postID=' + element.id);
+                const fetchPromiseLike = fetch(mainUrl + '/search/getLikeCountByPost?postID=' + element.id);
 
+                fetchPromiseComment.then(response => {
+                    return response.text()
+                }).then(count => {
+                    commentCount = count;
+                    fetchPromiseLike.then(response => {
+                        return response.text()
+                    }).then(count => {
+                        likeCount = count;
+                        generateHtml();
+                    });
+                });
             })
         }
-        updateInputRange();
     }
 
     //? Get posts end -----------------------------------------------------------------------------------------------

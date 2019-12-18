@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
@@ -37,7 +38,8 @@ public class PostController {
     }
 
     @GetMapping(value = "/postVideo")
-    public String addVideoPost(Model model) {
+    public String addVideoPost(@ModelAttribute("Post") Post post,Model model) {
+        model.addAttribute("photoPath","");
         return "post/postVideo";
     }
 
@@ -85,6 +87,8 @@ public class PostController {
     @PostMapping(value = "/addPostPhoto")
     public String addPostData(@Valid @ModelAttribute("Post") Post post, BindingResult result, Model model) {
         if(result.hasErrors()) {
+            String[] path = post.getPhoto().getPath().split(".");
+            System.out.println(path[0]);
             model.addAttribute("photoPath",post.getPhoto().getPath());
             return "post/postPhoto";
         }
@@ -96,5 +100,17 @@ public class PostController {
     public String editPostData(@ModelAttribute("User") Post post) {
         postService.editPost(post);
         return "redirect:/postPhoto";
+    }
+
+    @PostMapping(value = "/updatePostStatus")
+    @ResponseBody
+    public String updatePostStatus(@RequestParam("postId") String postId) {
+        Post post = postService.findPostById(Long.parseLong(postId));
+        if(post.getStatus() == 1)
+            post.setStatus(0);
+        else
+            post.setStatus(1);
+        postService.addPost(post);
+        return  "Success";
     }
 }

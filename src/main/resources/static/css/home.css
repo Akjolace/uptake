@@ -373,6 +373,17 @@ slide-search-container-item-right a:visited, a {
     transform: scale(1.1);
     cursor: pointer;
 }
-.home-main-post-container-item-right-like p{
+.home-main-post-container-item-right-like img{
     margin-left: 10px;
+    width: 23px;
+    height: 23px;
+}
+.home-main-post-container-item-right-like p{
+    margin-left: 5px;
+}
+.LanguageChanger{
+    position: fixed;
+    top: 10px;
+    left: 40px;
+    color: #3d3d3d;
 }

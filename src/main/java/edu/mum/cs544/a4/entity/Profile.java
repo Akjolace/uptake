@@ -31,8 +31,8 @@ public class Profile {
 
     @OneToOne
     private User user;
-    @OneToOne
-    private Photo photo;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Photo photo = new Photo();
 
     public Long getId() {
         return id;

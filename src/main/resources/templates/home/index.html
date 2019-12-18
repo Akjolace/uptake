@@ -15,6 +15,14 @@
 </head>
 
 <body>
+    <div class="LanguageChanger">
+        <p>
+            <a href="?Language=en"><span>English</span></a>
+            <span> | </span>
+            <a href="?Language=mn"><span>Монгол</span></a>
+        </p>
+    </div>
+
     <div class="home-container">
 
         <div class="navigation-left">
@@ -24,8 +32,8 @@
         <div class="home-main">
             <div class="home-nothing-here">
                 <img src="../Assets/emtpy.svg" alt="">
-                <h1>Nothing to see here!</h1>
-                <h2>click on a '+' button to add posts</h2>
+                <h1 th:text="#{message.home.empty}" >Nothing to see here!</h1>
+                <h2 th:text="#{message.home.toAddPost}" >click on a '+' button to add posts</h2>
             </div>
 
             <div class="home-main-post-container" id="home-main-post-container">
@@ -64,17 +72,10 @@
                         </div>
 
                         <div class="home-main-post-container-item-right-like">
-                            <svg height="24" version="1.1" width="24">
-                                <g transform="translate(0 -1028.4)">
-                                    <path
-                                        d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z"
-                                        fill="#c0392b" fill-opacity="0" stroke-width="1.5px" stroke="#c0392b" />
-                                </g>
-                            </svg>
-                            <p>
-                                <span>0</span>
-                                <span>Likes</span>
-                            </p>
+                            <img src="../Icons/HeartFilled.svg" alt="">
+                            <p>0</p>
+                            <img src="../Icons/comment.svg" alt="">
+                            <p>0</p>
                         </div>
                     </div>
                 </div>
@@ -89,7 +90,7 @@
                 <a href="#">
                     <div class="navigation-button">
                         <img class="icon" th:src="@{/Icons/add.svg}" alt="">
-                        <p>new post</p>
+                        <p th:text="#{message.home.newPost}" >new post</p>
                     </div>
                 </a>
             </div>
@@ -106,17 +107,17 @@
                 <div class="seperator"></div>
                 <div class="navigation-button">
                     <p class="number" th:text="${loggedUser.getPostList().size()}" >9999</p>
-                    <p class="text">POSTS</p>
+                    <p class="text" th:text="#{message.home.posts}" >POSTS</p>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
                     <p class="number" th:text="${loggedUser.getFollowedUsers().size()}" >9999</p>
-                    <p class="text">FOLLOWERS</p>
+                    <p class="text" th:text="#{message.home.followers}" >FOLLOWERS</p>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
                     <p class="number" th:text="${loggedUser.getFollowingUser().size()}" >9999</p>
-                    <p class="text">FOLLOWING</p>
+                    <p class="text" th:text="#{message.home.following}" >FOLLOWING</p>
                 </div>
                 <div class="seperator"></div>
                 <div id="searchBtn" class="navigation-button">
@@ -126,7 +127,7 @@
             <div class="navigation-right-bottom displayFlex center">
                 <div class="navigation-button">
                     <a href="/logout">
-                        <p>Logout</p>
+                        <p th:text="#{message.home.logout}" >Logout</p>
                     </a>
                 </div>
             </div>
@@ -135,7 +136,7 @@
             <div class="slide-search-header">
                 <div class="slide-search-header-searchBar">
                     <img id="slideSearchBtn" src="../Icons/search.svg" alt="">
-                    <input id="searchTxt" type="text" placeholder="Search...">
+                    <input id="searchTxt" type="text" th:placeholder="#{message.home.search}">
                 </div>
             </div>
             <div class="seperator seperatorSlide"></div>

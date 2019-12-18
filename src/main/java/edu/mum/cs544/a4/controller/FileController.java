@@ -35,9 +35,12 @@ public class FileController {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = getUploadPath().resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            photo.setPath(targetLocation.toString());
+//            photo.setPath(targetLocation.toString());
+            String[] serverPath = targetLocation.toString().split("\\\\");
+            photo.setPath("/"+serverPath[serverPath.length-2]+"/"+serverPath[serverPath.length-1]);
+            System.out.println(photo.getPath());
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            InputStream in = new FileInputStream(photo.getPath());
+            InputStream in = new FileInputStream(targetLocation.toString());
             byte[] buffer = new byte[1024];
             int len;
 
@@ -65,9 +68,10 @@ public class FileController {
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = getUploadPath().resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            photo.setPath(targetLocation.toString());
+            String[] serverPath = targetLocation.toString().split("\\\\");
+            photo.setPath(serverPath[serverPath.length-2]+"/"+serverPath[serverPath.length-1]);
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            InputStream in = new FileInputStream(photo.getPath());
+            InputStream in = new FileInputStream(targetLocation.toString());
             byte[] buffer = new byte[1024];
             int len;
 

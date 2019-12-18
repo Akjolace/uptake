@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.mum.cs544.a4.entity.Photo;
+import edu.mum.cs544.a4.entity.Profile;
 import edu.mum.cs544.a4.entity.Role;
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.service.RoleService;
@@ -88,6 +90,16 @@ public class AuthenticationController {
         // Get and set user role
         Role role = roleService.findRoleByName("ROLE_USER");
         user.getRole().add(role);
+        //Create Profile for user
+        Profile profile = new Profile();
+        profile.setUser(user);
+        //Create Image for user
+        Photo photo = new Photo();
+        photo.setPath("https://assets.rebelcircus.com/blog/wp-content/uploads/2016/05/facebook-avatar.jpg");
+        //add photo to profile
+        profile.setPhoto(photo);
+        //add Profile to user
+        user.setProfile(profile);
         // Encrypt password
         user.setPassword(passwordEncoder.encode(password));
         // set user status

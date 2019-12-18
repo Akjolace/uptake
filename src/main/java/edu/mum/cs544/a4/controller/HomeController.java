@@ -65,4 +65,18 @@ public class HomeController {
         return posts;
     }
 
+    @CrossOrigin
+    @GetMapping("/search/getLikeCountByPost")
+    @ResponseBody
+    public Long getLikeCountByPost(@RequestParam("postID") Long postID){
+        return newsfeedService.getLikeCountByPost(postID);
+    }
+
+    @CrossOrigin
+    @GetMapping("/search/getCommentCountByPost")
+    @ResponseBody
+    public Long getCommentCountByPost(@RequestParam("postID") Long postID){
+        return newsfeedService.getCommentCountByPost(postID);
+    }
+
 }
