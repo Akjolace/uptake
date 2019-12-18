@@ -34,6 +34,7 @@ public class Config implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("Language");
         return lci;
     }
 

@@ -24,13 +24,20 @@ public interface NewsfeedRepository extends PagingAndSortingRepository<PostForNe
     + " where post.user_id in ( select f.followed_user_id "
     + " from follower f "
     + " inner join user u ON F.following_user_id = u.id"
-    + " where u.email = :email ) or post.user_id = user.id ";
+    + " where u.email = :email ) or user.email = :email "
+    + " order by post.created desc ";
 
     @Query( value= queryString, nativeQuery = true )
     List<PostForNewsfeed> getNewsfeedByEmail(@Param("email") String email, Pageable pageable);
 
     @Query( value= queryString, nativeQuery = true )
     List<PostForNewsfeed> getNewsfeedByEmail(@Param("email") String email);
+
+    @Query( value="select count(*) from likes where post_id = :postID", nativeQuery = true )
+    Long getLikeCountByPost(@Param("postID") Long postID);
+
+    @Query( value="select count(*) from comment where post_id = :postID", nativeQuery = true )
+    Long getCommentCountByPost(@Param("postID") Long postID);
 
 
 

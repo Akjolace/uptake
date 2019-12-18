@@ -66,7 +66,7 @@ public class User {
     @LazyCollection(value = LazyCollectionOption.EXTRA)
     private List<Post> postList;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Profile profile;
 
     public User() {
