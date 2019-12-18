@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/post.css}">
+    <style>
+        .container{
+            width: 960px;
+        }
+        .bg_color {
+            border-left: 3px solid #222649;
+            min-height: 100vh;
+            width: 100vw;
+        }
+        label{
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>Profile edit</h1>
+            <form action="#" th:action="@{/profile/update}" th:object="${profile}" method="POST">
+                <div class="form-group">
+                    <input th:field="*{fullName}" id="fullName" name="username" type="text" th:placeholder="#{message.profile.fullName}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input th:field="*{bio}" id="bio" name="bio" type="text" th:placeholder="#{message.profile.bio}" class="form-control">
+                </div>
+                <div th:each="g : ${T(edu.mum.cs544.a4.entity.Gender).values()}" class="form-check form-check-inline">
+                    <label th:text="#{${'message.profile.gender.'+ g}}" class="form-check-label"></label>
+                    <input type="radio" th:field="*{gender}" th:value="${g}" class="form-check-input"/>
+                </div>
+
+                <input type="submit" value="Update" class="btn btn-primary mb-2"/>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
