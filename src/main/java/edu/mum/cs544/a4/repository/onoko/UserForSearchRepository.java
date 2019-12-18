@@ -12,7 +12,7 @@ import edu.mum.cs544.a4.entity.onoko.UserForSearch;
 @Repository
 public interface UserForSearchRepository extends JpaRepository<UserForSearch, Long>{
 
-    @Query(value="select distinct u.username, p.bio, i.path from user u inner join profile p on u.id = p.user_id left join photo i on p.photo_id = i.id  where u.username like %"+ ":username" +"% limit 10;", nativeQuery = true)
+    @Query(value="select distinct u.username, p.bio, i.path from user u inner join profile p on u.id = p.user_id left join photo i on p.photo_id = i.id  where u.username like %"+ ":username" +"% limit 5;", nativeQuery = true)
     List<UserForSearch> findTop10UsersByUsername(@Param("username") String username);
 
 }

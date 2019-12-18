@@ -115,7 +115,7 @@ public class PostController {
         else
             post.setStatus(1);
         postService.addPost(post);
-        return  "Success";
+        return  post.getStatus()+"";
     }
 
 
