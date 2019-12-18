@@ -1,6 +1,7 @@
 package edu.mum.cs544.a4.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Photo {
@@ -8,6 +9,7 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String path;
 
     public Long getId() {

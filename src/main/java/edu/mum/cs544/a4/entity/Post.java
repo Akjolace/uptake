@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class Post {
     private int status = 1;
 
     @ManyToOne(cascade=CascadeType.ALL)
+    @Valid
     private Photo photo;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
