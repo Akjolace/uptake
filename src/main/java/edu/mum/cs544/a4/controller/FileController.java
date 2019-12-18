@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,8 +24,7 @@ public class FileController {
     @Autowired
     private PhotoService photoService;
 
-    String photoPath = "C:\\Users\\mandu\\Pictures\\";
-
+    String photoPath = "src/main/resources/static/files";
     @PostMapping("/uploadPhoto")
     @ResponseBody
     public HashMap<String, Object> handleFileUpload(@RequestParam("file") MultipartFile file) {
@@ -113,7 +109,9 @@ public class FileController {
 //    }
 
     public Path getUploadPath() {
-        Path path = Paths.get(photoPath + "uptakePhoto").toAbsolutePath().normalize();
+//        Path path = Paths.get(photoPath + "uptakePhoto").toAbsolutePath().normalize();
+        File file = new File(photoPath);
+        Path path = Paths.get(file.getPath());
         try {
             if(!Files.exists(path)) {
                 Files.createDirectories(path);

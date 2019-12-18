@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface AdsService {
 
-    public void saveAds(Ads ads);
+    public List<Ads> getAllAds();
 
-    public List<Ads> findAll();
+    public void saveAds(Ads ads);
 
     public void deleteAds(Ads ads);
 
