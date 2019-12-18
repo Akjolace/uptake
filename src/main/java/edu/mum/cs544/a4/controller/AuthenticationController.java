@@ -2,6 +2,7 @@ package edu.mum.cs544.a4.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,16 +15,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.mum.cs544.a4.entity.Address;
 import edu.mum.cs544.a4.entity.Country;
 import edu.mum.cs544.a4.entity.Photo;
 import edu.mum.cs544.a4.entity.Profile;
 import edu.mum.cs544.a4.entity.Role;
 import edu.mum.cs544.a4.entity.User;
+import edu.mum.cs544.a4.service.CountryService;
 import edu.mum.cs544.a4.service.RoleService;
 import edu.mum.cs544.a4.service.UserService;
 
 @Controller
 public class AuthenticationController {
+
+    @Autowired
+    CountryService countrySerivce;
 
     private UserService userService;
 
@@ -102,9 +108,11 @@ public class AuthenticationController {
         //add Profile to user
         user.setProfile(profile);
         //Create address for user
-        //Country country = 
+        Address address = new Address();
+        Country country = countrySerivce.findById((long) 1);
+        address.setCountry(country);
         //Set users address
-
+        user.setAddress(address);
         // Encrypt password
         user.setPassword(passwordEncoder.encode(password));
         // set user status

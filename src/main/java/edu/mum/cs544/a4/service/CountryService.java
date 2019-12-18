@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface CountryService {
     List<Country> getAllCountry();
+
+    Country findById(Long id);
 }
