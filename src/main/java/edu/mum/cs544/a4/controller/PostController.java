@@ -38,8 +38,7 @@ public class PostController {
     }
 
     @GetMapping(value = "/postVideo")
-    public String addVideoPost(@ModelAttribute("Post") Post post,Model model) {
-        model.addAttribute("photoPath","");
+    public String addVideoPost(Model model) {
         return "post/postVideo";
     }
 
@@ -113,4 +112,6 @@ public class PostController {
         postService.addPost(post);
         return  "Success";
     }
+
+
 }

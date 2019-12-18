@@ -27,7 +27,6 @@ public class AdminController {
     private PostService postService;
     private AdsService adsService;
 
-
     @Autowired
     public AdminController(UserService userService, PostService postService, AdsService adsService) {
         this.userService = userService;
@@ -47,18 +46,11 @@ public class AdminController {
         return "admin/adminUsers";
     }
 
-    @GetMapping(value = "/admin/userlist", produces = "application/json")
-    public List<User> userList(@ModelAttribute("users") User user, Model model) {
-        return userService.getAllUser();
-    }
-
-    @PostMapping(value = "/admin/users")
-    public String addUser(@ModelAttribute("users") User user, Model model, RedirectAttributes redirectAttributes) {
-//        model.addAttribute("users", userService.addUser(user));
-        redirectAttributes.addFlashAttribute("users", userService.addUser(user));
-        return "redirect:/admin/users";
-//        return "admin/admin-users";
-    }
+//    @PostMapping(value = "/admin/users")
+//    public String addUser(@ModelAttribute("users") User user, Model model, RedirectAttributes redirectAttributes) {
+//        redirectAttributes.addFlashAttribute("users", userService.addUser(user));
+//        return "redirect:/admin/users";
+//    }
 
     @GetMapping(value = "/admin/posts")
     public String listPost(@ModelAttribute("posts") Post post, Model model) {
@@ -66,8 +58,6 @@ public class AdminController {
         System.out.println("POST PRINTING ******" + postService.getAllPost());
         return "admin/adminPosts";
     }
-
-
 
     @GetMapping("/admin/users/{userId}")
     public User getUser(@PathVariable Long userId) {
