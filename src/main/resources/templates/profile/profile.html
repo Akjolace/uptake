@@ -150,6 +150,7 @@
         #commentForm button:enabled{
             color:#6638BE;
         }
+        .btn-outline-secondary{border:1px solid; margin-left: 50px;}
     </style>
 </head>
 <body>
@@ -164,9 +165,12 @@
             <div class="col-md-8">
                 <div class="relative">
                     <strong class="title" th:text="${user.username}"></strong>
-                    <span th:if="${isFollowing}" class="textFollowing">Following</span>
-                    <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow">Follow</a>
-                    <span  id="textFollowing" class="textFollowing"></span>
+                    <a th:if="${isMyAccount}" th:text="#{message.profile.editprofile}" href="/account/edit" class="btn btn-outline-secondary"></a>
+                    <div th:unless="${isMyAccount}">
+                        <span th:if="${isFollowing}" class="textFollowing" th:text="#{message.profile.following}"></span>
+                        <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow" th:text="#{message.profile.follow}"></a>
+                        <span  id="textFollowing" class="textFollowing"></span>
+                    </div>
                 </div>
                 <div class="attr_wrap mb10 mt20">
                     <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
@@ -184,7 +188,7 @@
             <div class="col-md-4" th:each="p, iterStat : ${user.getPostList()}">
                     <div th:onclick="'openPostModal(\'' + ${p.id} + '\');'">
                     <div class="post_card">
-                        <img th:src="@{${'/img/' + p.getPhoto().getPath()}}">
+                        <img th:src="@{${p.getPhoto().getPath()}}">
                     </div>
                 </div>
             </div>

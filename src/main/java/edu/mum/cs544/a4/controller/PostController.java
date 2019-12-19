@@ -77,7 +77,17 @@ public class PostController {
         Post post = postService.findPostById(id);
         User user = post.getUser();
 
-        int currentUserId = 3;
+        int currentUserId = 1;
+        String email = null;
+        User loggedUser = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            loggedUser = userService.getUserByEmail(email);
+        }
+        if(loggedUser != null ){
+            currentUserId = loggedUser.getId().intValue();
+        }
         model.addAttribute("hasLiked",likeService.isALikedPostB(currentUserId,id));
         model.addAttribute("post",post);
         model.addAttribute("user",user);
@@ -110,6 +120,18 @@ public class PostController {
             return route;
         }
         redirect = (path.split("\\.")[1].equals("mp4")) ? "redirect:/postVideo" : "redirect:/postPhoto";
+
+        String email = null;
+        User loggedUser = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            loggedUser = userService.getUserByEmail(email);
+        }
+
+        if(loggedUser != null ){
+            post.setUser(loggedUser);
+        }
         postService.addPost(post);
         return redirect;
     }
