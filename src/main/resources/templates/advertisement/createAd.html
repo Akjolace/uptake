@@ -52,43 +52,54 @@
             <input type="text" class="form-control" id="title" name="title" >
             <small id="emailHelp" class="form-text text-muted">Post Title</small>
         </div>
-<!--        <div class="" style="color: red;">-->
-<!--            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"> # </p>-->
-<!--        </div>-->
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"> # </p>
+        </div>
         <div class="form-group">
             <label for="description" th:text="#{message.ads.description}"></label>
             <input type="text" class="form-control" id="description" name="description" >
         </div>
-<!--        <div class="" style="color: red;">-->
-<!--            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"> # </p>-->
-<!--        </div>-->
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"> # </p>
+        </div>
         <div class="form-group">
             <label for="advertisementUrl" th:text="#{message.ads.advertisementUrl}"></label>
             <input type="text" class="form-control" id="advertisementUrl" name="advertisementUrl" >
         </div>
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('advertisementUrl')}" th:errors="*{advertisementUrl}"> # </p>
+        </div>
         <div class="form-group" style="display: inline-block !important; width: 40%;">
             <label for="targetAgeMin" th:text="#{message.ads.targetAgeMin}"></label>
-            <input type="text" class="form-control" id="targetAgeMin" name="targetAgeMin">
+            <input type="text" class="form-control" id="targetAgeMin" name="targetAgeMin" value="0">
         </div>
-        <div style="margin-left: 20px;margin-right: 20px; display: inline-block;"><</div>
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('targetAgeMin')}" th:errors="*{targetAgeMin}"> # </p>
+        </div>
         <div class="form-group" style="display: inline-block !important; width: 40%; margin-right: 150px;">
             <label for="targetAgeMax" th:text="#{message.ads.targetAgeMax}"></label>
-            <input type="text" class="form-control" id="targetAgeMax" name="targetAgeMax">
+            <input type="text" class="form-control" id="targetAgeMax" name="targetAgeMax" value="0">
+        </div>
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('targetAgeMax')}" th:errors="*{targetAgeMax}"> # </p>
         </div>
         <div style="width: 100%;">
             <div th:each="g : ${T(edu.mum.cs544.a4.entity.Gender).values()}" class="form-check form-check-inline">
                 <label th:text="#{${'message.profile.gender.'+ g}}" class="form-check-label"></label>
                 <input type="radio" th:field="*{targetGender}" th:value="${g}" class="form-check-input" style="margin-left: 4px;"/>
-<!--                <div class="errorMessage">-->
-<!--                    <p th:if="${#fields.hasErrors('Ads.targetGender')}" th:errors="*{Ads.targetGender}"></p>-->
-<!--                </div>-->
             </div>
+        </div>
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('targetGender')}" th:errors="*{targetGender}"> # </p>
         </div>
         <div class="form-group">
             <label for="targetCountry">Target Country</label>
             <select multiple class="form-control" id="targetCountry" name="targetCountry">
                 <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.countryName}" ></option>
             </select>
+        </div>
+        <div class="" style="color: red;">
+            <p th:if="${#fields.hasErrors('targetCountry')}" th:errors="*{targetCountry}"> # </p>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

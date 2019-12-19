@@ -1,6 +1,12 @@
 package edu.mum.cs544.a4.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,17 +15,23 @@ public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "{errorMsg.post.title}")
     private String title;
+    @NotEmpty(message = "{errorMsg.post.description}")
     private String description;
+    @NotEmpty(message = "{errorMsg.ads.advertisementUrl}")
     private String advertisementUrl;
     private LocalDateTime created;
     private int status = 1;
+    @Min(value=1,message = "{errorMsg.ads.targetAgeMin}")
     private int targetAgeMin;
+    @Min(value=1,message = "{errorMsg.ads.targetAgeMax}")
     private int targetAgeMax;
 
     @ManyToOne(cascade=CascadeType.ALL)
     private Country targetCountry;
 
+    @NotNull(message = "{errorMsg.ads.gender}")
     private Gender targetGender;
     @ManyToOne(cascade=CascadeType.ALL)
     private Photo photo;
