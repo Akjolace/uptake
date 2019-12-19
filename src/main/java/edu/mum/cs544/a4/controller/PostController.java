@@ -125,11 +125,19 @@ public class PostController {
             System.out.println(path.split("\\.")[1]);
             model.addAttribute("photoPath",post.getPhoto().getPath());
             route = (path.split("\\.")[1].equals("mp4")) ? "post/postVideo" : "post/postPhoto";
-
+            String email = null;
+            User user = null;
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails){
+                email = ((UserDetails) principal).getUsername();
+                user = userService.getUserByEmail(email);
+                model.addAttribute("user",user);
+            }
             return route;
         }
         redirect = (path.split("\\.")[1].equals("mp4")) ? "redirect:/postVideo" : "redirect:/postPhoto";
 
+        System.out.println(post.getNotifyFollowers());
         String email = null;
         User loggedUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -142,13 +150,15 @@ public class PostController {
             post.setUser(loggedUser);
         }
         if(postService.addPost(post)!=null){
-            List<Follower> followers = loggedUser.getFollowedUsers();
-            for (Follower follower: followers) {
-                NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),
-                        follower.getFollowingUser().getEmail(),loggedUser.getProfile().getPhoto().getPath(),
-                        "Post added",post.getId().toString());
-                notificationUserService.add(notificationUserForThis);
-                template.convertAndSend("/topic/"+follower.getFollowingUser().getEmail(), notificationUserForThis);
+            if(post.getNotifyFollowers()!=null) {
+                List<Follower> followers = loggedUser.getFollowedUsers();
+                for (Follower follower : followers) {
+                    NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),
+                            follower.getFollowingUser().getEmail(), loggedUser.getProfile().getPhoto().getPath(),
+                            "Post added", post.getId().toString());
+                    notificationUserService.add(notificationUserForThis);
+                    template.convertAndSend("/topic/" + follower.getFollowingUser().getEmail(), notificationUserForThis);
+                }
             }
         }
         return "redirect:/postPhoto";

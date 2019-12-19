@@ -14,9 +14,6 @@
 
     }
 
-        /*table{width:100%;}*/
-        /*table td, table th { border: 1px solid grey;}*/
-        /*table th { background: #eee;}*/
         .pagination-div{user-select: none;}
         .pagination-div span{border-radius:3px;border:1px solid #999;
             padding:5px;margin:10px 0px 0px 10px;display:inline-block}
@@ -158,24 +155,6 @@
                     </tr>
                     <!--                    </div>-->
                     </tbody>
-<!--                    <div>-->
-<!--                        <div th:if="${postPages?.totalPages > 1}">-->
-<!--                            <nav class="pagination is-rounded" role="navigation" aria-label="pagination">-->
-<!--                                <ul class="pagination-list">-->
-
-<!--                                    <li th:each="page : ${pages}">-->
-<!--                                        <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${page}"-->
-<!--                                           th:text=${page}-->
-<!--                                           class="pagination-link "-->
-<!--                                           th:classappend="${page==postPages.number + 1} ? is-current">-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-
-<!--                                </ul>-->
-<!--                            </nav>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
                 </table>
                 <div class="pagination-div">
                         <span th:if="${postPages.hasPrevious()}">
@@ -199,7 +178,7 @@
 
             <!--            <h4 align="left">Comment Lists</h4>-->
             <!--            <div th:text="${comments.size()}"></div>-->
-            <span>Comment Lists : total = </span>
+            <span>Comment Lists : Total Comments = </span>
             <span th:text="${comments.size()}"> </span>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">

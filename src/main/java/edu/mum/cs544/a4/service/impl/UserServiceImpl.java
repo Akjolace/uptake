@@ -2,7 +2,10 @@ package edu.mum.cs544.a4.service.impl;
 
 import java.util.List;
 
+import edu.mum.cs544.a4.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.mum.cs544.a4.entity.User;
@@ -78,5 +81,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserForSearch> findTop10UsersByUsername(String username){
         return userForSearchRepository.findTop10UsersByUsername(username);
+    }
+
+    public Page<User> getAllUsers(Pageable pageable){
+        return userRepository.findAll(pageable);
     }
 }
