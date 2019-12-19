@@ -804,7 +804,7 @@ slide-search-container-item-right a:visited, a {
 }
 .slideNotification {
     position: fixed;
-    right: 100px;
+    right: -500px;
     top: 50%;
     transform: translateY(-90%);
     width: 500px;
@@ -817,5 +817,11 @@ slide-search-container-item-right a:visited, a {
     display: flex;
     flex-flow: column;
     align-items: center;
-    justify-content: center;
+    overflow: scroll;
+}
+.slideNotification-unSeenContainer{
+    width: 95%;
+}
+.slideNotification-SeenContainer{
+    width: 95%;
 }

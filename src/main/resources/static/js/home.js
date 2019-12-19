@@ -388,9 +388,9 @@ $(window).on('load', function () {
     function setNotificationCount() {
         notificationCountText.text(notificationList.length)
         if (notificationList.length > 0)
-            notificationCountText.css({ 'background-color':'lightcoral', "color":"white" });
+            notificationCountText.css({ 'background-color': 'lightcoral', "color": "white" });
         else
-        notificationCountText.css({ 'background-color':'#fafafa', "color":"#3d3d3d" });
+            notificationCountText.css({ 'background-color': '#fafafa', "color": "#3d3d3d" });
 
     }
     //? Connect to websocket end -----------------------------------------------------------------------------------------------
@@ -402,30 +402,101 @@ $(window).on('load', function () {
 
         tl.to(slideNotification, .5, { right: "100px" })
 
-        btnNotification.hover(function () {
-            tl.play();
+        btnNotification.click(function () {
+            if (tl.reversed()) {
+                tl.play(); fetchNotifications();
+            }
+            else {
+                tl.reverse();
+            }
         })
-        slideNotification.mouseleave(function () {
-            tl.reverse();
-        })
+    }
+    function fetchNotifications() {
+
+        const fetchPromise = fetch(URLGetEmail);
+        fetchPromise.then(response => {
+            return response.text()
+        }).then(loggedEmail => {
+            currentLoggedUser = loggedEmail;
+            $.ajax(
+                mainUrl + '/search/findNotificationUserByEmail?email=' + currentLoggedUser,
+                {
+                    type: "GET",
+                    success: generateNotifications,
+                    error: function (error) { console.log(error); }
+                }
+            )
+        });
+
+        function generateNotifications(response) {
+            let responseJSON = response;//JSON.parse(response);
+            let responseLength = Object.keys(responseJSON).length;
+            let itemContainerMainUnseen = $(".slideNotification-unSeenContainer");
+            let itemContainerMainSeen = $(".slideNotification-SeenContainer");
+            const tl = new TimelineMax();
+            $(".slide-search-container-item").remove();
+            notificationList = [];
+            if (responseLength > 0) {
+                responseJSON.forEach(function (element, index) {
+                    //Push to list
+
+                    if (element.hasSeen == false)
+                        notificationList.push(element);
+                    //Create slide-search-container-item
+                    let itemContainer = document.createElement('div');
+                    itemContainer.classList.add('slide-search-container-item');
+                    //Create slide-search-container-item-left and right
+                    let itemContainerLeft = document.createElement('div')
+                    itemContainerLeft.classList.add('slide-search-container-item-left');
+                    let itemContainerRight = document.createElement('div');
+                    itemContainerRight.classList.add('slide-search-container-item-right');
+                    //Create image
+                    let itemContainerLeftImg = document.createElement('img');
+                    //Create main paragraph
+                    let itemContainerRightUsername = document.createElement('p');
+                    //Create 2 spans inside main paragraph
+                    let usernameParagraph = $('<a>', { href: '/profile/' + element.username })
+                        .append($('<span>').text(element.username + ' '));
+                    let messageParagraph = $('<span>').text(element.messageCode + ' ');
+                    itemContainerRightUsername.append(usernameParagraph[0], messageParagraph[0]);
+                    itemContainerLeftImg.src = element.profilePhotoPath;
+                    //Add link inside href
+                    //Append right side of elements
+                    itemContainerRight.append(itemContainerRightUsername);
+                    //Append left side of elements
+                    itemContainerLeft.appendChild(itemContainerLeftImg);
+                    //Append childs to its mother
+                    itemContainer.append(itemContainerLeft, itemContainerRight);
+                    //Add item to the list
+                    //itemContainerUser.append(itemContainer)
+                    if (element.hasSeen == 0)
+                        itemContainerMainUnseen.append(itemContainer);
+                    if (element.hasSeen == 1)
+                        itemContainerMainSeen.append(itemContainer);
+
+
+                    //Animate
+                    tl.fromTo(itemContainer, .2, { opacity: 0 }, { opacity: 1 });
+
+                    messageParagraph[0].onclick = function () { openPostModal(element.postId) }
+                })
+            }
+            setNotificationCount();
+        }
     }
     //? Get notifications from user end -----------------------------------------------------------------------------------------------
 
-
     connect();
-
     animation();
     slideEvent();
     slidePostHoverEvent();
     slideNotificationHoverEvent();
     getPosts();
+    fetchNotifications();
     $('.modal-Pop-Up-Window').on('click', function (event) {
         if (event.target !== this) return; hideModal();
     });
     window.addEventListener('scroll', handleScrolling);
     btnSearch.click(onBtnnSearch);
     txtSearch.on('input', onBtnnSearch);
-})
-$(document).ready(function () {
-
 })
