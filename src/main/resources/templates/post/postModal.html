@@ -14,12 +14,12 @@
                 <div class="grid-wrapper">
                     <div class="col-one">
                         <div class="postimg">
-                            <img alt="post" th:src="@{${'/img/' + post.photo.path}}">
+                            <img alt="post" th:src="@{post.photo.path}">
                         </div>
                     </div>
                     <div class="col-two">
                         <div class="">
-                            <img class="smallImg"  th:src="@{${'/img/'+ user.profile.photo.path}}"/>
+                            <img class="smallImg"  th:src="@{user.profile.photo.path}"/>
                             <span th:text="${user.username}"></span>
                             <div class="date" th:text="${post.created}"></div>
                             <div th:text="${post.description}"></div>

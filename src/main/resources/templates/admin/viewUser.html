@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>Admin panel</title>
+    <style>.mr5 {
+        display: inline-block;
+        margin-right: 15px;
+
+    }
+
+        /*table{width:100%;}*/
+        /*table td, table th { border: 1px solid grey;}*/
+        /*table th { background: #eee;}*/
+        .pagination-div{user-select: none;}
+        .pagination-div span{border-radius:3px;border:1px solid #999;
+            padding:5px;margin:10px 0px 0px 10px;display:inline-block}
+        span.selected{background:#ccf;}
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Menu</a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="#">You signed as Admin</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            Home <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-users">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/posts">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-layers">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                            Post
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/ads">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-file">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                            Advertisements
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <h4 align="center">Users Information</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr align="center">
+                        <th>User Id</th>
+                        <th>User Name</th>
+                        <th>Role</th>
+                        <th>Created Date</th>
+                        <th>Follower</th>
+                        <th>Following</th>
+                        <th>Status</th>
+                        <!--                        <th>Action</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usere: ${user}" class="userList" align="center">
+                        <td th:text="${usere.id}"/>
+                        <td th:text="${usere.getUsername()}"/>
+                        <td>
+                            <!--                            <div th:if="${usere.getRole() != null}">-->
+                            <span th:each="role: ${usere.getRole()}" th:text="${role.getRoleName()}" class="mr5"></span>
+                            <!--                            </div>-->
+                        </td>
+                        <td th:text="${usere.createdDate}"/>
+                        <td th:text="${usere.getFollowedUsers().size()}"/>
+                        <td th:text="${usere.getFollowingUser().size()}"/>
+                        <td th:text="${(usere.status) ? 'Active' : 'Inactive'}"/>
+                        <!--                        <td>-->
+                        <!--                            <input type="button" class="userStatus" th:userId="${usere.id}" value="Active/Deactivate">-->
+                        <!--                            <a th:href="@{'/admin/users/' + ${usere.id}}" th:text="View"></a>-->
+                        <!--                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <!--            <h4 align="left" style="display: inline-block; width: 130px; height: 10px">Post Lists</h4>-->
+            <!--            <div th:text="${user.postList.size()}" style="width: 100px; display: inline-block;"></div>-->
+            <span>Post Lists : total = </span>
+            <span th:text="${user.postList.size()}"> </span>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr align="center">
+                        <th>Post Id</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>User Id</th>
+                        <th>Unhealthy</th>
+                        <th>Status</th>
+                        <!--                        <th>Edit</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--                    <div th:if="${postList() != null}">-->
+                    <tr th:each="post: ${postPages}" class="postList" align="center">
+                        <td th:text="${post.id}"/>
+                        <td th:text="${post.title}"/>
+                        <td th:text="${post.created}"/>
+                        <td th:text="${post.getUser() != null ? post.getUser().getId() : 'No userId'}"/>
+                        <td th:text="${(post.isUnhealthy) ? 'Yes' : 'No'}"></td>
+                        <td th:text="${post.status}" class="status"></td>
+                        <!--                            <td><input type="button" class="submit" th:postId="${post.id}" value="Disable/Enable"></td>-->
+                    </tr>
+                    <!--                    </div>-->
+                    </tbody>
+<!--                    <div>-->
+<!--                        <div th:if="${postPages?.totalPages > 1}">-->
+<!--                            <nav class="pagination is-rounded" role="navigation" aria-label="pagination">-->
+<!--                                <ul class="pagination-list">-->
+
+<!--                                    <li th:each="page : ${pages}">-->
+<!--                                        <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${page}"-->
+<!--                                           th:text=${page}-->
+<!--                                           class="pagination-link "-->
+<!--                                           th:classappend="${page==postPages.number + 1} ? is-current">-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+
+<!--                                </ul>-->
+<!--                            </nav>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                </table>
+                <div class="pagination-div">
+                        <span th:if="${postPages.hasPrevious()}">
+                            <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${postPages.number-1} + '&size=' + ${postPages.size}">Previous</a>
+
+                         </span>
+                    <th:block th:each="i: ${#numbers.sequence(0, postPages.totalPages - 1)}">
+                        <span th:if="${postPages.number == i}" class="selected">[[${i}+1]]</span>
+                        <span th:unless="${postPages.number == i}">
+<!--                                <a th:href="@{/admin/users/(${user.id})(page=${i},size=${postPages.size})}">[[${i}+1]]</a>-->
+                                <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${i} + '&size=' + ${postPages.size}">[[${i}+1]]</a>
+                            </span>
+                    </th:block>
+                    <span th:if="${postPages.hasNext()}">
+
+                            <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${postPages.number+1} + '&size=' + ${postPages.size}">Next</a>
+                        </span>
+                </div>
+            </div>
+            <br>
+
+            <!--            <h4 align="left">Comment Lists</h4>-->
+            <!--            <div th:text="${comments.size()}"></div>-->
+            <span>Comment Lists : total = </span>
+            <span th:text="${comments.size()}"> </span>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr align="center">
+                        <th>Comment Id</th>
+                        <th>Description</th>
+                        <th>Created Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="comment: ${comments}" class="commentList" align="center">
+                        <td th:text="${comment.id}"/>
+                        <td th:text="${comment.description}"/>
+                        <td th:text="${comment.created}"/>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+</div>
+</body>
+
+</html>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $(".userStatus").on('click',function() {-->
+<!--            console.log($(this).attr("userId"));-->
+<!--            let selector = $(this);-->
+<!--            $.ajax({-->
+<!--                url: "/admin/users",-->
+<!--                type: "POST",-->
+<!--                data: {userId: $(this).attr("userId")},-->
+<!--                success: function (response) {-->
+<!--                    console.log(selector);-->
+<!--                    selector.parent().find(".status").text(response);-->
+<!--                },-->
+<!--                error: function(error) {-->
+<!--                    console.log(error);-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->

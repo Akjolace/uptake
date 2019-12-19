@@ -6,7 +6,10 @@ import edu.mum.cs544.a4.service.LikeService;
 import edu.mum.cs544.a4.service.PhotoService;
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.service.PostService;
+import edu.mum.cs544.a4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +30,9 @@ public class PostController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private UserService userService;
+
     public PostController(PostService postService) {
         this.postService = postService;
     }
@@ -34,6 +40,14 @@ public class PostController {
     @GetMapping(value = "/postPhoto")
     public String addPhotoPost(@ModelAttribute("Post") Post post,Model model) {
         model.addAttribute("photoPath","/img/postDefault.png");
+        String email = null;
+        User user = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            user = userService.getUserByEmail(email);
+            model.addAttribute("user",user);
+        }
         return "post/postPhoto";
     }
 
