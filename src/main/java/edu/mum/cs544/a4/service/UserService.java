@@ -26,4 +26,6 @@ public interface UserService {
     User findByUserName(String userName);
 
     User addFollowing(User followedUser);
+
+    boolean deactivateUser(long userId);
 }

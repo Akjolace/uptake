@@ -44,7 +44,8 @@
                 });
             </script>
             <input id="inputfile" type="file"/>
-            <input id="photoPath" name="photo.path" style="visibility: hidden" th:value="${photoPath}"/>
+            <input type="hidden" id="photoPath" name="photo.path" th:value="${photoPath}"/>
+            <input type="hidden" id="userId" name="user.id" th:value="${user.id}"/>
         </div>
         <div class="form-group" style="margin-top: 50px;">
             <label for="title" th:text="#{message.post.title}"></label>

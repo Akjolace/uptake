@@ -34,4 +34,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getAllPost() {
         return postRepository.findAll();
     }
+
+    @Override
+    public int countUnhealthyPost(long userId) {
+        return postRepository.countUnhealthyByUserId(userId);
+    }
 }

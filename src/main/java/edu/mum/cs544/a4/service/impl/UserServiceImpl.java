@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean deactivateUser(long userId) {
+        return userRepository.deactivateUser(userId);
+    }
+
+    @Override
     public User updateUser(User user) {
         return userRepository.save(user);
     }
