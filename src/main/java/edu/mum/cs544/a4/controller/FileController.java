@@ -79,8 +79,7 @@ public class FileController {
                 os.write(buffer,0 , len);
             }
             map.put("byteArray", os.toByteArray());
-            map.put("path", photo.getPath());
-            System.out.println(photo.getPath());
+            map.put("path", "/"+photo.getPath());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

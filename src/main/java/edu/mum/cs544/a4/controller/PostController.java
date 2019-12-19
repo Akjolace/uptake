@@ -77,10 +77,16 @@ public class PostController {
         Post post = postService.findPostById(id);
         User user = post.getUser();
 
+        System.out.println(user.toString());
         int currentUserId = 3;
         model.addAttribute("hasLiked",likeService.isALikedPostB(currentUserId,id));
         model.addAttribute("post",post);
         model.addAttribute("user",user);
+        System.out.println(post.getPhoto().getPath().split("\\.")[1]);
+        if(post.getPhoto().getPath().split("\\.")[1].equals("mp4"))
+            model.addAttribute("isVideo",true);
+        else
+            model.addAttribute("isVideo",false);
         return "post/postModal :: modalContents";
     }
 
@@ -101,6 +107,7 @@ public class PostController {
     public String addPostData(@Valid @ModelAttribute("Post") Post post, BindingResult result, Model model) {
         String redirect;
         String path = post.getPhoto().getPath();
+        System.out.println(post.toString());
         if(result.hasErrors()) {
             String route;
             System.out.println(path.split("\\.")[1]);
