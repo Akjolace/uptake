@@ -130,6 +130,7 @@ public class PostController {
         }
         redirect = (path.split("\\.")[1].equals("mp4")) ? "redirect:/postVideo" : "redirect:/postPhoto";
 
+        System.out.println(post.getNotifyFollowers());
         String email = null;
         User loggedUser = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -142,13 +143,15 @@ public class PostController {
             post.setUser(loggedUser);
         }
         if(postService.addPost(post)!=null){
-            List<Follower> followers = loggedUser.getFollowedUsers();
-            for (Follower follower: followers) {
-                NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),
-                        follower.getFollowingUser().getEmail(),loggedUser.getProfile().getPhoto().getPath(),
-                        "Post added",post.getId().toString());
-                notificationUserService.add(notificationUserForThis);
-                template.convertAndSend("/topic/"+follower.getFollowingUser().getEmail(), notificationUserForThis);
+            if(post.getNotifyFollowers().equals("on")) {
+                List<Follower> followers = loggedUser.getFollowedUsers();
+                for (Follower follower : followers) {
+                    NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),
+                            follower.getFollowingUser().getEmail(), loggedUser.getProfile().getPhoto().getPath(),
+                            "Post added", post.getId().toString());
+                    notificationUserService.add(notificationUserForThis);
+                    template.convertAndSend("/topic/" + follower.getFollowingUser().getEmail(), notificationUserForThis);
+                }
             }
         }
         return "redirect:/postPhoto";
