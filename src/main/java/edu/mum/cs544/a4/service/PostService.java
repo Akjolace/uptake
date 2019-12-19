@@ -15,4 +15,6 @@ public interface PostService {
     Post findPostById(long id);
 
     public List<Post> getAllPost();
+
+    int countUnhealthyPost(long userId);
 }

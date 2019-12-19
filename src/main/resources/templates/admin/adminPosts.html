@@ -25,7 +25,7 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/admin/users">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-users">
@@ -33,31 +33,28 @@
                                 <circle cx="9" cy="7" r="4"></circle>
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                            <a href="/admin/users">User</a>
+                            </svg>     User
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/admin/posts">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-layers">
                                 <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                                 <polyline points="2 17 12 22 22 17"></polyline>
                                 <polyline points="2 12 12 17 22 12"></polyline>
-                            </svg>
-                            <a href="/admin/posts">Post</a>
+                            </svg>      Post
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/admin/ads">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-file">
                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                 <polyline points="13 2 13 9 20 9"></polyline>
-                            </svg>
-                            <a href="/admin/ads">Advertisements</a>
+                            </svg>  Advertisements
                         </a>
                     </li>
 
@@ -70,25 +67,24 @@
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
-                    <tr>
+                    <tr align="center">
                         <th>Post Id</th>
                         <th>Title</th>
                         <th>Date</th>
-<!--                        <th>User Id</th>-->
+                        <th>User Id</th>
                         <th>Unhealthy</th>
                         <th>Status</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="poste: ${posts}" class="postList">
+                    <tr th:each="poste: ${posts}" class="postList" align="center">
                         <td th:text="${poste.id}" />
                         <td th:text="${poste.title}" />
                         <td th:text="${poste.created}" />
-<!--                        <td th:text="${poste.user.id}}"/>-->
+                        <td th:text="${poste.getUser() != null ? poste.getUser().getId() : 'No userId'}" />
                         <td th:text="${(poste.isUnhealthy) ? 'Yes' : 'No'}"></td>
                         <td th:text="${poste.status}" class="status"></td>
-<!--                        <td th:text="${poste.status}" />-->
                         <td><input type="button" class="submit" th:postId="${poste.id}" value="Disable/Enable"></td>
 
                     </tr>
@@ -99,13 +95,9 @@
     </div>
 </div>
 </div>
-<!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"-->
-<!--        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"-->
-<!--        crossorigin="anonymous"></script>-->
 </body>
-<!--<footer th:replace="admin/footer"/>-->
-
 </html>
+
 <script>
     $(document).ready(function () {
         $(".submit").on('click',function() {
