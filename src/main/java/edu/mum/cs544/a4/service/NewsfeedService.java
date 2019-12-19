@@ -12,6 +12,8 @@ public interface NewsfeedService {
 
     public List<PostForNewsfeed> getNewsfeedByEmail(String email, Pageable page);
 
+    public List<PostForNewsfeed> findPostByDescription(String email, String description);
+
     public Long getLikeCountByPost(Long postID);
 
     public Long getCommentCountByPost(Long postID);

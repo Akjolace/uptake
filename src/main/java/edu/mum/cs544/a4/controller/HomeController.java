@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.mum.cs544.a4.entity.NotificationUser;
+import edu.mum.cs544.a4.entity.Post;
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.entity.onoko.PostForNewsfeed;
 import edu.mum.cs544.a4.entity.onoko.UserForSearch;
 import edu.mum.cs544.a4.service.NewsfeedService;
+import edu.mum.cs544.a4.service.NotificationUserService;
+import edu.mum.cs544.a4.service.PostService;
 import edu.mum.cs544.a4.service.UserService;
 
 @Controller
@@ -28,6 +32,12 @@ public class HomeController {
 
     @Autowired
     private NewsfeedService newsfeedService;
+
+    @Autowired
+    private PostService postService;
+
+    @Autowired
+    private NotificationUserService notificationUserService;
 
     @GetMapping(value = { "/", "/home" })
     public String getHome(Model model) {
@@ -77,6 +87,21 @@ public class HomeController {
     @ResponseBody
     public Long getCommentCountByPost(@RequestParam("postID") Long postID){
         return newsfeedService.getCommentCountByPost(postID);
+    }
+
+    @CrossOrigin
+    @GetMapping("/search/findPostsByDescription")
+    @ResponseBody
+    public List<PostForNewsfeed> findPostByDescription( @RequestParam("email") String email, @RequestParam("description") String description ){
+        return newsfeedService.findPostByDescription(email, description);
+    }
+
+    @CrossOrigin
+    @GetMapping("/search/findNotificationUserByEmail")
+    @ResponseBody
+    public List<NotificationUser> findNotificationUserByEmail(@RequestParam("email") String email ){
+        return notificationUserService.findByDestinationUserEmail(email);
+
     }
 
 }

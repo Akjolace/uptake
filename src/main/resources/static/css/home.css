@@ -130,6 +130,10 @@
     margin: 0;
     border: .5px solid rgba(61, 61, 61, 0.4);
 }
+.seperatorSearchUserAndPost{
+    width: 100%;
+    margin: 10px auto;
+}
 
 .profile-Image {
     width: 55px;
@@ -152,7 +156,7 @@
 
 .slide {
     position: fixed;
-    right: 100px;
+    right: -500px;
     top: 50%;
     transform: translateY(-50%);
     width: 500px;
@@ -222,7 +226,6 @@
     width: 20%;
     height: 100%;
 }
-
 .slide-search-container-item-left img {
     height: 70px;
     width: 70px;
@@ -240,6 +243,7 @@
     justify-content: center;
 }
 
+
 .slide-search-container-item-right> :first-child {
     font-size: 1.4em;
     font-weight: bold;
@@ -250,6 +254,45 @@
     font-size: 1.2em;
     height: 50%;
 }
+
+/*?---------------------------------*/
+.slide-search-container-item-left-post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+}
+.slide-search-container-item-left-post img {
+    height: 65px;
+    width: 120px;
+    border-radius: 10px;
+    border: 2px solid #6445D2;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.slide-search-container-item-right-post {
+    display: flex;
+    flex-flow: column;
+    width: 65%;
+    height: 100%;
+    margin-left: 5px;
+    justify-content: center;
+}
+
+
+.slide-search-container-item-right-post> :first-child {
+    font-size: 1.4em;
+    font-weight: bold;
+    height: 50%;
+}
+
+.slide-search-container-item-right-post> :last-child {
+    font-size: 1.2em;
+    height: 50%;
+}
+/*?---------------------------------*/
 
 slide-search-container-item-right a:visited, a {
     color: #3d3d3d;
@@ -747,3 +790,32 @@ slide-search-container-item-right a:visited, a {
     color: #6638BE;
 }
 /* ? Popup container end                */
+.searchPostImg{
+    border-radius: 0px;
+}
+#notificationCountText{
+    border-radius: 50px;
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slideNotification {
+    position: fixed;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-90%);
+    width: 500px;
+    height: 400px;
+    background: #FFFFFF;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.25);
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    z-index: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}

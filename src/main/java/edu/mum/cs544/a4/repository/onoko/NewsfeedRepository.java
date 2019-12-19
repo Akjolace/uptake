@@ -39,6 +39,33 @@ public interface NewsfeedRepository extends PagingAndSortingRepository<PostForNe
     @Query( value="select count(*) from comment where post_id = :postID", nativeQuery = true )
     Long getCommentCountByPost(@Param("postID") Long postID);
 
+    // String queryForFindByDescription = " select post.id, post.created, post.description, photo.path, user.username "
+    // + " from post post"
+    // + " inner join photo photo on post.photo_id = photo_id"
+    // + " inner join user user on post.user_id = user.id"
+    // + " where post.user_id in ( select f.followed_user_id from follower f inner join user u ON F.following_user_id = u.id where u.email = :email ) "
+    // + " and post.description like :description "
+    // + " or user.email = :email order by post.created desc";
 
+    String queryForFindByDescription = "select "
+    + " post.id, post.description, user.username, "
+    + " photo.path as post_path,  "
+    + " photoProfile.path as profile_path, "
+    + " post.created "
+    + " from post post "
+    + " left join photo photo on post.photo_id = photo.id "
+    + " left join user user on post.user_id = user.id "
+    + " left join profile profile on post.user_id = profile.user_id "
+    + " left join photo photoProfile on profile.photo_id = photoProfile.id "
+    + " where post.user_id in ( select f.followed_user_id "
+    + " from follower f "
+    + " inner join user u ON F.following_user_id = u.id"
+    + " where u.email = :email ) or user.email = :email "
+    + " and post.description like :description% "
+    + " order by post.created desc "
+    + " limit 10 ";
+
+    @Query(value = queryForFindByDescription, nativeQuery = true)
+    List<PostForNewsfeed> findByDescription(@Param("email") String email, @Param("description") String description);
 
 }
