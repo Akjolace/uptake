@@ -142,14 +142,14 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", created=" + created +
-                ", isUnhealthy=" + isUnhealthy +
-                ", status=" + status +
-                ", photo=" + photo +
-                ", commentList=" + commentList +
-                ", user=" + user +
-                ", likeList=" + likeList +
+//                ", description='" + description + '\'' +
+//                ", created=" + created +
+//                ", isUnhealthy=" + isUnhealthy +
+//                ", status=" + status +
+//                ", photo=" + photo +
+//                ", commentList=" + commentList +
+//                ", user=" + user +
+//                ", likeList=" + likeList +
                 '}';
     }
 }

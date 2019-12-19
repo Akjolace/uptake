@@ -7,12 +7,20 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title th:text="#{message.admin.panel}"/>
+    <style>.v100 {
+        height: 100vh;
+    }
+    .navbar-nav{flex-direction: row;}
+    .navbar-nav.header .nav-link{display: inline-block; margin-left:5px;}
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home"><span th:text="#{message.admin.menu}"/> </a>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
+    <ul class="navbar-nav header px-3">
+        <li class="nav-item text-nowrap ">
+            <a class="nav-link" href="?Language=en">English</a>
+            <a class="nav-link" href="?Language=mn">Монгол</a>
             <a class="nav-link" href="#"><span th:text="#{message.admin.signed}"/> </a>
         </li>
     </ul>
@@ -20,13 +28,18 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar v100">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="/admin">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                           <span th:text="#{message.admin.home}"/>  <span class="sr-only">(current)</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span th:text="#{message.admin.home}"/> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -38,7 +51,8 @@
                                 <circle cx="9" cy="7" r="4"></circle>
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>     <span th:text="#{message.admin.user}"/>
+                            </svg>
+                            <span th:text="#{message.admin.user}"/>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -49,7 +63,8 @@
                                 <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                                 <polyline points="2 17 12 22 22 17"></polyline>
                                 <polyline points="2 12 12 17 22 12"></polyline>
-                            </svg>      <span th:text="#{message.admin.post}"/>
+                            </svg>
+                            <span th:text="#{message.admin.post}"/>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -59,7 +74,20 @@
                                  stroke-linejoin="round" class="feather feather-file">
                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                 <polyline points="13 2 13 9 20 9"></polyline>
-                            </svg>  <span th:text="#{message.admin.ads}"/>
+                            </svg>
+                            <span th:text="#{message.admin.ads}"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-activity">
+                                <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
+                                <polyline points="17 16 21 12 17 8"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            <span th:text="#{message.home.logout}"/>
                         </a>
                     </li>
 
@@ -69,19 +97,19 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div>
                 <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.user}"/> :
-                <span th:text="${userSize}" />
+                <span th:text="${userSize}"/>
             </div>
             <div>
                 <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.post}"/> :
-                <span th:text="${postSize}" />
+                <span th:text="${postSize}"/>
             </div>
             <div>
                 <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.comment}"/> :
-                <span th:text="${commentSize}" />
+                <span th:text="${commentSize}"/>
             </div>
             <div>
                 <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.ads}"/> :
-                <span th:text="${adsSize}" />
+                <span th:text="${adsSize}"/>
             </div>
         </main>
 

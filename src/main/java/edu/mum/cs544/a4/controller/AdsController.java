@@ -51,6 +51,6 @@ public class AdsController {
             return "advertisement/createAd";
         }
         adsService.saveAds(ads);
-        return "redirect:/ads";
+        return "redirect:/admin/ads";
     }
 }

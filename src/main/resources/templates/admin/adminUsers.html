@@ -21,13 +21,20 @@
         .pb40 {
             padding-top: 20px;
         }
+        .100vh{
+            height: 100vh;
+        }
+        .navbar-nav{flex-direction: row;}
+        .navbar-nav.header .nav-link{display: inline-block; margin-left:5px;}
     </style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home"><span th:text="#{message.admin.menu}"/> </a>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
+    <ul class="navbar-nav header px-3">
+        <li class="nav-item text-nowrap ">
+            <a class="nav-link" href="?Language=en">English</a>
+            <a class="nav-link" href="?Language=mn">Монгол</a>
             <a class="nav-link" href="#"><span th:text="#{message.admin.signed}"/> </a>
         </li>
     </ul>
@@ -35,7 +42,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar 100vh">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -85,7 +92,18 @@
                             <span th:text="#{message.admin.ads}"/>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-activity">
+                                <path d="M10 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h5"></path>
+                                <polyline points="17 16 21 12 17 8"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            <span th:text="#{message.home.logout}"/>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -101,11 +119,11 @@
                         <th th:text="#{message.admin.userId}"/>
                         <th th:text="#{message.admin.userName}"/>
                         <th th:text="#{message.admin.role}"/>
-                        <th th:text="#{message.admin.date}"/>
                         <th th:text="#{message.admin.follower}"/>
                         <th th:text="#{message.admin.following}"/>
                         <th th:text="#{message.admin.postCount}"/>
                         <th th:text="#{message.admin.status}"/>
+                        <th th:text="#{message.admin.date}"/>
                         <th th:text="#{message.admin.action}"/>
                     </tr>
                     </thead>
@@ -118,11 +136,11 @@
                             <span th:each="role: ${usere.getRole()}" th:text="${role.getRoleName()}" class="mr5"></span>
                             <!--                            </div>-->
                         </td>
-                        <td th:text="${usere.createdDate}"/>
                         <td th:text="${usere.getFollowedUsers().size()}"/>
                         <td th:text="${usere.getFollowingUser().size()}"/>
                         <td th:text="${usere.postList.size()}"/>
                         <td class="user-status" th:text="${(usere.status) ? 'Active' : 'Inactive'}"/>
+                        <td th:text="${usere.createdDate}"/>
                         <td>
                             <input type="button" class="userStatus" th:userId="${usere.id}" th:value="#{message.admin.active}">
                             <a th:href="'/admin/users/' + ${usere.id}" th:text="#{message.admin.view}"></a>
