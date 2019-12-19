@@ -26,6 +26,12 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
+                        <a class="nav-link active" href="/admin">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            Home <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/users">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -62,9 +68,34 @@
                 </ul>
             </div>
         </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div>
+                <span>Total User : </span>
+                <span th:text="${userSize}" />
+            </div>
+            <div>
+                <span>Total Post : </span>
+                <span th:text="${postSize}" />
+            </div>
+            <div>
+                <span>Total Comment : </span>
+                <span th:text="${commentSize}" />
+            </div>
+            <div>
+                <span>Total Ads : </span>
+                <span th:text="${adsSize}" />
+            </div>
+<!--            <h4>Total User : <p th:text="${userSize}"/></h4>-->
+<!--            <h4>Total Post : <p th:text="${postSize}"/></h4>-->
+<!--            <h4>Total Comment: <p th:text="${commentSize}"/></h4>-->
+<!--            <h4>Total Ads: </h4>-->
+        </main>
 
     </div>
 </div>
+</div>
+<div>
+
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

@@ -8,15 +8,25 @@ import edu.mum.cs544.a4.service.CommentService;
 import edu.mum.cs544.a4.service.PostService;
 import edu.mum.cs544.a4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class AdminController {
+
+    private final static Pageable firstPageWithTenElements = (Pageable) PageRequest.of(0, 10);
+    private final static Pageable firstPageWithFiveElements = (Pageable) PageRequest.of(0, 5);
+
 
     private UserService userService;
     private PostService postService;
@@ -34,7 +44,11 @@ public class AdminController {
     /*-------------------------------BASE--------------------------------- */
 
     @GetMapping(value = "/admin")
-    public String getAdmin() {
+    public String getAdmin(Model model) {
+        model.addAttribute("userSize", userService.getAllUser().size());
+        model.addAttribute("postSize", postService.getAllPost().size());
+        model.addAttribute("commentSize", commentService.findAllComments().size());
+        model.addAttribute("adsSize", adsService.getAllAds().size());
         return "admin/adminBase";
     }
 
@@ -50,28 +64,34 @@ public class AdminController {
     @ResponseBody
     public String updateUserStatus(@RequestParam("userId") String userId) {
         User user = userService.getUserById(Long.parseLong(userId));
-        if(user.isStatus())
+        if (user.isStatus())
             user.setStatus(false);
         else
             user.setStatus(true);
         userService.addUser(user);
-        return  (user.isStatus()) ? "Active" : "Inactive";
+        return (user.isStatus()) ? "Active" : "Inactive";
     }
 
     @GetMapping(path = "/admin/users/{id}")
-    public String viewUser(@PathVariable("id") Long id, Model model) {
+    public String viewUser(@PageableDefault(size = 5) Pageable pageable,
+                           @PathVariable("id") Long id,
+                           Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
-        model.addAttribute("comments",commentService.getAllByUser(user));
+        Page<Post> postPages = postService.getAllByUser(user, pageable);
+        model.addAttribute("postPages", postPages);
+        model.addAttribute("comments", commentService.getAllByUser(user));
         return "admin/viewUser";
     }
 
     /*-------------------------------POST--------------------------------- */
 
     @GetMapping(value = "/admin/posts")
-    public String listPost(@ModelAttribute("posts") Post post, Model model) {
-        model.addAttribute("posts", postService.getAllPost());
-        System.out.println("POST PRINTING ******" + postService.getAllPost());
+    public String listPost(@ModelAttribute("posts") Post post,
+                           @PageableDefault(size = 10) Pageable pageable,
+                           Model model) {
+//        model.addAttribute("posts", postService.getAllPost());
+        model.addAttribute("postPages", postService.getAllPosts(pageable));
         return "admin/adminPosts";
     }
 

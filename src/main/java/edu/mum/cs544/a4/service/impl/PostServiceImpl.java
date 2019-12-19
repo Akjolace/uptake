@@ -1,18 +1,29 @@
 package edu.mum.cs544.a4.service.impl;
 
 import edu.mum.cs544.a4.entity.Post;
+import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.repository.PostRepository;
 import edu.mum.cs544.a4.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
 
-    @Autowired
+//    private final static Pageable firstPageWithTenElements = (Pageable) PageRequest.of(0, 10);
+
     private PostRepository postRepository;
+
+    @Autowired
+    public PostServiceImpl(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
 
     @Override
     public Long addPost(Post post) {
@@ -34,4 +45,17 @@ public class PostServiceImpl implements PostService {
     public List<Post> getAllPost() {
         return postRepository.findAll();
     }
+
+//    @Override
+    public Page<Post> getAllByUser(User user, Pageable pageable) {
+        return postRepository.findAllByUser(user,pageable);
+    }
+
+    public Page<Post> getAllPosts(Pageable pageable){
+        return postRepository.findAll(pageable);
+    }
+
+//    @Override
+//    public List<Post> getAllPostByPage(Pageable page) {
+//        return postRepository(page);
 }
