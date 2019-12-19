@@ -3,11 +3,12 @@ package edu.mum.cs544.a4.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

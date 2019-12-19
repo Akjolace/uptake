@@ -40,4 +40,9 @@ public class NewsfeedServiceImpl implements NewsfeedService {
         return newsfeedRepository.getCommentCountByPost(postID);
     }
 
+    @Override
+    public List<PostForNewsfeed> findPostByDescription(String email, String description) {
+        return newsfeedRepository.findByDescription(email, description);
+    }
+
 }
