@@ -156,7 +156,7 @@ public class PostController {
                 for (Follower follower : followers) {
                     NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),
                             follower.getFollowingUser().getEmail(), loggedUser.getProfile().getPhoto().getPath(),
-                            "Post added", post.getId().toString());
+                            " has added post", post.getId().toString());
                     notificationUserService.add(notificationUserForThis);
                     template.convertAndSend("/topic/" + follower.getFollowingUser().getEmail(), notificationUserForThis);
                 }

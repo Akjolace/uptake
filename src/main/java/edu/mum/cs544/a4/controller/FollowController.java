@@ -46,7 +46,7 @@ public class FollowController {
         List<Follower> followingUsers = user.getFollowedUsers();
         model.addAttribute("user",user);
         model.addAttribute("followingUsers",followingUsers);
-        return "profile/followingModal :: modalContents";
+        return "profile/followerModal :: modalContents";
     }
 
     @RequestMapping(value="profile/followbyajax/{userId}", method = RequestMethod.GET)
