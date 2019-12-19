@@ -151,7 +151,7 @@ public class PostController {
             post.setUser(loggedUser);
         }
         if(postService.addPost(post)!=null){
-            if(post.getNotifyFollowers().equals("on")) {
+            if(post.getNotifyFollowers()!=null && post.getNotifyFollowers().equals("on")) {
                 List<Follower> followers = loggedUser.getFollowedUsers();
                 for (Follower follower : followers) {
                     NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),

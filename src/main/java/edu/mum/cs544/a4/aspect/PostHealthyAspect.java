@@ -40,8 +40,8 @@ public class PostHealthyAspect {
         Object[] args = proceedingJoinPoint.getArgs();
         if (proceedingJoinPoint.getTarget() instanceof PostService) {
             Post post = (Post) args[0];
-            System.out.println("FILTERING POST : " + post);
-            System.out.println(hasBadWords(post.getDescription()));
+//            System.out.println("FILTERING POST : " + post);
+//            System.out.println(hasBadWords(post.getDescription()));
             if(hasBadWords(post.getDescription())) {
                 post.setUnhealthy(true);
                 String email = null;
@@ -52,10 +52,10 @@ public class PostHealthyAspect {
                     user = userService.getUserByEmail(email);
                     long userId = user.getId();
                     int unhealthyCount = postService.countUnhealthyPost(userId);
-                    if(unhealthyCount > 20) {
+                    if(unhealthyCount > 2) {
                         user.setStatus(false);
                         post.setUser(user);
-//                        userService.deactivateUser(userId);
+                        userService.deactivateUser(userId);
                     }
                 }
             }
@@ -65,7 +65,6 @@ public class PostHealthyAspect {
 //            throw new Exception("USER NOT FOUND");
 //        }
         Object ret = proceedingJoinPoint.proceed(args);
-
         return ret;
     }
 

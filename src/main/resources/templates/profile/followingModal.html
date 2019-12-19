@@ -22,8 +22,9 @@
                        <img class="smallImg floatleft"  th:src="@{${obj.followedUser.profile.photo.path}}"/>
                        <a th:href="@{'/profile/'+${obj.followedUser.username}}"><strong th:text="${obj.followedUser.username}"></strong></a>
                        <p th:id="@{'item'+${obj.followedUser.id}}" class="c999" th:text="${obj.followedUser.profile.fullName}"></p>
-                       <a class="follow uptake-btn enabled littleFollow" th:href="'/profile/follow/' + ${obj.followedUser.id}" th:data-id="${obj.followedUser.id}"
-                          th:id="@{'anchorFollow'+${obj.followedUser.id}}">Follow</a>
+                       <a class="unfollow uptake-btn littleFollow" th:href="'/profile/follow/' + ${obj.followedUser.id}" th:data-id="${obj.followedUser.id}"
+                          th:id="@{'anchorFollow'+${obj.followedUser.id}}">Un Follow</a>
+                       <div style="clear: both;"></div>
                   </div>
               </div>
           </div>

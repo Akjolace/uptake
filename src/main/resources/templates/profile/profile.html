@@ -320,26 +320,127 @@
             border: 1px solid;
             margin-left: 50px;
         }
+        .modal-content{padding:10px;}
     </style>
 </head>
 <body>
+
+<div class="navigation-right">
+    <div class="navigation-right-top displayFlex center">
+
+        <div id="addPost" class="navigation-button">
+            <img class="icon" th:src="@{/Icons/add.svg}" alt="">
+            <p th:text="#{message.home.newPost}">new post</p>
+        </div>
+
+    </div>
+    <div class="navigation-right-middle displayFlex center">
+        <div class="navigation-button">
+            <img id="btnNotification" class="icon" th:src="@{/Icons/bell.svg}" alt="">
+            <div id="notificationCountText" >0</div>
+        </div>
+        <div class="seperator"></div>
+        <div class="navigation-button">
+            <a href="/home">
+                <img class="profile-Image" th:src="${loggedUser.getProfile().getPhoto().getPath()}" alt="">
+            </a>
+            <p th:text="${loggedUser.getUsername()}" ></p>
+        </div>
+        <div class="seperator"></div>
+        <div class="navigation-button">
+            <p class="number" th:text="${loggedUser.getPostList().size()}">9999</p>
+            <p class="text" th:text="#{message.home.posts}">POSTS</p>
+        </div>
+        <div class="seperator"></div>
+        <div class="navigation-button">
+            <p class="number" th:text="${loggedUser.getFollowedUsers().size()}">9999</p>
+            <p class="text" th:text="#{message.home.followers}">FOLLOWERS</p>
+        </div>
+        <div class="seperator"></div>
+        <div class="navigation-button">
+            <p class="number" th:text="${loggedUser.getFollowingUser().size()}">9999</p>
+            <p class="text" th:text="#{message.home.following}">FOLLOWING</p>
+        </div>
+        <div class="seperator"></div>
+        <div id="searchBtn" class="navigation-button">
+            <img class="icon" th:src="@{/Icons/search.svg}" alt="">
+        </div>
+    </div>
+    <div class="navigation-right-bottom displayFlex center">
+        <div class="navigation-button">
+            <a href="/logout">
+                <p th:text="#{message.home.logout}">Logout</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="slide-search-header">
+        <div class="slide-search-header-searchBar">
+            <img id="slideSearchBtn" src="../Icons/search.svg" alt="">
+            <input id="searchTxt" type="text" th:placeholder="#{message.home.search}">
+        </div>
+    </div>
+    <div class="slide-search-container">
+        <div class="slide-search-container-users">
+
+        </div>
+        <div class="seperator seperatorSlide seperatorSearchUserAndPost"></div>
+        <div class="slide-search-container-posts">
+
+        </div>
+        <div id="slide-search-spinner" class="loading-spinner"></div>
+    </div>
+
+</div>
+</div>
+
+<div id="slidePost1" class="slidePost">
+    <div class="navigation-right-middle">
+        <a href="/postVideo">
+            <div class="navigation-button">
+                <img class="icon" th:src="@{/Icons/videoSVG.svg}" alt="">
+            </div>
+        </a>
+    </div>
+    <div class="navigation-right-top">
+        <a href="/postPhoto">
+            <div class="navigation-button">
+                <img class="icon" th:src="@{/Icons/imageSVG.svg}" alt="">
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="slideNotification">
+
+    <div class="slideNotification-unSeenContainer">
+
+    </div>
+    <div class="seperator"></div>
+    <div class="slideNotification-SeenContainer">
+
+    </div>
+</div>
+
 <div class="bg_color" style="height: 100vh;overflow: auto;">
     <div class="container">
         <div class="row mt40">
             <div class="col-md-4">
                 <div class="photo_box">
-                    <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')"></div>
+                    <div class="photo_wrap" th:style="'background:url(' + @{${user.profile.photo.path}} + ');'"></div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="relative">
                     <strong class="title" th:text="${user.username}"></strong>
                     <a th:if="${isMyAccount}" th:text="#{message.profile.editprofile}" href="/account/edit" class="btn btn-outline-secondary"></a>
-                    <div th:unless="${isMyAccount}">
+                    <span th:unless="${isMyAccount}">
                         <span th:if="${isFollowing}" class="textFollowing" th:text="#{message.profile.following}"></span>
                         <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow" th:text="#{message.profile.follow}"></a>
                         <span  id="textFollowing" class="textFollowing"></span>
-                    </div>
+                    </span>
                 </div>
                 <div class="attr_wrap mb10 mt20">
                     <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>

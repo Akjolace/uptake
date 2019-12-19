@@ -24,6 +24,7 @@
                        <p th:id="@{'item'+${obj.followedUser.id}}" class="c999" th:text="${obj.followedUser.profile.fullName}"></p>
                        <a class="follow uptake-btn enabled littleFollow" th:href="'/profile/follow/' + ${obj.followedUser.id}" th:data-id="${obj.followedUser.id}"
                           th:id="@{'anchorFollow'+${obj.followedUser.id}}">Follow</a>
+                        <div style="clear: both;"></div>
                     </div>
               </div>
           </div>

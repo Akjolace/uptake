@@ -24,7 +24,7 @@ public interface NewsfeedRepository extends PagingAndSortingRepository<PostForNe
     + " where post.user_id in ( select f.followed_user_id "
     + " from follower f "
     + " inner join user u ON F.following_user_id = u.id"
-    + " where u.email = :email ) or user.email = :email "
+    + " where u.email = :email ) or user.email = :email and post.is_unhealthy"
     + " order by post.id desc ";
 
     @Query( value= queryString, nativeQuery = true )
