@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ public class Profile {
     private String bio;
 
     @Column(name = "birth_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birhtday;
 
     @Column(name = "gender", length = 2)
@@ -57,6 +59,7 @@ public class Profile {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
 
     public LocalDate getBirhtday() {
         return birhtday;

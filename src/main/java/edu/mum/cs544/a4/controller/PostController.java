@@ -1,13 +1,10 @@
 package edu.mum.cs544.a4.controller;
 
-import edu.mum.cs544.a4.entity.Photo;
-import edu.mum.cs544.a4.entity.Post;
-import edu.mum.cs544.a4.service.LikeService;
-import edu.mum.cs544.a4.service.PhotoService;
-import edu.mum.cs544.a4.entity.User;
-import edu.mum.cs544.a4.service.PostService;
-import edu.mum.cs544.a4.service.UserService;
+import edu.mum.cs544.a4.entity.*;
+import edu.mum.cs544.a4.entity.onoko.UserForSearch;
+import edu.mum.cs544.a4.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -32,6 +30,12 @@ public class PostController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationUserService notificationUserService;
+
+    @Autowired
+    SimpMessagingTemplate template;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -77,10 +81,24 @@ public class PostController {
         Post post = postService.findPostById(id);
         User user = post.getUser();
 
-        int currentUserId = 3;
+        int currentUserId = 1;
+        String email = null;
+        User loggedUser = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            loggedUser = userService.getUserByEmail(email);
+        }
+        if(loggedUser != null ){
+            currentUserId = loggedUser.getId().intValue();
+        }
         model.addAttribute("hasLiked",likeService.isALikedPostB(currentUserId,id));
         model.addAttribute("post",post);
         model.addAttribute("user",user);
+        if(post.getPhoto().getPath().split("\\.")[1].equals("mp4"))
+            model.addAttribute("isVideo",true);
+        else
+            model.addAttribute("isVideo",false);
         return "post/postModal :: modalContents";
     }
 
@@ -101,6 +119,7 @@ public class PostController {
     public String addPostData(@Valid @ModelAttribute("Post") Post post, BindingResult result, Model model) {
         String redirect;
         String path = post.getPhoto().getPath();
+        System.out.println(post.toString());
         if(result.hasErrors()) {
             String route;
             System.out.println(path.split("\\.")[1]);
@@ -110,8 +129,29 @@ public class PostController {
             return route;
         }
         redirect = (path.split("\\.")[1].equals("mp4")) ? "redirect:/postVideo" : "redirect:/postPhoto";
-        postService.addPost(post);
-        return redirect;
+
+        String email = null;
+        User loggedUser = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            loggedUser = userService.getUserByEmail(email);
+        }
+
+        if(loggedUser != null ){
+            post.setUser(loggedUser);
+        }
+        if(postService.addPost(post)!=null){
+            List<Follower> followers = loggedUser.getFollowedUsers();
+            for (Follower follower: followers) {
+                NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),
+                        follower.getFollowingUser().getEmail(),loggedUser.getProfile().getPhoto().getPath(),
+                        "Post added",post.getId().toString());
+                notificationUserService.add(notificationUserForThis);
+                template.convertAndSend("/topic/"+follower.getFollowingUser().getEmail(), notificationUserForThis);
+            }
+        }
+        return "redirect:/postPhoto";
     }
 
     @PostMapping(value = "/editPostData")

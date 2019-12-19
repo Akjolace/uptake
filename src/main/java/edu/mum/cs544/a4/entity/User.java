@@ -1,6 +1,7 @@
 package edu.mum.cs544.a4.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
@@ -49,10 +50,12 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "followedUser")
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<Follower> followedUsers;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "followingUser")
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<Follower> followingUser;
@@ -64,11 +67,12 @@ public class User {
     @JsonIgnore
     private List<Role> role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     @LazyCollection(value = LazyCollectionOption.EXTRA)
     private List<Post> postList;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Profile profile;
 
     public User() {
@@ -193,7 +197,21 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + '}';
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", createdDate=" + createdDate +
+                ", status=" + status +
+                ", publicName='" + publicName + '\'' +
+                ", address=" + address +
+                ", followedUsers=" + followedUsers +
+                ", followingUser=" + followingUser +
+                ", role=" + role +
+                ", postList=" + postList +
+                ", profile=" + profile +
+                '}';
     }
-
 }

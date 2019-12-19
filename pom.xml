@@ -12,7 +12,7 @@
     <artifactId>uptake</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>version1</name>
-    <description>Update Social Networking</description>
+    <description>Uptake Social Networking</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -95,6 +95,44 @@
             <artifactId>aspectjweaver</artifactId>
             <scope>compile</scope>
         </dependency>
+        <!-- WebSocket -->
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+            <version>0.36</version>
+        </dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>sockjs-client</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>stomp-websocket</artifactId>
+			<version>2.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
     </dependencies>
 
     <!--    Spring boot maven plugin - Packaging and running-->

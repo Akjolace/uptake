@@ -10,7 +10,10 @@ $(window).on('load', function () {
     let URLGetEmail = mainUrl + '/authentication/getloggedusername';
     let URLGetPosts = mainUrl + '/search/getNewsfeedByEmail';
     let currentPage = 0;
+    let currentLoggedUser;
     var tl = new TimelineMax();
+    var notificationList = [];
+    var notificationCountText = $('#notificationCountText');
 
     //For scroll events
     var input = {
@@ -39,8 +42,8 @@ $(window).on('load', function () {
 
     let fetchData = function () {
         username = txtSearch.val();
-
         $(".slide-search-container-item").remove();
+
         if (username.length > 0) {
             showSpinner();
             $.ajax(
@@ -49,7 +52,15 @@ $(window).on('load', function () {
                     type: "GET",
                     success: generateResult,
                     complete: function () { },
-                    error: function () { console.log(error); }
+                    error: function (error) { console.log(error); }
+                }
+            )
+            $.ajax(
+                mainUrl + '/search/findPostsByDescription?email=' + currentLoggedUser + '&description=' + username,
+                {
+                    type: 'GET',
+                    success: generatePostSearchResult,
+                    error: function (error) { console.log(error); }
                 }
             )
         }
@@ -58,8 +69,9 @@ $(window).on('load', function () {
     var generateResult = function (response) {
         let responseJSON = response;//JSON.parse(response);
         let responseLength = Object.keys(responseJSON).length;
-        let itemContainerMain = $(".slide-search-container");
-        let itemContainerUser = $(".slide-search-container-user");
+        let itemContainerMain = $(".slide-search-container-users");
+        const tl = new TimelineMax();
+        //let itemContainerUser = $(".slide-search-container");
 
         if (responseLength > 0) {
             responseJSON.forEach(function (element, index) {
@@ -92,14 +104,60 @@ $(window).on('load', function () {
                 //Append childs to its mother
                 itemContainer.append(itemContainerLeft, itemContainerRight);
                 //Add item to the list
-                itemContainerUser.append(itemContainer)
-                itemContainerMain.append(itemContainerUser);
+                //itemContainerUser.append(itemContainer)
+                itemContainerMain.append(itemContainer);
                 //Animate
                 tl.fromTo(itemContainer, .2, { opacity: 0 }, { opacity: 1 });
             })
         }
         //Hide spinner
         hideSpinner();
+    }
+
+    var generatePostSearchResult = function (response) {
+        let responseJSON = response;//JSON.parse(response);
+        let responseLength = Object.keys(responseJSON).length;
+        let itemContainerMain = $(".slide-search-container-posts");
+        const tl = new TimelineMax();
+
+        if (responseLength > 0) {
+            responseJSON.forEach(function (element, index) {
+                //Create slide-search-container-item
+                let itemContainer = document.createElement('div');
+                itemContainer.classList.add('slide-search-container-item');
+                //Create slide-search-container-item-left and right
+                let itemContainerLeft = document.createElement('div')
+                itemContainerLeft.classList.add('slide-search-container-item-left-post');
+                let itemContainerRight = document.createElement('div');
+                itemContainerRight.classList.add('slide-search-container-item-right-post');
+                //Create image
+                let itemContainerLeftImg = document.createElement('img');
+                //Create 2 paragraphs
+                let itemContainerRightUsername = document.createElement('p');
+                let itemContainerRightBio = document.createElement('p');
+                //Create hyperlink to profile
+                let itemContainerRightLink = document.createElement('a');
+                //Add values
+                itemContainerRightUsername.innerHTML = element.username;
+                itemContainerRightBio.innerHTML = element.description.substring(1, 25) + '...';
+                itemContainerLeftImg.src = element.postPath;
+                //Add link inside href
+                itemContainerRightLink.href = mainUrl + "/profile/" + element.username;
+                //Append right side of elements
+                itemContainerRightLink.appendChild(itemContainerRightUsername);
+                itemContainerRight.append(itemContainerRightLink, itemContainerRightBio);
+                //Append left side of elements
+                itemContainerLeft.appendChild(itemContainerLeftImg);
+                //Append childs to its mother
+                itemContainer.append(itemContainerLeft, itemContainerRight);
+                //Add item to the list
+                itemContainerMain.append(itemContainer);
+                //Animate
+                tl.fromTo(itemContainer, .2, { opacity: 0 }, { opacity: 1 });
+                //Add pop up event listener
+                itemContainerLeftImg.onclick = function () { openPostModal(element.id) }
+            })
+        }
     }
 
     //Right navigation start animation
@@ -127,7 +185,6 @@ $(window).on('load', function () {
             tl.play();
         })
         slide.mouseleave(function () {
-            console.log('mouseleave')
             tl.reverse();
         })
     }
@@ -141,6 +198,7 @@ $(window).on('load', function () {
         fetchPromise.then(response => {
             return response.text()
         }).then(loggedEmail => {
+            currentLoggedUser = loggedEmail;
             getPostsByEmail(loggedEmail);
         });
     }
@@ -309,19 +367,136 @@ $(window).on('load', function () {
         )
     }
     //? post modal popup end -----------------------------------------------------------------------------------------------
+    //? Connect to websocket start -----------------------------------------------------------------------------------------------
+    function connect() {
+        var socket = new SockJS('/websocket-uptake');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            //setConnected(true);
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/onokokono@gmail.com', function (greeting) {
+                showGreeting(JSON.parse(greeting.body));
+            });
+        });
+    }
 
+    function showGreeting(message) {
+        notificationList.push(message.username);
+        setNotificationCount();
+        notificationCountText.text(notificationList.length);
+    }
+    function setNotificationCount() {
+        notificationCountText.text(notificationList.length)
+        if (notificationList.length > 0)
+            notificationCountText.css({ 'background-color': 'lightcoral', "color": "white" });
+        else
+            notificationCountText.css({ 'background-color': '#fafafa', "color": "#3d3d3d" });
+
+    }
+    //? Connect to websocket end -----------------------------------------------------------------------------------------------
+    //? Get notifications from user start -----------------------------------------------------------------------------------------------
+    let slideNotificationHoverEvent = function () {
+        const btnNotification = $("#btnNotification");
+        const slideNotification = $('.slideNotification');
+        const tl = new TimelineMax({ paused: true, reversed: true });
+
+        tl.to(slideNotification, .5, { right: "100px" })
+
+        btnNotification.click(function () {
+            if (tl.reversed()) {
+                tl.play(); fetchNotifications();
+            }
+            else {
+                tl.reverse();
+            }
+        })
+    }
+    function fetchNotifications() {
+
+        const fetchPromise = fetch(URLGetEmail);
+        fetchPromise.then(response => {
+            return response.text()
+        }).then(loggedEmail => {
+            currentLoggedUser = loggedEmail;
+            $.ajax(
+                mainUrl + '/search/findNotificationUserByEmail?email=' + currentLoggedUser,
+                {
+                    type: "GET",
+                    success: generateNotifications,
+                    error: function (error) { console.log(error); }
+                }
+            )
+        });
+
+        function generateNotifications(response) {
+            let responseJSON = response;//JSON.parse(response);
+            let responseLength = Object.keys(responseJSON).length;
+            let itemContainerMainUnseen = $(".slideNotification-unSeenContainer");
+            let itemContainerMainSeen = $(".slideNotification-SeenContainer");
+            const tl = new TimelineMax();
+            $(".slide-search-container-item").remove();
+            notificationList = [];
+            if (responseLength > 0) {
+                responseJSON.forEach(function (element, index) {
+                    //Push to list
+
+                    if (element.hasSeen == false)
+                        notificationList.push(element);
+                    //Create slide-search-container-item
+                    let itemContainer = document.createElement('div');
+                    itemContainer.classList.add('slide-search-container-item');
+                    //Create slide-search-container-item-left and right
+                    let itemContainerLeft = document.createElement('div')
+                    itemContainerLeft.classList.add('slide-search-container-item-left');
+                    let itemContainerRight = document.createElement('div');
+                    itemContainerRight.classList.add('slide-search-container-item-right');
+                    //Create image
+                    let itemContainerLeftImg = document.createElement('img');
+                    //Create main paragraph
+                    let itemContainerRightUsername = document.createElement('p');
+                    //Create 2 spans inside main paragraph
+                    let usernameParagraph = $('<a>', { href: '/profile/' + element.username })
+                        .append($('<span>').text(element.username + ' '));
+                    let messageParagraph = $('<span>').text(element.messageCode + ' ');
+                    itemContainerRightUsername.append(usernameParagraph[0], messageParagraph[0]);
+                    itemContainerLeftImg.src = element.profilePhotoPath;
+                    //Add link inside href
+                    //Append right side of elements
+                    itemContainerRight.append(itemContainerRightUsername);
+                    //Append left side of elements
+                    itemContainerLeft.appendChild(itemContainerLeftImg);
+                    //Append childs to its mother
+                    itemContainer.append(itemContainerLeft, itemContainerRight);
+                    //Add item to the list
+                    //itemContainerUser.append(itemContainer)
+                    if (element.hasSeen == 0)
+                        itemContainerMainUnseen.append(itemContainer);
+                    if (element.hasSeen == 1)
+                        itemContainerMainSeen.append(itemContainer);
+
+
+                    //Animate
+                    tl.fromTo(itemContainer, .2, { opacity: 0 }, { opacity: 1 });
+
+                    messageParagraph[0].onclick = function () { openPostModal(element.postId) }
+                })
+            }
+            setNotificationCount();
+        }
+    }
+    //? Get notifications from user end -----------------------------------------------------------------------------------------------
+
+    connect();
     animation();
     slideEvent();
     slidePostHoverEvent();
-    setTimeout(function () {
-        getPosts();
-    }, 1000);
-    $('.modal-Pop-Up-Window').on('click', function(event) {
-        if (event.target !== this) return; hideModal(); });
+    slideNotificationHoverEvent();
+    getPosts();
+    fetchNotifications();
+    $('.modal-Pop-Up-Window').on('click', function (event) {
+        if (event.target !== this) return; hideModal();
+    });
     window.addEventListener('scroll', handleScrolling);
     btnSearch.click(onBtnnSearch);
     txtSearch.on('input', onBtnnSearch);
-})
-$(document).ready(function () {
-
 })

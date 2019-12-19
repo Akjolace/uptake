@@ -3,11 +3,14 @@ package edu.mum.cs544.a4.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +27,12 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min=1, max=12, message = "{errorMsg.post.title}")
+    @NotEmpty(message = "{errorMsg.post.title}")
     private String title;
-    @Size(min=1, max=100, message = "{errorMsg.post.description}")
+
+    @NotEmpty(message = "{errorMsg.post.description}")
     private String description;
+
     private LocalDateTime created;
     private Boolean isUnhealthy = false;
     private int status = 1;

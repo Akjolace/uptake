@@ -35,4 +35,11 @@ public class Photo {
     public void setPath(String path) {
         this.path = path;
     }
+
+    public Photo() {
+    }
+
+    public Photo(@NotNull String path) {
+        this.path = path;
+    }
 }
