@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
-
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/home.css}">
@@ -49,6 +49,7 @@
             font-size: 15px;
             padding-right: 10px;
             display: inline-block;
+            cursor: pointer;
         }
 
         .attr span {
@@ -83,8 +84,7 @@
             position: absolute;
             bottom: 5px;
         }
-
-        .uptake-btn.enabled:hover {
+        .uptake-btn.enabled:hover{
             text-decoration: none;
             background: #FFFFFF;
             color: #6e3dbb;
@@ -282,7 +282,7 @@
             color: #F41567;
         }
 
-        #commentForm {
+        #commentForm{
             border-top: 1px solid #ccc;
             padding-top: 10px;
             margin-top: 15px;
@@ -322,176 +322,66 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="navigation-right">
-        <div class="navigation-right-top displayFlex center">
-
-            <div id="addPost" class="navigation-button">
-                <img class="icon" th:src="@{/Icons/add.svg}" alt="">
-                <p th:text="#{message.home.newPost}">new post</p>
-            </div>
-
-        </div>
-        <div class="navigation-right-middle displayFlex center">
-            <div class="navigation-button">
-                <img id="btnNotification" class="icon" th:src="@{/Icons/bell.svg}" alt="">
-                <div id="notificationCountText">0</div>
-            </div>
-            <div class="seperator"></div>
-            <div class="navigation-button">
-                <a href="/home">
-                    <img class="profile-Image" th:src="${loggedUser.getProfile().getPhoto().getPath()}" alt="">
-                </a>
-                <p th:text="${loggedUser.getUsername()}"></p>
-            </div>
-            <div class="seperator"></div>
-            <div class="navigation-button">
-                <p class="number" th:text="${loggedUser.getPostList().size()}">9999</p>
-                <p class="text" th:text="#{message.home.posts}">POSTS</p>
-            </div>
-            <div class="seperator"></div>
-            <div class="navigation-button">
-                <p class="number" th:text="${loggedUser.getFollowedUsers().size()}">9999</p>
-                <p class="text" th:text="#{message.home.followers}">FOLLOWERS</p>
-            </div>
-            <div class="seperator"></div>
-            <div class="navigation-button">
-                <p class="number" th:text="${loggedUser.getFollowingUser().size()}">9999</p>
-                <p class="text" th:text="#{message.home.following}">FOLLOWING</p>
-            </div>
-            <div class="seperator"></div>
-            <div id="searchBtn" class="navigation-button">
-                <img class="icon" th:src="@{/Icons/search.svg}" alt="">
-            </div>
-        </div>
-        <div class="navigation-right-bottom displayFlex center">
-            <div class="navigation-button">
-                <a href="/logout">
-                    <p th:text="#{message.home.logout}">Logout</p>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide">
-        <div class="slide-search-header">
-            <div class="slide-search-header-searchBar">
-                <img id="slideSearchBtn" src="../Icons/search.svg" alt="">
-                <input id="searchTxt" type="text" th:placeholder="#{message.home.search}">
-            </div>
-        </div>
-        <div class="slide-search-container">
-            <div class="slide-search-container-users">
-               
-            </div>
-            <div class="seperator seperatorSlide seperatorSearchUserAndPost"></div>
-            <div class="slide-search-container-posts">
-
-            </div>
-            <div id="slide-search-spinner" class="loading-spinner"></div>
-        </div>
-        
-        </div>
-    </div>
-
-    <div id="slidePost1" class="slidePost">
-        <div class="navigation-right-middle">
-            <a href="/postVideo">
-                <div class="navigation-button">
-                    <img class="icon" th:src="@{/Icons/videoSVG.svg}" alt="">
+<div class="bg_color" style="height: 100vh;overflow: auto;">
+    <div class="container">
+        <div class="row mt40">
+            <div class="col-md-4">
+                <div class="photo_box">
+                    <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')"></div>
                 </div>
-            </a>
-        </div>
-        <div class="navigation-right-top">
-            <a href="/postPhoto">
-                <div class="navigation-button">
-                    <img class="icon" th:src="@{/Icons/imageSVG.svg}" alt="">
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <div class="slideNotification">
-        
-        <div class="slideNotification-unSeenContainer">
-
-        </div>
-        <div class="seperator"></div>
-        <div class="slideNotification-SeenContainer">
-
-        </div>
-    </div>
-
-    <div class="bg_color" style="height: 100vh;overflow: auto;">
-        <div class="container">
-            <div class="row mt40">
-                <div class="col-md-4">
-                    <div class="photo_box">
-                        <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')"></div>
+            </div>
+            <div class="col-md-8">
+                <div class="relative">
+                    <strong class="title" th:text="${user.username}"></strong>
+                    <a th:if="${isMyAccount}" th:text="#{message.profile.editprofile}" href="/account/edit" class="btn btn-outline-secondary"></a>
+                    <div th:unless="${isMyAccount}">
+                        <span th:if="${isFollowing}" class="textFollowing" th:text="#{message.profile.following}"></span>
+                        <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow" th:text="#{message.profile.follow}"></a>
+                        <span  id="textFollowing" class="textFollowing"></span>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="relative">
-                        <strong class="title" th:text="${user.username}"></strong>
-                        <a th:if="${isMyAccount}" th:text="#{message.profile.editprofile}" href="/account/edit"
-                            class="btn btn-outline-secondary"></a>
-                        <div th:unless="${isMyAccount}">
-                            <span th:if="${isFollowing}" class="textFollowing"
-                                th:text="#{message.profile.following}"></span>
-                            <a th:unless="${isFollowing}" class="follow uptake-btn enabled"
-                                th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow"
-                                th:text="#{message.profile.follow}"></a>
-                            <span id="textFollowing" class="textFollowing"></span>
+                <div class="attr_wrap mb10 mt20">
+                    <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
+                    <div class="attr">
+                        <div th:onclick="'openFollowerModal(\'' + ${user.id} + '\');'">
+                            <span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span> follower
                         </div>
                     </div>
-                    <div class="attr_wrap mb10 mt20">
-                        <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
-                        <div class="attr"><span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span>
-                            follower</div>
-                        <div class="attr">
-                            <div th:onclick="'openFollowingModal(\'' + ${user.id} + '\');'">
-                                <span th:text="${user.getFollowingUser().size()}"></span> following
-                            </div>
+                    <div class="attr">
+                        <div th:onclick="'openFollowingModal(\'' + ${user.id} + '\');'">
+                            <span th:text="${user.getFollowingUser().size()}"></span> following
                         </div>
                     </div>
-                    <p th:text="${user.getProfile() != null ? user.getProfile().getBio() : 'insert you bio'}"></p>
                 </div>
+                <p th:text="${user.getProfile() != null ? user.getProfile().getBio() : 'insert you bio'}"></p>
             </div>
-            <div class="row mt40">
-                <div class="col-md-4" th:each="p, iterStat : ${user.getPostList()}">
+        </div>
+        <div class="row mt40">
+            <div class="col-md-4" th:each="p, iterStat : ${user.getPostList()}">
                     <div th:onclick="'openPostModal(\'' + ${p.id} + '\');'">
-                        <div class="postimg" th:if="${p.photo.path.contains('mp4')}"
-                            style="height: 300px;border: solid 1px #eee">
-                            <video id="divVideo" controls="controls" style="width: 100%; height: 100%">
-                                <source th:src="@{${p.photo.path}}" type="video/mp4">
-                                Your browser does not support the HTML5 Video element.
-                            </video>
-                        </div>
-                        <div class="post_card" th:unless="${p.photo.path.contains('mp4')}">
-                            <img th:src="@{${p.photo.path}}">
-                        </div>
+                    <div class="postimg" th:if="${p.photo.path.contains('mp4')}" style="height: 300px;border: solid 1px #eee">
+                        <video id="divVideo" controls="controls" style="width: 100%; height: 100%">
+                            <source th:src="@{${p.photo.path}}" type="video/mp4">
+                            Your browser does not support the HTML5 Video element.
+                        </video>
+                    </div>
+                    <div class="post_card" th:unless="${p.photo.path.contains('mp4')}">
+                        <img th:src="@{${p.photo.path}}">
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-    <div id="postModalHolder">
-        <div id="postModal"></div>
-    </div>
-    <div id="followingModalHolder">
-        <div id="followingModal"></div>
-    </div>
-
-
-
+</div>
+<div id="postModalHolder"><div id="postModal"></div></div>
+<div id="followingModalHolder"><div id="followingModal"></div></div>
     <script>
         function openPostModal(id) {
             console.log("open modal called");
             $.ajax({
                 url: "/post/" + id,
-                success: function (data) {
+                success: function(data) {
                     $('#postModalHolder').html(data);
                     $('#postModal').modal("show");
                 }
@@ -500,7 +390,17 @@
         function openFollowingModal(id) {
             $.ajax({
                 url: "/following/" + id,
-                success: function (data) {
+                success: function(data) {
+                    console.log(data);
+                    $('#followingModalHolder').html(data);
+                    $('#followingModal').modal("show");
+                }
+            });
+        }
+        function openFollowerModal(id) {
+            $.ajax({
+                url: "/follower/" + id,
+                success: function(data) {
                     console.log(data);
                     $('#followingModalHolder').html(data);
                     $('#followingModal').modal("show");
@@ -515,11 +415,11 @@
                 url: "/profile/followbyajax/" + id,
                 success: function (data) {
                     var obj = JSON.parse(data);
-                    if (obj.result) {
+                    if(obj.result){
                         $("#numOfFollower").text(obj.n);
                         $("#anchorFollow").hide(300);
                         $("#textFollowing").text("Following");
-                    } else {
+                    }else{
                         console.log("Already following");
                     }
                 }
