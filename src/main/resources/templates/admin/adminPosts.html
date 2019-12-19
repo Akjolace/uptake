@@ -19,7 +19,7 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><span th:text="#{message.admin.menu}"/> </a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home"><span th:text="#{message.admin.menu}"/> </a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="#"><span th:text="#{message.admin.signed}"/> </a>
@@ -104,8 +104,9 @@
                         <td th:text="${(postpage.isUnhealthy) ? 'Yes' : 'No'}"></td>
                         <td th:text="${postpage.status}" class="status"></td>
                         <td>
-                        <input type="button" class="submit" th:postId="${postpage.id}" value="Disable/Enable">
-                            <a th:href="'/admin/posts/' + ${postpage.id}" th:text="View"></a>
+                        <input type="button" class="submit" th:postId="${postpage.id}" th:value="#{message.admin.enable}">
+                            <a th:href="'/admin/posts/' + ${postpage.id}" th:text="#{message.admin.view}"></a>
+
                         </td>
                     </tr>
                     </tbody>
