@@ -7,10 +7,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title th:text="#{message.admin.panel}"/>
+    <style>
+        .mt40 {
+            margin-top: 20px;
+        }
+
+        .pb40 {
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><span th:text="#{message.admin.menu}"/> </a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home"><span th:text="#{message.admin.menu}"/> </a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="#"><span th:text="#{message.admin.signed}"/> </a>
@@ -67,7 +76,7 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 pb40">
             <h2 th:text="#{message.admin.ads}" />
                <input type="button" onclick="window.location.href = '/ads'" th:value="#{message.admin.addAds}">
             <div class="table-responsive">

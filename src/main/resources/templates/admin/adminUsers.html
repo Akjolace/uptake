@@ -25,7 +25,7 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><span th:text="#{message.admin.menu}"/> </a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home"><span th:text="#{message.admin.menu}"/> </a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="#"><span th:text="#{message.admin.signed}"/> </a>
@@ -124,16 +124,15 @@
                         <td th:text="${usere.postList.size()}"/>
                         <td class="user-status" th:text="${(usere.status) ? 'Active' : 'Inactive'}"/>
                         <td>
-                            <input type="button" class="userStatus" th:userId="${usere.id}" value="Active/Deactivate">
-                            <a th:href="'/admin/users/' + ${usere.id}" th:text="View"></a>
+                            <input type="button" class="userStatus" th:userId="${usere.id}" th:value="#{message.admin.active}">
+                            <a th:href="'/admin/users/' + ${usere.id}" th:text="#{message.admin.view}"></a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="pagination-div">
                     <span th:if="${userPages.hasPrevious()}">
-                        <a th:href="@{/admin/users(page=${userPages.number-1},size=${userPages.size})}"><span
-                                th:text="#{message.admin.prev}"/></a>
+                        <a th:href="@{/admin/users(page=${userPages.number-1},size=${userPages.size})}" th:text="#{message.admin.prev}"></a>
                      </span>
                     <th:block th:each="i: ${#numbers.sequence(0, userPages.totalPages - 1)}">
                         <span th:if="${userPages.number == i}" class="selected">[[${i}+1]]</span>
@@ -142,8 +141,7 @@
                         </span>
                     </th:block>
                     <span th:if="${userPages.hasNext()}">
-                        <a th:href="@{/admin/users(page=${userPages.number+1},size=${userPages.size})}"><span
-                                th:text="#{message.admin.next}"/></a>
+                        <a th:href="@{/admin/users(page=${userPages.number+1},size=${userPages.size})}" th:text="#{message.admin.next}"></a>
                     </span>
                 </div>
 
