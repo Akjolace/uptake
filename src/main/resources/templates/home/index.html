@@ -106,6 +106,7 @@
                     <a th:href="${'/profile/' + loggedUser.getUsername()}">
                         <img class="profile-Image" th:src="${loggedUser.getProfile().getPhoto().getPath()}" alt="">
                     </a>
+                    <p th:text="${loggedUser.getUsername()}" ></p>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">

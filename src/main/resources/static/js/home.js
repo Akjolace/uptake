@@ -491,8 +491,11 @@ $(window).on('load', function () {
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             //setConnected(true);
+
+            console.log(currentLoggedUser);
+
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/onokokono@gmail.com', function (greeting) {
+            stompClient.subscribe('/topic/' + currentLoggedUser, function (greeting) {
                 showGreeting(JSON.parse(greeting.body));
             });
         });

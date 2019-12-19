@@ -6,16 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Admin panel</title>
-    <!--    <link href="/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet"-->
-    <!--          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+    <title th:text="#{message.admin.panel}"/>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Menu</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><span th:text="#{message.admin.menu}"/> </a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">You signed as Admin</a>
+            <a class="nav-link" href="#"><span th:text="#{message.admin.signed}"/> </a>
         </li>
     </ul>
 </nav>
@@ -70,26 +68,21 @@
         </nav>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div>
-                <span >Total User</span>
-                <span th:text="#{message.admin.total}"/> : <span th:text="#{message.admin.user}"/>
+                <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.user}"/> :
                 <span th:text="${userSize}" />
             </div>
             <div>
-                <span>Total Post : </span>
+                <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.post}"/> :
                 <span th:text="${postSize}" />
             </div>
             <div>
-                <span>Total Comment : </span>
+                <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.comment}"/> :
                 <span th:text="${commentSize}" />
             </div>
             <div>
-                <span>Total Ads : </span>
+                <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.ads}"/> :
                 <span th:text="${adsSize}" />
             </div>
-<!--            <h4>Total User : <p th:text="${userSize}"/></h4>-->
-<!--            <h4>Total Post : <p th:text="${postSize}"/></h4>-->
-<!--            <h4>Total Comment: <p th:text="${commentSize}"/></h4>-->
-<!--            <h4>Total Ads: </h4>-->
         </main>
 
     </div>

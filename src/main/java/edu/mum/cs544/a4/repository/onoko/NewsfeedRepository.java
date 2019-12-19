@@ -25,7 +25,7 @@ public interface NewsfeedRepository extends PagingAndSortingRepository<PostForNe
     + " from follower f "
     + " inner join user u ON F.following_user_id = u.id"
     + " where u.email = :email ) or user.email = :email "
-    + " order by post.created desc ";
+    + " order by post.id desc ";
 
     @Query( value= queryString, nativeQuery = true )
     List<PostForNewsfeed> getNewsfeedByEmail(@Param("email") String email, Pageable pageable);
