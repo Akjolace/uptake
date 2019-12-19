@@ -17,14 +17,14 @@ public class Ads {
     private int targetAgeMin;
     private int targetAgeMax;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private Country targetCountry;
 
     private Gender targetGender;
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private Photo photo;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private User user;
 
     public Long getId() {
@@ -122,4 +122,23 @@ public class Ads {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Ads{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", advertisementUrl='" + advertisementUrl + '\'' +
+                ", created=" + created +
+                ", status=" + status +
+                ", targetAgeMin=" + targetAgeMin +
+                ", targetAgeMax=" + targetAgeMax +
+                ", targetCountry=" + targetCountry +
+                ", targetGender=" + targetGender +
+                ", photo=" + photo +
+                ", user=" + user +
+                '}';
+    }
 }
+
