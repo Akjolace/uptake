@@ -1,6 +1,7 @@
 package edu.mum.cs544.a4.controller;
 
 import edu.mum.cs544.a4.entity.Ads;
+import edu.mum.cs544.a4.entity.Comment;
 import edu.mum.cs544.a4.entity.Post;
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.service.AdsService;
@@ -16,17 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 @Controller
 public class AdminController {
-
-    private final static Pageable firstPageWithTenElements = (Pageable) PageRequest.of(0, 10);
-    private final static Pageable firstPageWithFiveElements = (Pageable) PageRequest.of(0, 5);
-
 
     private UserService userService;
     private PostService postService;
@@ -55,8 +47,11 @@ public class AdminController {
     /*-------------------------------USER--------------------------------- */
 
     @GetMapping(value = "/admin/users")
-    public String listUser(@ModelAttribute("users") User user, Model model) {
+    public String listUser(@ModelAttribute("users") User user,
+                           @PageableDefault(size = 10) Pageable pageable,
+                           Model model) {
         model.addAttribute("users", userService.getAllUser());
+        model.addAttribute("userPages", userService.getAllUsers(pageable));
         return "admin/adminUsers";
     }
 
@@ -90,9 +85,20 @@ public class AdminController {
     public String listPost(@ModelAttribute("posts") Post post,
                            @PageableDefault(size = 10) Pageable pageable,
                            Model model) {
-//        model.addAttribute("posts", postService.getAllPost());
+        model.addAttribute("posts", postService.getAllPost());
         model.addAttribute("postPages", postService.getAllPosts(pageable));
         return "admin/adminPosts";
+    }
+    @GetMapping(path = "/admin/posts/{id}")
+    public String viewPost(@PageableDefault(size = 5) Pageable pageable,
+                           @PathVariable("id") Long id,
+                           Model model) {
+        Post post = postService.findPostById(id);
+        model.addAttribute("post", post);
+        Page<Comment> commentPages = commentService.getAllByPost(post, pageable);
+        model.addAttribute("commentPages", commentPages);
+//        model.addAttribute("comments", commentService.getAllByUser(user));
+        return "admin/viewPost";
     }
 
     /*-------------------------------ADVERTISEMENT--------------------------------- */
