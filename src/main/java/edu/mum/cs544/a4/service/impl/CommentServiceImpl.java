@@ -8,6 +8,8 @@ import edu.mum.cs544.a4.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -21,5 +23,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment add(User user, Post post, String description) {
         return commentRepository.save(new Comment(post,user,description));
+    }
+
+    @Override
+    public List<Comment> getAllByUser(User user) {
+        return commentRepository.getAllByUser(user);
     }
 }
