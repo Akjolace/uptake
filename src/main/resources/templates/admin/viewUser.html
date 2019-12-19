@@ -7,25 +7,43 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <title>Admin panel</title>
+    <title th:text="#{message.admin.panel}"/>
     <style>.mr5 {
         display: inline-block;
         margin-right: 15px;
-
     }
 
-        .pagination-div{user-select: none;}
-        .pagination-div span{border-radius:3px;border:1px solid #999;
-            padding:5px;margin:10px 0px 0px 10px;display:inline-block}
-        span.selected{background:#ccf;}
+    .mt40 {
+        margin-top: 20px;
+    }
+
+    .pb40 {
+        padding-top: 20px;
+    }
+
+    .pagination-div {
+        user-select: none;
+    }
+
+    .pagination-div span {
+        border-radius: 3px;
+        border: 1px solid #999;
+        padding: 5px;
+        margin: 10px 0px 0px 10px;
+        display: inline-block
+    }
+
+    span.selected {
+        background: #ccf;
+    }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Menu</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><span th:text="#{message.admin.menu}"/> </a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">You signed as Admin</a>
+            <a class="nav-link" href="#"><span th:text="#{message.admin.signed}"/> </a>
         </li>
     </ul>
 </nav>
@@ -43,7 +61,7 @@
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
-                            Home <span class="sr-only">(current)</span>
+                            <span th:text="#{message.admin.home}"/> <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -56,7 +74,7 @@
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
-                            User
+                            <span th:text="#{message.admin.user}"/>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -68,7 +86,7 @@
                                 <polyline points="2 17 12 22 22 17"></polyline>
                                 <polyline points="2 12 12 17 22 12"></polyline>
                             </svg>
-                            Post
+                            <span th:text="#{message.admin.post}"/>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -79,7 +97,7 @@
                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                 <polyline points="13 2 13 9 20 9"></polyline>
                             </svg>
-                            Advertisements
+                            <span th:text="#{message.admin.ads}"/>
                         </a>
                     </li>
 
@@ -88,19 +106,18 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <h4 align="center">Users Information</h4>
+            <h3 align="center" th:text="#{message.admin.userInfo}" class="mt40"/>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr align="center">
-                        <th>User Id</th>
-                        <th>User Name</th>
-                        <th>Role</th>
-                        <th>Created Date</th>
-                        <th>Follower</th>
-                        <th>Following</th>
-                        <th>Status</th>
-                        <!--                        <th>Action</th>-->
+                        <th th:text="#{message.admin.userId}"/>
+                        <th th:text="#{message.admin.userName}"/>
+                        <th th:text="#{message.admin.role}"/>
+                        <th th:text="#{message.admin.date}"/>
+                        <th th:text="#{message.admin.follower}"/>
+                        <th th:text="#{message.admin.following}"/>
+                        <th th:text="#{message.admin.status}"/>
                     </tr>
                     </thead>
                     <tbody>
@@ -116,34 +133,27 @@
                         <td th:text="${usere.getFollowedUsers().size()}"/>
                         <td th:text="${usere.getFollowingUser().size()}"/>
                         <td th:text="${(usere.status) ? 'Active' : 'Inactive'}"/>
-                        <!--                        <td>-->
-                        <!--                            <input type="button" class="userStatus" th:userId="${usere.id}" value="Active/Deactivate">-->
-                        <!--                            <a th:href="@{'/admin/users/' + ${usere.id}}" th:text="View"></a>-->
-                        <!--                        </td>-->
                     </tr>
                     </tbody>
                 </table>
             </div>
             <br>
-            <!--            <h4 align="left" style="display: inline-block; width: 130px; height: 10px">Post Lists</h4>-->
-            <!--            <div th:text="${user.postList.size()}" style="width: 100px; display: inline-block;"></div>-->
-            <span>Post Lists : total = </span>
+            <h2 th:text="#{message.admin.postListTitle}" class="mt40"/>
+            <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.post}"/> :
             <span th:text="${user.postList.size()}"> </span>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr align="center">
-                        <th>Post Id</th>
-                        <th>Title</th>
-                        <th>Date</th>
-                        <th>User Id</th>
-                        <th>Unhealthy</th>
-                        <th>Status</th>
-                        <!--                        <th>Edit</th>-->
+                        <th th:text="#{message.admin.postId}"/>
+                        <th th:text="#{message.admin.title}"/>
+                        <th th:text="#{message.admin.date}"/>
+                        <th th:text="#{message.admin.userId}"/>
+                        <th th:text="#{message.admin.health}"/>
+                        <th th:text="#{message.admin.status}"/>
                     </tr>
                     </thead>
                     <tbody>
-                    <!--                    <div th:if="${postList() != null}">-->
                     <tr th:each="post: ${postPages}" class="postList" align="center">
                         <td th:text="${post.id}"/>
                         <td th:text="${post.title}"/>
@@ -151,14 +161,12 @@
                         <td th:text="${post.getUser() != null ? post.getUser().getId() : 'No userId'}"/>
                         <td th:text="${(post.isUnhealthy) ? 'Yes' : 'No'}"></td>
                         <td th:text="${post.status}" class="status"></td>
-                        <!--                            <td><input type="button" class="submit" th:postId="${post.id}" value="Disable/Enable"></td>-->
                     </tr>
-                    <!--                    </div>-->
                     </tbody>
                 </table>
                 <div class="pagination-div">
                         <span th:if="${postPages.hasPrevious()}">
-                            <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${postPages.number-1} + '&size=' + ${postPages.size}">Previous</a>
+                            <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${postPages.number-1} + '&size=' + ${postPages.size}" th:text="#{message.admin.prev}"></a>
 
                          </span>
                     <th:block th:each="i: ${#numbers.sequence(0, postPages.totalPages - 1)}">
@@ -170,23 +178,22 @@
                     </th:block>
                     <span th:if="${postPages.hasNext()}">
 
-                            <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${postPages.number+1} + '&size=' + ${postPages.size}">Next</a>
+                            <a th:href="'/admin/users/' + ${user.id} + '?page=' + ${postPages.number+1} + '&size=' + ${postPages.size}" th:text="#{message.admin.next}"></a>
                         </span>
                 </div>
             </div>
             <br>
 
-            <!--            <h4 align="left">Comment Lists</h4>-->
-            <!--            <div th:text="${comments.size()}"></div>-->
-            <span>Comment Lists : Total Comments = </span>
+            <h2 th:text="#{message.admin.commentListTitle}" class="mt40"/>
+            <span th:text="#{message.admin.total}"/> <span th:text="#{message.admin.comment}"/> :
             <span th:text="${comments.size()}"> </span>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr align="center">
-                        <th>Comment Id</th>
-                        <th>Description</th>
-                        <th>Created Date</th>
+                        <th th:text="#{message.admin.commentId}"/>
+                        <th th:text="#{message.admin.description}"/>
+                        <th th:text="#{message.admin.date}"/>
                     </tr>
                     </thead>
                     <tbody>
@@ -205,23 +212,3 @@
 </body>
 
 </html>
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        $(".userStatus").on('click',function() {-->
-<!--            console.log($(this).attr("userId"));-->
-<!--            let selector = $(this);-->
-<!--            $.ajax({-->
-<!--                url: "/admin/users",-->
-<!--                type: "POST",-->
-<!--                data: {userId: $(this).attr("userId")},-->
-<!--                success: function (response) {-->
-<!--                    console.log(selector);-->
-<!--                    selector.parent().find(".status").text(response);-->
-<!--                },-->
-<!--                error: function(error) {-->
-<!--                    console.log(error);-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
