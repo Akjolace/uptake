@@ -9,4 +9,5 @@ import java.util.List;
 public interface CommentService {
     Comment add(User user, Post post, String description);
     List<Comment> getAllByUser(User user);
+    List<Comment> findAllComments();
 }

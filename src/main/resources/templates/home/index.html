@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"
@@ -96,7 +98,8 @@
             </div>
             <div class="navigation-right-middle displayFlex center">
                 <div class="navigation-button">
-                    <img class="icon" th:src="@{/Icons/bell.svg}" alt="">
+                    <img id="btnNotification" class="icon" th:src="@{/Icons/bell.svg}" alt="">
+                    <div id="notificationCountText" >0</div>
                 </div>
                 <div class="seperator"></div>
                 <div class="navigation-button">
@@ -141,10 +144,11 @@
             </div>
             <div class="seperator seperatorSlide"></div>
             <div class="slide-search-container">
-                <div class="slide-search-container-user">
-                    
+                <div class="slide-search-container-users">
+                   
                 </div>
-                <div class="slide-search-container-post">
+                <div class="seperator seperatorSlide seperatorSearchUserAndPost"></div>
+                <div class="slide-search-container-posts">
 
                 </div>
                 <div id="slide-search-spinner" class="loading-spinner"></div>
@@ -167,6 +171,16 @@
                         <img class="icon" th:src="@{/Icons/imageSVG.svg}" alt="">
                     </div>
                 </a>
+            </div>
+        </div>
+
+        <div class="slideNotification">
+            <div class="slideNotification-unSeenContainer">
+
+            </div>
+            <div class="seperator"></div>
+            <div class="slideNotification-SeenContainer">
+                
             </div>
         </div>
     </div>

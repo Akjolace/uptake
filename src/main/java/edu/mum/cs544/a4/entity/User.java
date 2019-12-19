@@ -50,10 +50,12 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "followedUser")
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<Follower> followedUsers;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "followingUser")
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<Follower> followingUser;
@@ -65,6 +67,7 @@ public class User {
     @JsonIgnore
     private List<Role> role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     @LazyCollection(value = LazyCollectionOption.EXTRA)
     private List<Post> postList;
