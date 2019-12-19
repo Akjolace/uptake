@@ -8,9 +8,10 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Admin panel</title>
-    <!--    <link href="/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet"-->
-    <!--          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
-    <style>.mr5{display: inline-block; margin-right: 15px;}</style>
+    <style>.mr5 {
+        display: inline-block;
+        margin-right: 15px;
+    }</style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark shadow">
@@ -36,7 +37,8 @@
                                 <circle cx="9" cy="7" r="4"></circle>
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>     User
+                            </svg>
+                            User
                         </a>
                     </li>
                     <li class="nav-item">
@@ -47,7 +49,8 @@
                                 <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                                 <polyline points="2 17 12 22 22 17"></polyline>
                                 <polyline points="2 12 12 17 22 12"></polyline>
-                            </svg>      Post
+                            </svg>
+                            Post
                         </a>
                     </li>
                     <li class="nav-item">
@@ -57,7 +60,8 @@
                                  stroke-linejoin="round" class="feather feather-file">
                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                 <polyline points="13 2 13 9 20 9"></polyline>
-                            </svg>  Advertisements
+                            </svg>
+                            Advertisements
                         </a>
                     </li>
 
@@ -66,7 +70,7 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <h2>Users List</h2>
+            <h3 align="center">Users Information</h3>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
@@ -78,26 +82,76 @@
                         <th>Follower</th>
                         <th>Following</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <!--                        <th>Action</th>-->
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="usere: ${users}" class="userList" align="center">
+                    <tr th:each="usere: ${user}" class="userList" align="center">
                         <td th:text="${usere.id}"/>
                         <td th:text="${usere.getUsername()}"/>
-                        <td >
-<!--                            <div th:if="${usere.getRole() != null}">-->
+                        <td>
+                            <!--                            <div th:if="${usere.getRole() != null}">-->
                             <span th:each="role: ${usere.getRole()}" th:text="${role.getRoleName()}" class="mr5"></span>
-<!--                            </div>-->
+                            <!--                            </div>-->
                         </td>
                         <td th:text="${usere.createdDate}"/>
                         <td th:text="${usere.getFollowedUsers().size()}"/>
                         <td th:text="${usere.getFollowingUser().size()}"/>
-                        <td class="user-status" th:text="${(usere.status) ? 'Active' : 'Inactive'}"/>
-                        <td>
-                            <input type="button" class="userStatus" th:userId="${usere.id}" value="Active/Deactivate">
-                            <a th:href="'/admin/users/' + ${usere.id}" th:text="View"></a>
-                        </td>
+                        <td th:text="${(usere.status) ? 'Active' : 'Inactive'}"/>
+                        <!--                        <td>-->
+                        <!--                            <input type="button" class="userStatus" th:userId="${usere.id}" value="Active/Deactivate">-->
+                        <!--                            <a th:href="@{'/admin/users/' + ${usere.id}}" th:text="View"></a>-->
+                        <!--                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <h3 align="center">Post Lists</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr align="center">
+                        <th>Post Id</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>User Id</th>
+                        <th>Unhealthy</th>
+                        <th>Status</th>
+                        <!--                        <th>Edit</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+<!--                    <div th:if="${postList() != null}">-->
+                        <tr th:each="post: ${user.postList}" class="postList" align="center">
+                            <td th:text="${post.id}"/>
+                            <td th:text="${post.title}"/>
+                            <td th:text="${post.created}"/>
+                            <td th:text="${post.getUser() != null ? post.getUser().getId() : 'No userId'}"/>
+                            <td th:text="${(post.isUnhealthy) ? 'Yes' : 'No'}"></td>
+                            <td th:text="${post.status}" class="status"></td>
+                            <!--                            <td><input type="button" class="submit" th:postId="${post.id}" value="Disable/Enable"></td>-->
+                        </tr>
+<!--                    </div>-->
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <h3 align="center">Comment Lists</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr align="center">
+                        <th>Comment Id</th>
+                        <th>Description</th>
+                        <th>Created Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="comment: ${comments}" class="commentList" align="center">
+                        <td th:text="${comment.id}"/>
+                        <td th:text="${comment.description}"/>
+                        <td th:text="${comment.created}"/>
                     </tr>
                     </tbody>
                 </table>
@@ -107,25 +161,25 @@
 </div>
 </div>
 </body>
-</html>
 
-<script>
-    $(document).ready(function () {
-        $(".userStatus").on('click',function() {
-            console.log($(this).attr("userId"));
-            let selector = $(this);
-            $.ajax({
-                url: "/admin/users",
-                type: "POST",
-                data: {userId: $(this).attr("userId")},
-                success: function (response) {
-                    console.log(selector);
-                    selector.parent().parent().find(".user-status").text(response);
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        });
-    });
-</script>
+</html>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $(".userStatus").on('click',function() {-->
+<!--            console.log($(this).attr("userId"));-->
+<!--            let selector = $(this);-->
+<!--            $.ajax({-->
+<!--                url: "/admin/users",-->
+<!--                type: "POST",-->
+<!--                data: {userId: $(this).attr("userId")},-->
+<!--                success: function (response) {-->
+<!--                    console.log(selector);-->
+<!--                    selector.parent().find(".status").text(response);-->
+<!--                },-->
+<!--                error: function(error) {-->
+<!--                    console.log(error);-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
