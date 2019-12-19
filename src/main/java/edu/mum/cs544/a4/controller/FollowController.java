@@ -79,4 +79,15 @@ public class FollowController {
         }
         return response.toString();
     }
+
+    @RequestMapping(value="profile/unfollowbyajax/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String ajaxUnFollow(@PathVariable long id, Model model) {
+        JSONObject response = new JSONObject();
+        Long lId = Long.valueOf(id);
+        followerService.unfollowB(lId);
+        response.put("result",true);
+        response.put("n", lId);
+        return response.toString();
+    }
 }
