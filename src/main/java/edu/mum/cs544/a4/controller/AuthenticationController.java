@@ -122,4 +122,10 @@ public class AuthenticationController {
 
         return "redirect:/login";
     }
+
+    @GetMapping("403Forbidden")
+    public String getForbiddenPage(){
+        return "403Forbidden";
+    }
+    
 }
