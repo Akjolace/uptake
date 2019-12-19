@@ -38,6 +38,17 @@ public class FollowController {
         return "profile/followingModal :: modalContents";
     }
 
+    //show follower
+    //Show following
+    @GetMapping(value = "/follower/{id}")
+    public String getFollowerList(@PathVariable("id") long id, Model model){
+        User user = userService.getUserById(id);
+        List<Follower> followingUsers = user.getFollowedUsers();
+        model.addAttribute("user",user);
+        model.addAttribute("followingUsers",followingUsers);
+        return "profile/followingModal :: modalContents";
+    }
+
     @RequestMapping(value="profile/followbyajax/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public String ajaxFollow(@PathVariable long userId, Model model) {

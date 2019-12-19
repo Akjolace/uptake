@@ -174,7 +174,11 @@
                 </div>
                 <div class="attr_wrap mb10 mt20">
                     <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
-                    <div class="attr"><span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span> follower</div>
+                    <div class="attr">
+                        <div th:onclick="'openFollowerModal(\'' + ${user.id} + '\');'">
+                            <span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span> follower
+                        </div>
+                    </div>
                     <div class="attr">
                         <div th:onclick="'openFollowingModal(\'' + ${user.id} + '\');'">
                             <span th:text="${user.getFollowingUser().size()}"></span> following
@@ -217,6 +221,16 @@
         function openFollowingModal(id) {
             $.ajax({
                 url: "/following/" + id,
+                success: function(data) {
+                    console.log(data);
+                    $('#followingModalHolder').html(data);
+                    $('#followingModal').modal("show");
+                }
+            });
+        }
+        function openFollowerModal(id) {
+            $.ajax({
+                url: "/follower/" + id,
                 success: function(data) {
                     console.log(data);
                     $('#followingModalHolder').html(data);

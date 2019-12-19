@@ -79,6 +79,7 @@ public class PostController {
     public String postDetail(@PathVariable("id") long id, Model model){
         System.out.println("Post detail");
         Post post = postService.findPostById(id);
+        System.out.println(post);
         User user = post.getUser();
 
         int currentUserId = 1;
@@ -150,7 +151,7 @@ public class PostController {
             post.setUser(loggedUser);
         }
         if(postService.addPost(post)!=null){
-            if(post.getNotifyFollowers()!=null) {
+            if(post.getNotifyFollowers().equals("on")) {
                 List<Follower> followers = loggedUser.getFollowedUsers();
                 for (Follower follower : followers) {
                     NotificationUser notificationUserForThis = new NotificationUser(loggedUser.getUsername(),
