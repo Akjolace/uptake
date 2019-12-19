@@ -6,11 +6,15 @@ import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.repository.CommentRepository;
 import edu.mum.cs544.a4.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private CommentRepository commentRepository;
@@ -33,5 +37,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> findAllComments() {
         return commentRepository.findAll();
+    }
+    public Page<Comment> getAllByPost(Post post, Pageable pageable) {
+        return commentRepository.findAllByPost(post,pageable);
     }
 }

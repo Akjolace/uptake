@@ -4,6 +4,8 @@ import java.util.List;
 
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.entity.onoko.UserForSearch;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
 
@@ -22,6 +24,8 @@ public interface UserService {
     public User getUserById(long userId);
 
     public List<User> getAllUser();
+
+    public Page<User> getAllUsers(Pageable pageable);
 
     User findByUserName(String userName);
 
