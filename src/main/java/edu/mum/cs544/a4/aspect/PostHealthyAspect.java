@@ -70,7 +70,7 @@ public class PostHealthyAspect {
     }
 
     public boolean hasBadWords(String paragraph) {
-        List<String> list= Arrays.asList("bad1","bad2");
+        List<String> list= Arrays.asList("stupid","shit","bad");
         for(String word: list)
             if(paragraph.contains(word))
                 return true;

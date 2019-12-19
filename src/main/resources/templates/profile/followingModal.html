@@ -19,7 +19,7 @@
            </div>
               <div class="model-body">
                     <div class="fitem mt20" th:each="obj, iterStat : ${followingUsers}">
-                       <img class="smallImg floatleft"  th:src="@{${'/img/'+ obj.followedUser.profile.photo.path}}"/>
+                       <img class="smallImg floatleft"  th:src="@{${obj.followedUser.profile.photo.path}}"/>
                        <a th:href="@{'/profile/'+${obj.followedUser.username}}"><strong th:text="${obj.followedUser.username}"></strong></a>
                        <p th:id="@{'item'+${obj.followedUser.id}}" class="c999" th:text="${obj.followedUser.profile.fullName}"></p>
                        <a class="follow uptake-btn enabled littleFollow" th:href="'/profile/follow/' + ${obj.followedUser.id}" th:data-id="${obj.followedUser.id}"
