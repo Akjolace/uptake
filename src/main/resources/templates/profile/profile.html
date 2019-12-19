@@ -1,23 +1,32 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"
+        integrity="sha256-lPE3wjN2a7ABWHbGz7+MKBJaykyzqCbU96BJWjio86U=" crossorigin="anonymous"></script>
+    <script th:src="@{/js/home.js}"></script>
     <style>
-        .container{
+        .container {
             width: 960px;
         }
+
         .bg_color {
             border-left: 3px solid #222649;
             min-height: 100vh;
             width: 100vw;
         }
+
         .photo_wrap {
             width: 180px;
             height: 180px;
@@ -25,6 +34,7 @@
             border-radius: 50%;
             border: 4px solid #FFF;
         }
+
         .photo_box {
             width: 184px;
             height: 184px;
@@ -34,16 +44,19 @@
             background: linear-gradient(to right, #7f49e5, #F44336, #814ae9);
             margin: 0 auto;
         }
+
         .attr {
             font-size: 15px;
             padding-right: 10px;
             display: inline-block;
         }
+
         .attr span {
             font-size: 18px;
             font-weight: 700;
         }
-        .uptake-btn{
+
+        .uptake-btn {
             box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.25);
             border-radius: 15px;
             font-size: 20px;
@@ -57,28 +70,33 @@
             font-weight: 700;
             transition: .3s all ease-in-out;
         }
-        .uptake-btn.disabled:hover{
+
+        .uptake-btn.disabled:hover {
             text-decoration: none;
             background: linear-gradient(98.22deg, #6A3AB0 1.3%, #854DF3 96.68%);
-            color:#FFFFFF;
+            color: #FFFFFF;
         }
-        .uptake-btn.enabled{
+
+        .uptake-btn.enabled {
             background: linear-gradient(98.22deg, #6A3AB0 1.3%, #854DF3 96.68%);
             color: white;
             position: absolute;
             bottom: 5px;
         }
-        .uptake-btn.enabled:hover{
+
+        .uptake-btn.enabled:hover {
             text-decoration: none;
             background: #FFFFFF;
-            color:#6e3dbb;
+            color: #6e3dbb;
         }
-        .uptake-btn.disabled{
+
+        .uptake-btn.disabled {
             border: 1px solid #6e3dbb;
             background: #fff;
             color: #6e3dbb;
             font-weight: 700;
         }
+
         .profile_card {
             text-align: center;
             background-color: #fdfdfd;
@@ -86,51 +104,194 @@
             width: 100%;
             padding: 25px;
         }
-        .mt10 {margin-top: 10px;}
-        .mt40 {margin-top: 40px;}
-        .mb10 { margin-bottom: 10px;}
-        .title {position: relative; font-size: 24px;}
-        .post_card{width: 100%;
+
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .mt40 {
+            margin-top: 40px;
+        }
+
+        .mb10 {
+            margin-bottom: 10px;
+        }
+
+        .title {
+            position: relative;
+            font-size: 24px;
+        }
+
+        .post_card {
+            width: 100%;
             height: 300px;
             overflow: hidden;
             cursor: pointer;
-            margin-bottom: 30px;}
-        .post_card img {height: 100%; width:auto;}
-        .w700{font-weight:700;}
-        .t20{font-size:20px; margin-top:20px;}
-        .post_pop_card{width: 800px;width: 800px;background: #fff;margin: 0 auto;margin-top: 10%;}
-        .date{font-size:12px; color:#ccc;}
-        .mt20{margin-top:20px;}
-        .mr15{margin-right: 5px;}
-        .smallImg{width: 30px; height: 30px;border-radius: 50%; margin-right: 10px;}
-        .ptr15{padding-right: 15px;}
-        .grid-wrapper{display: grid;grid-template-columns: 500px 400px;}
-        .col-one{grid-column: 1/1;}
-        .col-two{grid-column: 2/2;background: #fff;padding: 15px;}
-        .postimg img{width: 100%; width: 100%; object-fit: cover; height: 532px;}
-        .comment_items{height: 300px;overflow-y: scroll;}
-        .floatleft{float: left;margin-right: 10px;margin-top: 4px;width: 35px;height: 35px;}
-        .model-body{padding:0px;}
-        .modal-title {margin: 0;line-height: 1.42857143;font-weight: 700;font-size: 16px;position: absolute;}
-        .c999{color:#999;}
-        .fright{float: right;}
-        .fitem{position:relative;}
-        .littleFollow{float: right;padding: 4px 8px;font-size: 12px;position: absolute;right: 0;}
-        #followingModal .modal-body {max-height: 500px;overflow-y: scroll;}
-        .relative{position: relative;}
-        .textFollowing{margin-left: 75px; font-weight: 700; font-size: 15px;}
-        .fitem p{position: relative}
-        .fitem p i{color: #333;float: right;font-weight: 700;bottom: 8px;position: absolute;right: 0;}
-        .like, .like span, like i{color: #F41567; margin-left: 0;}
-        .likepost:hover{color: #F41567;}
+            margin-bottom: 30px;
+        }
 
-        #commentForm{
+        .post_card img {
+            height: 100%;
+            width: auto;
+        }
+
+        .w700 {
+            font-weight: 700;
+        }
+
+        .t20 {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .post_pop_card {
+            width: 800px;
+            width: 800px;
+            background: #fff;
+            margin: 0 auto;
+            margin-top: 10%;
+        }
+
+        .date {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .mt20 {
+            margin-top: 20px;
+        }
+
+        .mr15 {
+            margin-right: 5px;
+        }
+
+        .smallImg {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .ptr15 {
+            padding-right: 15px;
+        }
+
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: 500px 400px;
+        }
+
+        .col-one {
+            grid-column: 1/1;
+        }
+
+        .col-two {
+            grid-column: 2/2;
+            background: #fff;
+            padding: 15px;
+        }
+
+        .postimg img {
+            width: 100%;
+            width: 100%;
+            object-fit: cover;
+            height: 532px;
+        }
+
+        .comment_items {
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        .floatleft {
+            float: left;
+            margin-right: 10px;
+            margin-top: 4px;
+            width: 35px;
+            height: 35px;
+        }
+
+        .model-body {
+            padding: 0px;
+        }
+
+        .modal-title {
+            margin: 0;
+            line-height: 1.42857143;
+            font-weight: 700;
+            font-size: 16px;
+            position: absolute;
+        }
+
+        .c999 {
+            color: #999;
+        }
+
+        .fright {
+            float: right;
+        }
+
+        .fitem {
+            position: relative;
+        }
+
+        .littleFollow {
+            float: right;
+            padding: 4px 8px;
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+        }
+
+        #followingModal .modal-body {
+            max-height: 500px;
+            overflow-y: scroll;
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .textFollowing {
+            margin-left: 75px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .fitem p {
+            position: relative
+        }
+
+        .fitem p i {
+            color: #333;
+            float: right;
+            font-weight: 700;
+            bottom: 8px;
+            position: absolute;
+            right: 0;
+        }
+
+        .like,
+        .like span,
+        like i {
+            color: #F41567;
+            margin-left: 0;
+        }
+
+        .likepost:hover {
+            color: #F41567;
+        }
+
+        #commentForm {
             border-top: 1px solid #ccc;
             padding-top: 10px;
             margin-top: 15px;
             display: flex;
-         }
-        #commentForm input{background: 0 0;border: 0;
+        }
+
+        #commentForm input {
+            background: 0 0;
+            border: 0;
             color: #262626;
             font-size: inherit;
             height: 18px;
@@ -138,81 +299,199 @@
             outline: 0;
             padding: 0;
             resize: none;
-            width: 335px;}
-        #commentForm button{
-            border:0;
+            width: 335px;
+        }
+
+        #commentForm button {
+            border: 0;
             background: none;
             font-weight: 700;
         }
-        #commentForm button:disabled{
-            color:#ccc;
+
+        #commentForm button:disabled {
+            color: #ccc;
         }
-        #commentForm button:enabled{
-            color:#6638BE;
+
+        #commentForm button:enabled {
+            color: #6638BE;
         }
-        .btn-outline-secondary{border:1px solid; margin-left: 50px;}
+
+        .btn-outline-secondary {
+            border: 1px solid;
+            margin-left: 50px;
+        }
     </style>
 </head>
+
 <body>
-<div class="bg_color" style="height: 100vh;overflow: auto;">
-    <div class="container">
-        <div class="row mt40">
-            <div class="col-md-4">
-                <div class="photo_box">
-                    <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')"></div>
-                </div>
+    <div class="navigation-right">
+        <div class="navigation-right-top displayFlex center">
+
+            <div id="addPost" class="navigation-button">
+                <img class="icon" th:src="@{/Icons/add.svg}" alt="">
+                <p th:text="#{message.home.newPost}">new post</p>
             </div>
-            <div class="col-md-8">
-                <div class="relative">
-                    <strong class="title" th:text="${user.username}"></strong>
-                    <a th:if="${isMyAccount}" th:text="#{message.profile.editprofile}" href="/account/edit" class="btn btn-outline-secondary"></a>
-                    <div th:unless="${isMyAccount}">
-                        <span th:if="${isFollowing}" class="textFollowing" th:text="#{message.profile.following}"></span>
-                        <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow" th:text="#{message.profile.follow}"></a>
-                        <span  id="textFollowing" class="textFollowing"></span>
-                    </div>
-                </div>
-                <div class="attr_wrap mb10 mt20">
-                    <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
-                    <div class="attr">
-                        <div th:onclick="'openFollowerModal(\'' + ${user.id} + '\');'">
-                            <span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span> follower
-                        </div>
-                    </div>
-                    <div class="attr">
-                        <div th:onclick="'openFollowingModal(\'' + ${user.id} + '\');'">
-                            <span th:text="${user.getFollowingUser().size()}"></span> following
-                        </div>
-                    </div>
-                </div>
-                <p th:text="${user.getProfile() != null ? user.getProfile().getBio() : 'insert you bio'}"></p>
+
+        </div>
+        <div class="navigation-right-middle displayFlex center">
+            <div class="navigation-button">
+                <img id="btnNotification" class="icon" th:src="@{/Icons/bell.svg}" alt="">
+                <div id="notificationCountText">0</div>
+            </div>
+            <div class="seperator"></div>
+            <div class="navigation-button">
+                <a href="/home">
+                    <img class="profile-Image" th:src="${loggedUser.getProfile().getPhoto().getPath()}" alt="">
+                </a>
+                <p th:text="${loggedUser.getUsername()}"></p>
+            </div>
+            <div class="seperator"></div>
+            <div class="navigation-button">
+                <p class="number" th:text="${loggedUser.getPostList().size()}">9999</p>
+                <p class="text" th:text="#{message.home.posts}">POSTS</p>
+            </div>
+            <div class="seperator"></div>
+            <div class="navigation-button">
+                <p class="number" th:text="${loggedUser.getFollowedUsers().size()}">9999</p>
+                <p class="text" th:text="#{message.home.followers}">FOLLOWERS</p>
+            </div>
+            <div class="seperator"></div>
+            <div class="navigation-button">
+                <p class="number" th:text="${loggedUser.getFollowingUser().size()}">9999</p>
+                <p class="text" th:text="#{message.home.following}">FOLLOWING</p>
+            </div>
+            <div class="seperator"></div>
+            <div id="searchBtn" class="navigation-button">
+                <img class="icon" th:src="@{/Icons/search.svg}" alt="">
             </div>
         </div>
-        <div class="row mt40">
-            <div class="col-md-4" th:each="p, iterStat : ${user.getPostList()}">
-                    <div th:onclick="'openPostModal(\'' + ${p.id} + '\');'">
-                    <div class="postimg" th:if="${p.photo.path.contains('mp4')}" style="height: 300px;border: solid 1px #eee">
-                        <video id="divVideo" controls="controls" style="width: 100%; height: 100%">
-                            <source th:src="@{${p.photo.path}}" type="video/mp4">
-                            Your browser does not support the HTML5 Video element.
-                        </video>
-                    </div>
-                    <div class="post_card" th:unless="${p.photo.path.contains('mp4')}">
-                        <img th:src="@{${p.photo.path}}">
-                    </div>
-                </div>
+        <div class="navigation-right-bottom displayFlex center">
+            <div class="navigation-button">
+                <a href="/logout">
+                    <p th:text="#{message.home.logout}">Logout</p>
+                </a>
             </div>
         </div>
     </div>
-</div>
-<div id="postModalHolder"><div id="postModal"></div></div>
-<div id="followingModalHolder"><div id="followingModal"></div></div>
+
+    <div class="slide">
+        <div class="slide-search-header">
+            <div class="slide-search-header-searchBar">
+                <img id="slideSearchBtn" src="../Icons/search.svg" alt="">
+                <input id="searchTxt" type="text" th:placeholder="#{message.home.search}">
+            </div>
+        </div>
+        <div class="slide-search-container">
+            <div class="slide-search-container-users">
+               
+            </div>
+            <div class="seperator seperatorSlide seperatorSearchUserAndPost"></div>
+            <div class="slide-search-container-posts">
+
+            </div>
+            <div id="slide-search-spinner" class="loading-spinner"></div>
+        </div>
+        
+        </div>
+    </div>
+
+    <div id="slidePost1" class="slidePost">
+        <div class="navigation-right-middle">
+            <a href="/postVideo">
+                <div class="navigation-button">
+                    <img class="icon" th:src="@{/Icons/videoSVG.svg}" alt="">
+                </div>
+            </a>
+        </div>
+        <div class="navigation-right-top">
+            <a href="/postPhoto">
+                <div class="navigation-button">
+                    <img class="icon" th:src="@{/Icons/imageSVG.svg}" alt="">
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="slideNotification">
+        
+        <div class="slideNotification-unSeenContainer">
+
+        </div>
+        <div class="seperator"></div>
+        <div class="slideNotification-SeenContainer">
+
+        </div>
+    </div>
+
+    <div class="bg_color" style="height: 100vh;overflow: auto;">
+        <div class="container">
+            <div class="row mt40">
+                <div class="col-md-4">
+                    <div class="photo_box">
+                        <div class="photo_wrap" style="background-image: url('/img/profile1.jpg')"></div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="relative">
+                        <strong class="title" th:text="${user.username}"></strong>
+                        <a th:if="${isMyAccount}" th:text="#{message.profile.editprofile}" href="/account/edit"
+                            class="btn btn-outline-secondary"></a>
+                        <div th:unless="${isMyAccount}">
+                            <span th:if="${isFollowing}" class="textFollowing"
+                                th:text="#{message.profile.following}"></span>
+                            <a th:unless="${isFollowing}" class="follow uptake-btn enabled"
+                                th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow"
+                                th:text="#{message.profile.follow}"></a>
+                            <span id="textFollowing" class="textFollowing"></span>
+                        </div>
+                    </div>
+                    <div class="attr_wrap mb10 mt20">
+                        <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
+                        <div class="attr"><span th:text="${user.getFollowedUsers().size()}" id="numOfFollower"></span>
+                            follower</div>
+                        <div class="attr">
+                            <div th:onclick="'openFollowingModal(\'' + ${user.id} + '\');'">
+                                <span th:text="${user.getFollowingUser().size()}"></span> following
+                            </div>
+                        </div>
+                    </div>
+                    <p th:text="${user.getProfile() != null ? user.getProfile().getBio() : 'insert you bio'}"></p>
+                </div>
+            </div>
+            <div class="row mt40">
+                <div class="col-md-4" th:each="p, iterStat : ${user.getPostList()}">
+                    <div th:onclick="'openPostModal(\'' + ${p.id} + '\');'">
+                        <div class="postimg" th:if="${p.photo.path.contains('mp4')}"
+                            style="height: 300px;border: solid 1px #eee">
+                            <video id="divVideo" controls="controls" style="width: 100%; height: 100%">
+                                <source th:src="@{${p.photo.path}}" type="video/mp4">
+                                Your browser does not support the HTML5 Video element.
+                            </video>
+                        </div>
+                        <div class="post_card" th:unless="${p.photo.path.contains('mp4')}">
+                            <img th:src="@{${p.photo.path}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="postModalHolder">
+        <div id="postModal"></div>
+    </div>
+    <div id="followingModalHolder">
+        <div id="followingModal"></div>
+    </div>
+
+
+
     <script>
         function openPostModal(id) {
             console.log("open modal called");
             $.ajax({
                 url: "/post/" + id,
-                success: function(data) {
+                success: function (data) {
                     $('#postModalHolder').html(data);
                     $('#postModal').modal("show");
                 }
@@ -221,36 +500,26 @@
         function openFollowingModal(id) {
             $.ajax({
                 url: "/following/" + id,
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     $('#followingModalHolder').html(data);
                     $('#followingModal').modal("show");
                 }
             });
         }
-        function openFollowerModal(id) {
-            $.ajax({
-                url: "/follower/" + id,
-                success: function(data) {
-                    console.log(data);
-                    $('#followingModalHolder').html(data);
-                    $('#followingModal').modal("show");
-                }
-            });
-        }
-        $(".follow").click(function(e){
+        $(".follow").click(function (e) {
             e.preventDefault();
             var id = $(this).data("id");
-            console.log("Follow called by ajax called"+id);
+            console.log("Follow called by ajax called" + id);
             $.ajax({
                 url: "/profile/followbyajax/" + id,
-                success: function(data) {
+                success: function (data) {
                     var obj = JSON.parse(data);
-                    if(obj.result){
+                    if (obj.result) {
                         $("#numOfFollower").text(obj.n);
                         $("#anchorFollow").hide(300);
                         $("#textFollowing").text("Following");
-                    }else{
+                    } else {
                         console.log("Already following");
                     }
                 }
@@ -259,4 +528,5 @@
     </script>
     </div>
 </body>
+
 </html>

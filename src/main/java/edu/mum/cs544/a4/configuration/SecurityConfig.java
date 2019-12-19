@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/").authenticated()
             .antMatchers("/postPhoto").authenticated()
             .antMatchers("/postVideo").authenticated()
-            .antMatchers("/admin","/admin/**").authenticated()
+            .antMatchers("/admin","/admin/**").hasRole("ADMIN")
             .antMatchers("/profile","/profile/**").authenticated()
             .antMatchers("/login").permitAll()
             .antMatchers("/logout").permitAll()
@@ -53,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .clearAuthentication(true)
             .invalidateHttpSession(true)
             .logoutSuccessUrl("/login")
+            .and()
+            .exceptionHandling().accessDeniedPage("/403Forbidden")
             .and()
             .csrf().disable();
 
