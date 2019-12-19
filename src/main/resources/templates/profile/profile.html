@@ -150,10 +150,11 @@
         #commentForm button:enabled{
             color:#6638BE;
         }
+        .btn-outline-secondary{border:1px solid; margin-left: 50px;}
     </style>
 </head>
 <body>
-<div class="bg_color">
+<div class="bg_color" style="height: 100vh;overflow: auto;">
     <div class="container">
         <div class="row mt40">
             <div class="col-md-4">
@@ -164,9 +165,12 @@
             <div class="col-md-8">
                 <div class="relative">
                     <strong class="title" th:text="${user.username}"></strong>
-                    <span th:if="${isFollowing}" class="textFollowing">Following</span>
-                    <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow">Follow</a>
-                    <span  id="textFollowing" class="textFollowing"></span>
+                    <a th:if="${isMyAccount}" th:text="#{message.profile.editprofile}" href="/account/edit" class="btn btn-outline-secondary"></a>
+                    <div th:unless="${isMyAccount}">
+                        <span th:if="${isFollowing}" class="textFollowing" th:text="#{message.profile.following}"></span>
+                        <a th:unless="${isFollowing}" class="follow uptake-btn enabled" th:href="'/profile/follow/' + ${user.id}" th:data-id="${user.id}" id="anchorFollow" th:text="#{message.profile.follow}"></a>
+                        <span  id="textFollowing" class="textFollowing"></span>
+                    </div>
                 </div>
                 <div class="attr_wrap mb10 mt20">
                     <div class="attr"><span th:text="${user.getPostList().size()}"></span> posts</div>
@@ -183,8 +187,14 @@
         <div class="row mt40">
             <div class="col-md-4" th:each="p, iterStat : ${user.getPostList()}">
                     <div th:onclick="'openPostModal(\'' + ${p.id} + '\');'">
-                    <div class="post_card">
-                        <img th:src="@{${'/img/' + p.getPhoto().getPath()}}">
+                    <div class="postimg" th:if="${p.photo.path.contains('mp4')}" style="height: 300px;border: solid 1px #eee">
+                        <video id="divVideo" controls="controls" style="width: 100%; height: 100%">
+                            <source th:src="@{${p.photo.path}}" type="video/mp4">
+                            Your browser does not support the HTML5 Video element.
+                        </video>
+                    </div>
+                    <div class="post_card" th:unless="${p.photo.path.contains('mp4')}">
+                        <img th:src="@{${p.photo.path}}">
                     </div>
                 </div>
             </div>

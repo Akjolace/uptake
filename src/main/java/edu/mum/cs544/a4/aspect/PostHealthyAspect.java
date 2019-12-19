@@ -26,7 +26,7 @@ public class PostHealthyAspect {
     @Autowired
     private PostService postService;
 
-    @Around(value = "execution(* edu.mum.cs544.a4.service.PostService.addPost(..))")
+    //@Around(value = "execution(* edu.mum.cs544.a4.service.PostService.addPost(..))")
     public Object filter(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         boolean isUnhealthy = false;

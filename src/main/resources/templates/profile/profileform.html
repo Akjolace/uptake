@@ -3,46 +3,206 @@
       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" th:href="@{/css/post.css}">
+    <title>Manage Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <link rel="stylesheet"
+          href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css"/>
     <style>
-        .container{
+        .container {
             width: 960px;
         }
-        .bg_color {
-            border-left: 3px solid #222649;
-            min-height: 100vh;
-            width: 100vw;
+
+        .leftmenu {
+            flex-direction: column;
+            padding-left: 0;
+            margin-bottom: 0;
         }
-        label{
-            font-weight: 400;
+
+        .leftmenu li {
+            position: relative;
+            display: block;
+            padding: .75rem 1.25rem;
+            margin-bottom: -1px;
+            background-color: #fff;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            border: 1px solid #eee;
+            margin-top: 80px;
+        }
+
+        .p25 {
+            padding: 25px;
+        }
+        .br{
+            border-right: 1px solid #eee;
+        }
+        .form-control{
+            width:50%;
+        }
+        .mb20{
+            margin-bottom: 20px;
+        }
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #333333;
+            opacity: 0.5; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #333333;
+            opacity: 0.5;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: #333333;
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <h1>Profile edit</h1>
-            <form action="#" th:action="@{/profile/update}" th:object="${profile}" method="POST">
+<div class="container">
+    <div class="grid">
+        <div class="br">
+            <ul class="leftmenu">
+                <li class="">
+                    <a href="/account/edit">Edit Profile</a>
+                </li>
+                <li class="">
+                    <a href="/account/profilephoto">Profile Photo</a>
+                </li>
+                <li class="">
+                    <a href="/account/changepassword">Change Password</a>
+                </li>
+                <li class="">
+                    <a href="/account/following">Manage following</a>
+                </li>
+                <li class="">
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <div class="p25">
+            <h2 class="mb20" th:text="#{message.profile.updateprofile}">Edit profile</h2>
+            <span th:if="${resultmsg!=null}" th:text="#{${'message.result.'+ resultmsg}}"></span>
+            <form action="#" th:action="@{/updateprofile}" th:object="${user}" method="POST">
+                <input type="hidden" th:field="*{id}" name="id">
+                <input type="hidden" th:field="*{profile.id}" id="profile.id" name="profile.id"/>
+                <input type="hidden" th:field="*{address.id}" id="address.id" name="address.id"/>
+                <input type="hidden" th:field="*{address.country.id}" id="address.country.id" name="country.id"/>
+                <input type="hidden" th:field="*{password}" name="password">
+                <img th:src="@{${photoPath}}" id="postImage" style="height: 100px; width: 100px; object-fit: cover;border: 1px solid #ced4da;margin-bottom: 40px;"/>
+                <input id="inputfile" type="file"/>
+                <input id="photoPath" type="hidden" name="profile.photo.path" th:value="${photoPath}"/>
                 <div class="form-group">
-                    <input th:field="*{fullName}" id="fullName" name="username" type="text" th:placeholder="#{message.profile.fullName}" class="form-control">
+                    <label for="fullName" th:text="#{message.profile.fullName}">Full Name</label>
+                    <input th:field="*{profile.fullName}" id="fullName" name="profile.fullName" type="text"
+                           th:placeholder="#{message.profile.fullName}" class="form-control">
+                    <div class="errorMessage">
+                        <p th:if="${#fields.hasErrors('profile.fullName')}" th:errors="*{profile.fullName}"></p>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input th:field="*{bio}" id="bio" name="bio" type="text" th:placeholder="#{message.profile.bio}" class="form-control">
+                    <label for="username" th:text="#{message.profile.username}">User Name</label>
+                    <input th:field="*{username}" id="username" name="username" type="text"
+                           th:placeholder="#{message.profile.username}" class="form-control">
+                    <div class="errorMessage">
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bio" th:text="#{message.profile.bio}">Bio</label>
+                    <textarea th:field="*{profile.bio}" id="bio" name="profile.bio" th:rows="3" th:placeholder="#{message.profile.bio}"
+                           class="form-control"/>
+                    <div class="errorMessage">
+                        <p th:if="${#fields.hasErrors('profile.bio')}" th:errors="*{profile.bio}"></p>
+                    </div>
+                </div>
+                <h3>Private Information</h3>
+                <div class="form-group">
+                    <label for="user.email" th:text="#{message.profile.email}">Email</label>
+                    <input th:field="*{email}" id="user.email" name="email" type="text"
+                           th:placeholder="#{message.profile.email}" class="form-control">
+                    <div class="errorMessage">
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    </div>
                 </div>
                 <div th:each="g : ${T(edu.mum.cs544.a4.entity.Gender).values()}" class="form-check form-check-inline">
                     <label th:text="#{${'message.profile.gender.'+ g}}" class="form-check-label"></label>
-                    <input type="radio" th:field="*{gender}" th:value="${g}" class="form-check-input"/>
+                    <input type="radio" th:field="*{profile.gender}" th:value="${g}" class="form-check-input"/>
+                    <div class="errorMessage">
+                        <p th:if="${#fields.hasErrors('profile.gender')}" th:errors="*{profile.gender}"></p>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label for="birhtday" th:text="#{message.profile.birhtday}">Birthday</label>
+                    <input th:field="*{profile.birhtday}" id="birhtday" name="profile.birhtday" type="text"
+                           th:placeholder="#{message.profile.birhtday}" class="form-control datepicker">
+                    <div class="errorMessage">
+                        <p th:if="${#fields.hasErrors('profile.birhtday')}" th:errors="*{profile.birhtday}"></p>
+                    </div>
+                </div>
+                <h4>Address</h4>
+                <div class="form-group">
+                    <label for="country" th:text="#{message.address.country}">Country</label>
+                    <select  id="country" name="address.country.id" th:field="*{address.country.id}" >
+                        <option th:each="country : ${countryList}" th:value="${country.id}" th:text="${country.countryName}"/>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address.state" th:text="#{message.address.state}">State</label>
+                    <input th:field="*{address.state}" id="address.state" name="address.state" type="text" th:placeholder="#{message.address.state}"
+                           class="form-control">
 
+                </div>
+                <div class="form-group">
+                    <label for="address.city" th:text="#{message.address.city}">City</label>
+                    <input th:field="*{address.city}" id="address.city" name="address.city" type="text" th:placeholder="#{message.address.city}"
+                           class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="address.zipcode" th:text="#{message.address.zipcode}">Zipcode</label>
+                    <input th:field="*{address.zipCode}" id="address.zipcode" name="address.zipCode" type="text" th:placeholder="#{message.address.zipcode}"
+                           class="form-control">
+                </div>
                 <input type="submit" value="Update" class="btn btn-primary mb-2"/>
             </form>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+
+            $('#inputfile').change(function () {
+                var file_data = $('#inputfile').prop('files')[0];
+                var form_data = new FormData();
+                form_data.append('file', file_data);
+                $.ajax({
+                    url: "/uploadPhoto",
+                    enctype: 'multipart/form-data',
+                    type: "POST",
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (map) {
+                        console.log(map);
+                        $('#photoPath').val(map.path);
+                        $('#postImage').attr("src","data:image/png;base64,"+map.byteArray);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</div>
 </body>
 </html>
