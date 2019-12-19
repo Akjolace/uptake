@@ -23,4 +23,6 @@ public interface PostService {
     Page<Post> getAllByUser(User user, Pageable pageable);
 
     Page<Post> getAllPosts(Pageable pageable);
+
+    int countUnhealthyPost(long userId);
 }

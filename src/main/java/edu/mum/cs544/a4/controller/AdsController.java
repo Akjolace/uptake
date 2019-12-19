@@ -45,7 +45,11 @@ public class AdsController {
             user = userService.getUserById(2);
         }
         ads.setUser(user);
-        if(result.hasErrors()) { return "advertisement/createAd"; }
+        if(result.hasErrors()) {
+            model.addAttribute("photoPath",ads.getPhoto().getPath());
+            model.addAttribute("countries", countryService.getAllCountry());
+            return "advertisement/createAd";
+        }
         adsService.saveAds(ads);
         return "redirect:/ads";
     }

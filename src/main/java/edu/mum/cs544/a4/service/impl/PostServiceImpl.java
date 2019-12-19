@@ -16,8 +16,7 @@ import java.util.List;
 @Transactional
 public class PostServiceImpl implements PostService {
 
-//    private final static Pageable firstPageWithTenElements = (Pageable) PageRequest.of(0, 10);
-
+    @Autowired
     private PostRepository postRepository;
 
     @Autowired
@@ -58,4 +57,9 @@ public class PostServiceImpl implements PostService {
 //    @Override
 //    public List<Post> getAllPostByPage(Pageable page) {
 //        return postRepository(page);
+
+    @Override
+    public int countUnhealthyPost(long userId) {
+        return postRepository.countUnhealthyByUserId(userId);
+    }
 }
