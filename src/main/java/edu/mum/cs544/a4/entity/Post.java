@@ -32,8 +32,15 @@ public class Post {
 
     @NotEmpty(message = "{errorMsg.post.description}")
     private String description;
+    @Transient
+    private String notifyFollowers;
 
     private LocalDateTime created;
+
+    public String getNotifyFollowers() {
+        return notifyFollowers;
+    }
+
     private Boolean isUnhealthy = false;
     private int status = 1;
 

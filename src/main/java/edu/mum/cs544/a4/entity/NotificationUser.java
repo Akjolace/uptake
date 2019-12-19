@@ -11,11 +11,13 @@ public class NotificationUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String username;
     private String profilePhotoPath;
     private String messageCode;
     private String postId;
     private Boolean hasSeen = false;
+
     private String destinationUserEmail;
 
     public NotificationUser(){};
@@ -60,6 +62,23 @@ public class NotificationUser {
         this.postId = postId;
     }
 
+
+    public String getDestinationUserEmail() {
+        return this.destinationUserEmail;
+    }
+
+    public void setDestinationUserEmail(String destinationUserEmail) {
+        this.destinationUserEmail = destinationUserEmail;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Boolean getHasSeen() {
         return this.hasSeen;
     }
@@ -68,12 +87,8 @@ public class NotificationUser {
         this.hasSeen = hasSeen;
     }
 
-    public String getDestinationUserEmail() {
-        return this.destinationUserEmail;
-    }
-
-    public void setDestinationUserEmail(String destinationUserEmail) {
-        this.destinationUserEmail = destinationUserEmail;
+    public void setHasSeen(Boolean hasSeen){
+        this.hasSeen = hasSeen;
     }
 
 }

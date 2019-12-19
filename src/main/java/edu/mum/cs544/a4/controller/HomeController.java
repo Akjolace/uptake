@@ -11,17 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.mum.cs544.a4.entity.NotificationUser;
-import edu.mum.cs544.a4.entity.Post;
 import edu.mum.cs544.a4.entity.User;
 import edu.mum.cs544.a4.entity.onoko.PostForNewsfeed;
 import edu.mum.cs544.a4.entity.onoko.UserForSearch;
 import edu.mum.cs544.a4.service.NewsfeedService;
 import edu.mum.cs544.a4.service.NotificationUserService;
-import edu.mum.cs544.a4.service.PostService;
 import edu.mum.cs544.a4.service.UserService;
 
 @Controller
@@ -32,9 +33,6 @@ public class HomeController {
 
     @Autowired
     private NewsfeedService newsfeedService;
-
-    @Autowired
-    private PostService postService;
 
     @Autowired
     private NotificationUserService notificationUserService;
@@ -101,7 +99,17 @@ public class HomeController {
     @ResponseBody
     public List<NotificationUser> findNotificationUserByEmail(@RequestParam("email") String email ){
         return notificationUserService.findByDestinationUserEmail(email);
-
     }
 
+    @CrossOrigin
+    @PutMapping("/update/SeenNotifications")
+    @ResponseBody
+    public String updateSeenNotifications(@RequestBody List<NotificationUser> notificationUsers){
+        for( NotificationUser u : notificationUsers ){
+            NotificationUser update = notificationUserService.findById(u.getId());
+            update.setHasSeen(true);
+            notificationUserService.update(update);
+        }
+        return "all good";
+    }
 }

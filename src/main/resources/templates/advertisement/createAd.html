@@ -101,7 +101,7 @@
         <div class="" style="color: red;">
             <p th:if="${#fields.hasErrors('targetCountry')}" th:errors="*{targetCountry}"> # </p>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" th:text="#{message.post.submit}"></button>
     </form>
 </div>
 </body>

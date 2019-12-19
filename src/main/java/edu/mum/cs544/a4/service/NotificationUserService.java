@@ -9,4 +9,7 @@ public interface NotificationUserService {
     public void add(NotificationUser notificationUser);
     public List<NotificationUser> findByDestinationUserEmail(String email);
 
+    public void update(NotificationUser notificationUser);
+    public NotificationUser findById(Long id);
+
 }

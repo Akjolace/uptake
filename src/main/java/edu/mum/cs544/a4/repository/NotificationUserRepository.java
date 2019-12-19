@@ -12,4 +12,7 @@ public interface NotificationUserRepository extends JpaRepository<NotificationUs
 
     @Query("select n from NotificationUser n where n.destinationUserEmail = :email")
     public List<NotificationUser> findByDestinationUserEmail(@Param("email") String email);    
+
+    @Query("select n from NotificationUser n where n.id = :id ")
+    public NotificationUser myFindById(@Param("id") long id);
 }

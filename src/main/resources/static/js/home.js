@@ -14,6 +14,7 @@ $(window).on('load', function () {
     var tl = new TimelineMax();
     var notificationList = [];
     var notificationCountText = $('#notificationCountText');
+    let tlForNoticationSlide = new TimelineMax({ paused: true, reversed: true });
 
     //For scroll events
     var input = {
@@ -366,25 +367,7 @@ $(window).on('load', function () {
             }
         )
     }
-    //? post modal popup end -----------------------------------------------------------------------------------------------
-    //? Connect to websocket start -----------------------------------------------------------------------------------------------
-    function connect() {
-        var socket = new SockJS('/websocket-uptake');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            //setConnected(true);
-            console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/onokokono@gmail.com', function (greeting) {
-                showGreeting(JSON.parse(greeting.body));
-            });
-        });
-    }
-
-    function showGreeting(message) {
-        notificationList.push(message.username);
-        setNotificationCount();
-        notificationCountText.text(notificationList.length);
-    }
+    //? Get notifications from user start -----------------------------------------------------------------------------------------------
     function setNotificationCount() {
         notificationCountText.text(notificationList.length)
         if (notificationList.length > 0)
@@ -393,26 +376,30 @@ $(window).on('load', function () {
             notificationCountText.css({ 'background-color': '#fafafa', "color": "#3d3d3d" });
 
     }
-    //? Connect to websocket end -----------------------------------------------------------------------------------------------
-    //? Get notifications from user start -----------------------------------------------------------------------------------------------
+
     let slideNotificationHoverEvent = function () {
         const btnNotification = $("#btnNotification");
         const slideNotification = $('.slideNotification');
-        const tl = new TimelineMax({ paused: true, reversed: true });
 
-        tl.to(slideNotification, .5, { right: "100px" })
+        tlForNoticationSlide.to(slideNotification, .5, { right: "100px" })
 
         btnNotification.click(function () {
-            if (tl.reversed()) {
-                tl.play(); fetchNotifications();
+            if (tlForNoticationSlide.reversed()) {
+                tlForNoticationSlide.play();
+                fetchNotifications();
+                updateSeenNotifications();
             }
             else {
-                tl.reverse();
+                closeNotificationSlide();
             }
         })
     }
-    function fetchNotifications() {
 
+    function closeNotificationSlide(){
+        tlForNoticationSlide.reverse();
+    }
+
+    function fetchNotifications() {
         const fetchPromise = fetch(URLGetEmail);
         fetchPromise.then(response => {
             return response.text()
@@ -439,7 +426,6 @@ $(window).on('load', function () {
             if (responseLength > 0) {
                 responseJSON.forEach(function (element, index) {
                     //Push to list
-
                     if (element.hasSeen == false)
                         notificationList.push(element);
                     //Create slide-search-container-item
@@ -473,18 +459,52 @@ $(window).on('load', function () {
                         itemContainerMainUnseen.append(itemContainer);
                     if (element.hasSeen == 1)
                         itemContainerMainSeen.append(itemContainer);
-
-
                     //Animate
                     tl.fromTo(itemContainer, .2, { opacity: 0 }, { opacity: 1 });
 
-                    messageParagraph[0].onclick = function () { openPostModal(element.postId) }
+                    messageParagraph[0].onclick = function () { openPostModal(element.postId); closeNotificationSlide(); }
                 })
             }
             setNotificationCount();
         }
     }
+    function updateSeenNotifications() {
+
+        console.log(mainUrl + '/update/SeenNotifications');
+
+        $.ajax(
+            mainUrl + '/update/SeenNotifications',
+            {
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(notificationList),
+                success: function () { fetchNotifications(); },
+                error: function (error) { console.log(error); }
+            }
+        )
+    }
     //? Get notifications from user end -----------------------------------------------------------------------------------------------
+    //? post modal popup end -----------------------------------------------------------------------------------------------
+    //? Connect to websocket start -----------------------------------------------------------------------------------------------
+    function connect() {
+        var socket = new SockJS('/websocket-uptake');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            //setConnected(true);
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/onokokono@gmail.com', function (greeting) {
+                showGreeting(JSON.parse(greeting.body));
+            });
+        });
+    }
+
+    function showGreeting(message) {
+        notificationList.push(message.username);
+        //setNotificationCount();
+        fetchNotifications();
+        notificationCountText.text(notificationList.length);
+    }
+    //? Connect to websocket end -----------------------------------------------------------------------------------------------
 
     connect();
     animation();
