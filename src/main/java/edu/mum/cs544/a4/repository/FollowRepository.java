@@ -19,4 +19,7 @@ public interface FollowRepository extends JpaRepository<Follower, Long> {
     int isAfollowingB(@Param("A") long A, @Param("B") long B);
 
     Page<Follower> getAllByFollowedUser(User followingUser, PageRequest pageRequest);
+
+    @Query(value = "delete from uptake.follower where id = :A", nativeQuery = true)
+    int unfollowB(@Param("A") long A);
 }

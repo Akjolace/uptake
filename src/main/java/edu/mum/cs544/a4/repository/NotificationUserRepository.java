@@ -10,9 +10,9 @@ import edu.mum.cs544.a4.entity.NotificationUser;
 
 public interface NotificationUserRepository extends JpaRepository<NotificationUser, Long>{
 
-    @Query("select n from NotificationUser n where n.destinationUserEmail = :email")
+    @Query("select n from NotificationUser n where n.destinationUserEmail = :email order by n.id desc")
     public List<NotificationUser> findByDestinationUserEmail(@Param("email") String email);    
 
-    @Query("select n from NotificationUser n where n.id = :id ")
+    @Query("select n from NotificationUser n where n.id = :id order by n.id desc ")
     public NotificationUser myFindById(@Param("id") long id);
 }

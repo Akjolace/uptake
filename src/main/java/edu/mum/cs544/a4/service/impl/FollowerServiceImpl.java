@@ -39,6 +39,11 @@ public class FollowerServiceImpl implements FollowerService {
         return followRepository.isAfollowingB(A,B);
     }
 
+    @Override
+    public void unfollowB(Long A) {
+        followRepository.deleteById(A);
+    }
+
 //    @Override
 //    public Follower save(User user, User follow) {
 //        return followRepository.save(new Follower(user, follow));

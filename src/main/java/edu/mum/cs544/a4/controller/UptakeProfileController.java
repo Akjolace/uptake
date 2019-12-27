@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -109,5 +110,21 @@ public class UptakeProfileController {
     public String updateresult(Model model){
         System.out.println("In result");
         return "profile/profiledetail";
+    }
+
+    @GetMapping(value="/account/following")
+    public String manageFollowing(Model model){
+        String email = null;
+        User loggedUser = null;
+        List<Follower> followingUsers = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+            loggedUser = userService.getUserByEmail(email);
+            followingUsers = loggedUser.getFollowingUser();
+        }
+        model.addAttribute("followingUsers",followingUsers);
+        model.addAttribute("loggedUser",loggedUser);
+        return "profile/followinglist";
     }
 }
